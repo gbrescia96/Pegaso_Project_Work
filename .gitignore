@@ -1,0 +1,5 @@
+# Ignora i file e le cartelle di compilazione
+__pycache__/
+*.py[cod]
+
+.vscode/

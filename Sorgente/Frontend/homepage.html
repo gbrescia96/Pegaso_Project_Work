@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <head>
+        <title>Homepage</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/site.css">
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/general.js"></script>
+    </head>
+
+    <body>
+        <div class="container-fluid mb-2 border-dark">
+            <div class="row">
+                <div class="col-3">
+                    <a href="" class="btn btn-dark">BTN 1</a>
+                </div>
+                <div class="col-3">
+                    <a href="" class="btn btn-dark">BTN 1</a>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" onclick="TestApiCall()">TEST API CALL</button>
+        <p id="responseP"></p>
+        <p>body</p>
+    </body>
+
+    <script>
+         function TestApiCall() {
+            fetch('http://127.0.0.1:5000/api/hello', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                //body: JSON.stringify({ name: name })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    $("#responseP").text(data.message);
+                });
+        }
+    </script>
+</html>

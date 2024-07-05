@@ -7,10 +7,16 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/site.css">
         <link rel="stylesheet" href="css/fontawesome.css">
+        <link rel="stylesheet" href="css/PNotify.css">
+        <link rel="stylesheet" href="css/BrightTheme.css">
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <script src="js/fontawesome.js"></script>
         <script src="js/general.js"></script>
+        <script src="js/PNotify.js"></script>
+        <script type="text/javascript">
+            
+        </script>
     </head>
 
     <body>
@@ -28,27 +34,37 @@
             </div>
         </div>
 
+        <input id="prenotazioneId" type="text">
         <div class="container-fluid">
-            <button type="button" onclick="TestApiCall()">TEST API CALL</button>
-            <p id="responseP"></p>
-            <p>body</p>
+            <button type="button" onclick="TestGet()">TEST GET BY ID</button>
         </div>
+        <div class="container-fluid">
+            <button type="button" onclick="TestLista()">TEST GET LISTA</button>
+        </div>
+        <div class="container-fluid">
+            <button type="button" onclick="TestApiCall()">TEST UPDATE</button>
+        </div>
+        <div class="container-fluid">
+            <button type="button" onclick="TestApiCall()">TEST DELETE</button>
+        </div>
+
+        <textarea id="prenotazioneJson"></textarea>
     </body>
 
     <script>
-         function TestApiCall() {
-            fetch('http://127.0.0.1:5000/api/getPrenotazioneById?id=1', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                //body: JSON.stringify({ name: name })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    $("#responseP").text(data.response_data["id"] + " " + data.response_data["cliente"]);
-                });
+        async function TestGet() {
+            var prenotazioneId = $("#prenotazioneId").val();
+            console.log(prenotazioneId);
+            if (prenotazioneId == null || prenotazioneId == undefined || prenotazioneId === "")
+                return; 
+
+            var response = await executeApiCall("GET", API_GET_PRENOTAZIONE, {"id": prenotazioneId});
+            $("#prenotazioneJson").val(JSON.stringify(response));
+        }
+
+        async function TestLista() {
+            var response = await executeApiCall("GET", API_GET_LISTA_PRENOTAZIONI);
+            $("#prenotazioneJson").val(JSON.stringify(response));
         }
     </script>
 </html>

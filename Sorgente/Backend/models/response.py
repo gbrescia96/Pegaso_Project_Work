@@ -4,6 +4,7 @@ class Response:
         self.error_message = error_message
         self.response_data = data
 
+    # Converti da classe a json
     def to_json(self):
         return {
             "code": self.code,

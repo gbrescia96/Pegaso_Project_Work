@@ -6,31 +6,38 @@
         <title>Homepage</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/site.css">
+        <link rel="stylesheet" href="css/fontawesome.css">
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/fontawesome.js"></script>
         <script src="js/general.js"></script>
     </head>
 
     <body>
-        <div class="container-fluid mb-2 border-dark">
+        <div class="container-fluid mb-2 border-dark p-2">
             <div class="row">
                 <div class="col-3">
-                    <a href="" class="btn btn-dark">BTN 1</a>
+                    <a href="homepage.html" class="btn btn-outline-primary">HomePage<i class="fa-solid fa-house"></i></a>
                 </div>
                 <div class="col-3">
-                    <a href="" class="btn btn-dark">BTN 1</a>
+                    <a href="prenotazione.html" class="btn btn-dark">Prenotazione</a>
+                </div>
+                <div class="col-3">
+                    <a href="storico.html" class="btn btn-dark">Storico</a>
                 </div>
             </div>
         </div>
 
-        <button type="button" onclick="TestApiCall()">TEST API CALL</button>
-        <p id="responseP"></p>
-        <p>body</p>
+        <div class="container-fluid">
+            <button type="button" onclick="TestApiCall()">TEST API CALL</button>
+            <p id="responseP"></p>
+            <p>body</p>
+        </div>
     </body>
 
     <script>
          function TestApiCall() {
-            fetch('http://127.0.0.1:5000/api/hello', {
+            fetch('http://127.0.0.1:5000/api/getPrenotazioneById?id=1', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,7 +46,8 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    $("#responseP").text(data.message);
+                    console.log(data);
+                    $("#responseP").text(data.response_data["id"] + " " + data.response_data["cliente"]);
                 });
         }
     </script>

@@ -42,10 +42,13 @@
             <button type="button" onclick="TestLista()">TEST GET LISTA</button>
         </div>
         <div class="container-fluid">
-            <button type="button" onclick="TestApiCall()">TEST UPDATE</button>
+            <button type="button" onclick="TestUpdate()">TEST UPDATE</button>
         </div>
         <div class="container-fluid">
-            <button type="button" onclick="TestApiCall()">TEST DELETE</button>
+            <button type="button" onclick="TestAdd()">TEST ADD</button>
+        </div>
+        <div class="container-fluid">
+            <button type="button" onclick="TestDelete()">TEST DELETE</button>
         </div>
 
         <textarea id="prenotazioneJson"></textarea>
@@ -65,6 +68,22 @@
         async function TestLista() {
             var response = await executeApiCall("GET", API_GET_LISTA_PRENOTAZIONI);
             $("#prenotazioneJson").val(JSON.stringify(response));
+        }
+
+        async function TestAdd() {
+            var jsonData = $("#prenotazioneJson").val()
+            var response = await executeApiCall("POST", API_ADD_PRENOTAZIONE, {}, jsonData);
+        }
+
+        async function TestUpdate() {
+            var jsonData = $("#prenotazioneJson").val()
+            var response = await executeApiCall("POST", API_UPDATE_PRENOTAZIONE, {}, jsonData);
+        }
+
+
+        async function TestDelete() {
+            var prenotazioneId = $("#prenotazioneId").val();
+            var response = await executeApiCall("DELETE", API_DELETE_PRENOTAZIONE, {"id": prenotazioneId});
         }
     </script>
 </html>

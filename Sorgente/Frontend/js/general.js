@@ -1,7 +1,9 @@
 const API_BASE_URL = "http://127.0.0.1:5000/api/";
-const API_GET_PRENOTAZIONE = "getPrenotazioneById"
+const API_GET_PRENOTAZIONE = "getPrenotazione"
 const API_GET_LISTA_PRENOTAZIONI = "getListaPrenotazioni"
-
+const API_DELETE_PRENOTAZIONE = "deletePrenotazione"
+const API_ADD_PRENOTAZIONE = "addPrenotazione"
+const API_UPDATE_PRENOTAZIONE = "updatePrenotazione"
 /**
  * Astrazione di chiamata API al server. Gestisce automaticamente la notifica di successo/fallimento e ritorna il response_data della richiesta.
  * 
@@ -34,10 +36,10 @@ async function executeApiCall(methodType, apiEndpoint, urlParams = {}, body = nu
 
         const data = await response.json();
 
-        console.log(`[${methodType}] ${url} => ${response.status}`, data);
+        console.log(`[${methodType}] ${url} => ${data.code}`, data);
 
         //Controllo del codice restituito dalla richiesta nel modello Response del backend
-        if (data.code == 200) {
+        if (data.code >= 200 && data.code <= 299) {
             pushNotification("success", "Operazione completata con successo!");
             return data.response_data;
         } else {

@@ -3,3 +3,5 @@ __pycache__/
 *.py[cod]
 
 .vscode/
+Sorgente/Backend/__pycache__/
+Sorgente/Backend/models/__pycache__/

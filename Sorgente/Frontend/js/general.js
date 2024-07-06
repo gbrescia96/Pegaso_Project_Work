@@ -4,6 +4,8 @@ const API_GET_LISTA_PRENOTAZIONI = "getListaPrenotazioni"
 const API_DELETE_PRENOTAZIONE = "deletePrenotazione"
 const API_ADD_PRENOTAZIONE = "addPrenotazione"
 const API_UPDATE_PRENOTAZIONE = "updatePrenotazione"
+const API_PING = "ping"
+
 /**
  * Astrazione di chiamata API al server. Gestisce automaticamente la notifica di successo/fallimento e ritorna il response_data della richiesta.
  * 
@@ -11,9 +13,10 @@ const API_UPDATE_PRENOTAZIONE = "updatePrenotazione"
  * @param {{}} [urlParams={}] - Lista di parametri da concatenare all'url della richiesta
  * @param {string} apiEndpoint - L'endpoint dell'API da chiamare (verrà concatenato all'endpoint del server).
  * @param {Object} [body=null] - Body della richesta se presente.
+ * @param {boolean} [showNotification=true] - Visualizza automaticamente le notifiche
  * @returns {Promise<Object>} Oggetto della risposta API, se presente, altrimenti null
  */
-async function executeApiCall(methodType, apiEndpoint, urlParams = {}, body = null)
+async function ExecuteApiCall(methodType, apiEndpoint, urlParams = {}, body = null, showNotification = true)
 {
     //Mapping dei parametri nel formato param=value con concatenazione di multipli parametri con &
     var urlParamsString = Object.keys(urlParams)
@@ -40,15 +43,18 @@ async function executeApiCall(methodType, apiEndpoint, urlParams = {}, body = nu
 
         //Controllo del codice restituito dalla richiesta nel modello Response del backend
         if (data.code >= 200 && data.code <= 299) {
-            pushNotification("success", "Operazione completata con successo!");
+            if (showNotification)
+                PushNotification("success", "Operazione completata con successo!");
             return data.response_data;
         } else {
-            pushNotification("error", `Errore: ${data.error_message}`);
+            if (showNotification)
+                PushNotification("error", `Errore: ${data.error_message}`);
             return null;
         }
     } catch (error) {
         console.error('Errore durante la richiesta:', error);
-        pushNotification("error", "Il server non ha risposto alla richiesta: " + error.message);
+        if (showNotification)
+            PushNotification("error", "Il server non ha risposto alla richiesta: " + error.message);
         return null;
     }
 }
@@ -60,7 +66,7 @@ async function executeApiCall(methodType, apiEndpoint, urlParams = {}, body = nu
  * @param {string} type - Un tipo tra: success | error | info | notice.
  * @param {string} msg - Messaggio della notifica
  */
-function pushNotification(type, msg) {
+function PushNotification(type, msg) {
     var option = {
         title: "Esito Operazione",
         text: msg,
@@ -69,7 +75,7 @@ function pushNotification(type, msg) {
         autoOpen: true,
         remove: true,
         destroy: true,
-        delay: 5000,
+        delay: 1300,
         stack: new PNotify.Stack({
                 dir1: "down",
                 dir2: "left",
@@ -103,8 +109,21 @@ function pushNotification(type, msg) {
             break;
 
         default:
-            option.text = "Eccezione pushNotification: type non riconosciuto";
+            option.text = "Eccezione PushNotification: type non riconosciuto";
             PNotify.error(option);
             break;
     }
 };
+
+
+/** Svuota tutti i tag html figli all'interno di un tag padre
+  * 
+  * @param {string} tagID - ID del campo padre (senza #)
+  */
+function ClearChildrenNodes(tag)
+{
+    var elem = document.getElementById(tag);
+    while (elem.firstChild)
+        elem.removeChild(elem.lastChild);
+};
+

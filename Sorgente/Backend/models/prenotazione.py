@@ -5,7 +5,10 @@ class Prenotazione:
             "id": self.id,
             "nome": self.nome,
             "cognome": self.cognome,
-            "email": self.email
+            "email": self.email,
+            "data": self.data,
+            "ora": self.ora,
+            "cf": self.cf.upper()
         }
     
     # Converti da json a classe
@@ -14,5 +17,8 @@ class Prenotazione:
         self.nome = json.get("nome")
         self.cognome = json.get("cognome")
         self.email = json.get("email")
+        self.data = json.get("data")
+        self.ora = json.get("ora")
+        self.cf = json.get("cf").upper()
         return self
         

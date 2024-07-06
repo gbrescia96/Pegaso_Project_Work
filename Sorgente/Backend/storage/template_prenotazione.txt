@@ -2,5 +2,6 @@
     "id": 123,
     "nome": "Nome",
     "cognome": "Cognome",
-    "email": "email"
+    "email": "email",
+    "cf": "BRSGLC96B09B506O"
 }

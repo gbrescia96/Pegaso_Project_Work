@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <head>
-        <title>Homepage</title>
+        <title>TODO dammi un nome</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/site.css">
         <link rel="stylesheet" href="css/fontawesome.css">
@@ -18,72 +18,194 @@
             
         </script>
     </head>
-
+    
     <body>
-        <div class="container-fluid mb-2 border-dark p-2">
-            <div class="row">
-                <div class="col-3">
-                    <a href="homepage.html" class="btn btn-outline-primary">HomePage<i class="fa-solid fa-house"></i></a>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#divTopNavbar" aria-controls="divTopNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="divTopNavbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <button id="wBtnNavbarAreaHomepage" type="button" class="btn btn-outline-primary" onclick="ShowArea('Homepage');">Homepage<i class="fa-solid fa-house"></i></button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="wBtnNavbarAreaPrenotazione" type="button" class="btn btn-outline-primary" onclick="ShowArea('Prenotazione')">Prenotazione<i class="fa-solid fa-house"></i></button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="wBtnNavbarAreaStorico" type="button" class="btn btn-outline-primary" onclick="ShowArea('Storico')">Storico<i class="fa-solid fa-house"></i></button>
+                    </li>
+                    <li>
+                        <button id="wBtnNavbarServerStatus" type="button" class="btn" class="fw-bold" onclick="CheckServerStatus()"></button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="container-fluid">
+            <div id="wDivAreaHomepage">
+                <input id="wTextPrId" type="text" class="form-control" placeholder="ID PRENOTAZIONE">
+                <input id="wTextPrCf" type="text" class="form-control" placeholder="CODICE FISCALE" value="BRSGLC96B09B506O">
+                <div class="container-fluid">
+                    <button type="button" onclick="TestGet()">TEST GET BY ID</button>
                 </div>
-                <div class="col-3">
-                    <a href="prenotazione.html" class="btn btn-dark">Prenotazione</a>
+                <div class="container-fluid">
+                    <button type="button" onclick="TestLista()">TEST GET LISTA</button>
                 </div>
-                <div class="col-3">
-                    <a href="storico.html" class="btn btn-dark">Storico</a>
+                <div class="container-fluid">
+                    <button type="button" onclick="TestUpdate()">TEST UPDATE</button>
+                </div>
+                <div class="container-fluid">
+                    <button type="button" onclick="TestAdd()">TEST ADD</button>
+                </div>
+                <div class="container-fluid">
+                    <button type="button" onclick="TestDelete()">TEST DELETE</button>
+                </div>
+                
+                <textarea id="prenotazioneJson"></textarea>
+            </div>
+            
+            <div id="wDivAreaPrenotazione">DIV PRENOTAZIONE</div>
+            
+            <div id="wDivAreaStorico">
+                <div class="row justify-content-center">
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-3">
+                        <label>Ricerca per Codice Fiscale</label>
+                        <input id="wTextStoricoRicerca" type="text" class="form-control" maxlength="16">
+                    </div>
+                    <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-1 d-flex align-items-end">
+                        <button title="Ricerca" type="button" class="btn btn-info w-100" onclick="SearchReservationList()"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-12">
+                        <div id="wDivStoricoRisultato">
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <input id="prenotazioneId" type="text">
-        <div class="container-fluid">
-            <button type="button" onclick="TestGet()">TEST GET BY ID</button>
-        </div>
-        <div class="container-fluid">
-            <button type="button" onclick="TestLista()">TEST GET LISTA</button>
-        </div>
-        <div class="container-fluid">
-            <button type="button" onclick="TestUpdate()">TEST UPDATE</button>
-        </div>
-        <div class="container-fluid">
-            <button type="button" onclick="TestAdd()">TEST ADD</button>
-        </div>
-        <div class="container-fluid">
-            <button type="button" onclick="TestDelete()">TEST DELETE</button>
-        </div>
-
-        <textarea id="prenotazioneJson"></textarea>
     </body>
-
+    
     <script>
+        $(document).ready(function() {
+            ShowArea("Homepage");
+        });
+        
+        //Da eseguire ogni 15 secondi il ping al server
+        setInterval(CheckServerStatus, 15000);
+        CheckServerStatus();
+        async function CheckServerStatus()
+        {
+            var isOnline = await ExecuteApiCall("GET", API_PING, {}, null, false);
+            
+            ClearChildrenNodes("wBtnNavbarServerStatus");
+            var iconTag = $("<i></i>").addClass("fa-solid fa-circle");
+            var statusLabelTag = $("<span></span>").addClass("ml-2");
+
+            if (isOnline)
+            {
+                iconTag.css("color", "darkgreen");
+                statusLabelTag.text("Connesso").css("color", "darkgreen");
+            }
+            else
+            {
+                iconTag.css("color", "darkred");
+                statusLabelTag.text("Non connesso").css("color", "darkred");
+            }
+
+            $("#wBtnNavbarServerStatus").append(iconTag, statusLabelTag);
+        }
+
+        function ShowArea(areaId)
+        {
+            var divList = $("div[id^='wDivArea']");
+            var btnList = $("button[id^='wBtnNavbarArea']")
+            
+            divList.each(function() {
+                $(this).hide();
+            });
+            $("#wDivArea" + areaId).show(250);
+            
+            btnList.each(function() {
+                $(this).removeClass("active");
+            });
+            $("#wBtnNavbarArea" + areaId).addClass("active");
+
+            //Handler specifico per l'area
+            if (areaId == "Storico")
+            {
+                $("#wTextStoricoRicerca").val("").focus();
+            }
+        }
+        
         async function TestGet() {
-            var prenotazioneId = $("#prenotazioneId").val();
-            console.log(prenotazioneId);
-            if (prenotazioneId == null || prenotazioneId == undefined || prenotazioneId === "")
-                return; 
-
-            var response = await executeApiCall("GET", API_GET_PRENOTAZIONE, {"id": prenotazioneId});
+            var id = $("#wTextPrId").val();
+            var cf = $("#wTextPrCf").val();
+            var response = await ExecuteApiCall("GET", API_GET_PRENOTAZIONE, {"id": id, "cf": cf});
             $("#prenotazioneJson").val(JSON.stringify(response));
         }
+        
+        async function SearchReservationList() {
+            var cf = $("#wTextStoricoRicerca").val();
+            if (cf.length != 16)
+            {
+                PushNotification("error", "Il codice fiscale non è corretto");
+                return;      
+            }
 
-        async function TestLista() {
-            var response = await executeApiCall("GET", API_GET_LISTA_PRENOTAZIONI);
-            $("#prenotazioneJson").val(JSON.stringify(response));
+            var response = await ExecuteApiCall("GET", API_GET_LISTA_PRENOTAZIONI, {"cf": cf});
+
+            ClearChildrenNodes("wDivStoricoRisultato");
+
+            //Output come tabella
+            var tagTable = $('<table></table>').addClass("table");
+            tagTableHead = $('<thead><tr></tr></thead>');
+            tagTableHead.find("tr").append("<th>ID</th>");
+            tagTableHead.find("tr").append("<th>Data</th>");
+            tagTableHead.find("tr").append("<th>Ora</th>");
+            tagTableHead.find("tr").append("<th></th>");
+            tagTableHead.find("tr").append("<th></th>");
+            tagTable.append(tagTableHead);
+
+            tagTableBody = $("<tbody></tbody>");
+            for (let i = 0; i < response.length; i++)
+            {
+                var trTag = $("<tr></tr>");
+
+                trTag.append(`<td>${response[i].id}</td>`);
+                trTag.append(`<td>${response[i].data}</td>`);
+                trTag.append(`<td>${response[i].ora}</td>`);
+                trTag.append(`<td><button title="Modifica" type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button></td>`);
+                trTag.append(`<td><button title="Elimina" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button></td>`);
+
+                tagTableBody.append(trTag);
+            }
+
+            tagTable.append(tagTableBody);
+
+            $("#wDivStoricoRisultato").append(tagTable);
         }
-
+        
         async function TestAdd() {
             var jsonData = $("#prenotazioneJson").val()
-            var response = await executeApiCall("POST", API_ADD_PRENOTAZIONE, {}, jsonData);
+            var response = await ExecuteApiCall("POST", API_ADD_PRENOTAZIONE, {}, jsonData);
         }
-
+        
         async function TestUpdate() {
             var jsonData = $("#prenotazioneJson").val()
-            var response = await executeApiCall("POST", API_UPDATE_PRENOTAZIONE, {}, jsonData);
+            var response = await ExecuteApiCall("POST", API_UPDATE_PRENOTAZIONE, {}, jsonData);
         }
-
-
+        
+        
         async function TestDelete() {
-            var prenotazioneId = $("#prenotazioneId").val();
-            var response = await executeApiCall("DELETE", API_DELETE_PRENOTAZIONE, {"id": prenotazioneId});
+            var id = $("#wTextPrId").val();
+            var cf = $("#wTextPrCf").val();
+            var response = await ExecuteApiCall("DELETE", API_DELETE_PRENOTAZIONE, {"id": id, "cf": cf});
         }
     </script>
-</html>
+    </html>

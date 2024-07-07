@@ -8,18 +8,18 @@ CORS(app)  # Abilita CORS per tutte le route
 
 @app.route('/api/ping', methods=['GET'])
 def ping():
-    return HttpResponse(200, data=True).to_json()
+    return HttpResponse(200).to_json()
 
 @app.route('/api/getPrenotazione', methods=['GET'])
 def get_prenotazione():
     try:
         cf = request.args.get('cf', type=str)
-        id = request.args.get('id', type=int)
+        id = request.args.get('id', type=str)
         prenotazione = svc_get_prenotazione(cf, id)
         if prenotazione:
             return HttpResponse(200, data=prenotazione.to_json()).to_json()
         else:
-            return HttpResponse(404, data="Prenotazione non trovata").to_json()
+            return HttpResponse(404, error_message="Prenotazione non trovata").to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 
@@ -82,7 +82,7 @@ def update_prenotazione():
 def delete_prenotazione():
     try:
         cf = request.args.get('cf', type=str)
-        id = request.args.get('id', type=int)
+        id = request.args.get('id', type=str)
         svc_delete_prenotazione(cf, id) 
         return HttpResponse(204, data=None).to_json()
     except Exception as ex:

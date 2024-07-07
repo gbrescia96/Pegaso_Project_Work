@@ -1,9 +1,10 @@
 {
-    "id": 123,
+    "id": "123",
     "nome": "Gianluca",
     "cognome": "Brescia",
     "email": "g@mail.com",
-    "data": "22/01/2024",
-    "ora": "11:00:00",
-    "cf": "brsglc"
+    "dataOraInserimento": "2024-01-10T09:00",
+    "dataOraModifica": "2024-01-11T10:00",
+    "dataOraPrenotazione": "2024-01-20T11:30",
+    "cf": "BRSGLC96B09B506O"
 }

@@ -6,8 +6,9 @@ class Prenotazione:
             "nome": self.nome,
             "cognome": self.cognome,
             "email": self.email,
-            "data": self.data,
-            "ora": self.ora,
+            "dataOraInserimento": self.data_ora_inserimento,
+            "dataOraModifica": self.data_ora_modifica,
+            "dataOraPrenotazione": self.data_ora_prenotazione,
             "cf": self.cf.upper()
         }
     
@@ -17,8 +18,8 @@ class Prenotazione:
         self.nome = json.get("nome")
         self.cognome = json.get("cognome")
         self.email = json.get("email")
-        self.data = json.get("data")
-        self.ora = json.get("ora")
+        self.data_ora_inserimento = json.get("dataOraInserimento")
+        self.data_ora_modifica = json.get("dataOraModifica")
+        self.data_ora_prenotazione = json.get("dataOraPrenotazione")
         self.cf = json.get("cf").upper()
         return self
-        

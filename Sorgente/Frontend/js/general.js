@@ -7,16 +7,15 @@ const API_UPDATE_PRENOTAZIONE = "updatePrenotazione"
 const API_PING = "ping"
 
 /**
- * Astrazione di chiamata API al server. Gestisce automaticamente la notifica di successo/fallimento e ritorna il response_data della richiesta.
+ * Astrazione di chiamata API al server. Ritorna l'oggetto Response (modello di risposta presente sul server)
  * 
  * @param {string} methodType - Un metodo HTTP tra: GET | POST | DELETE.
  * @param {{}} [urlParams={}] - Lista di parametri da concatenare all'url della richiesta
  * @param {string} apiEndpoint - L'endpoint dell'API da chiamare (verrà concatenato all'endpoint del server).
  * @param {Object} [body=null] - Body della richesta se presente.
- * @param {boolean} [showNotification=true] - Visualizza automaticamente le notifiche
  * @returns {Promise<Object>} Oggetto della risposta API, se presente, altrimenti null
  */
-async function ExecuteApiCall(methodType, apiEndpoint, urlParams = {}, body = null, showNotification = true)
+async function ExecuteApiCall(methodType, apiEndpoint, urlParams = {}, body = null)
 {
     //Mapping dei parametri nel formato param=value con concatenazione di multipli parametri con &
     var urlParamsString = Object.keys(urlParams)
@@ -37,28 +36,16 @@ async function ExecuteApiCall(methodType, apiEndpoint, urlParams = {}, body = nu
             body: body
         });
 
-        const data = await response.json();
-
-        console.log(`[${methodType}] ${url} => ${data.code}`, data);
-
-        //Controllo del codice restituito dalla richiesta nel modello Response del backend
-        if (data.code >= 200 && data.code <= 299) {
-            if (showNotification)
-                PushNotification("success", "Operazione completata con successo!");
-            return data.response_data;
-        } else {
-            if (showNotification)
-                PushNotification("error", `Errore: ${data.error_message}`);
-            return null;
-        }
+        return await response.json();
     } catch (error) {
-        console.error('Errore durante la richiesta:', error);
-        if (showNotification)
-            PushNotification("error", "Il server non ha risposto alla richiesta: " + error.message);
-        return null;
+        return {"code": 500, error_message: "Il server non risponde"};
     }
 }
 
+function HasHttpSuccessCode(code)
+{
+    return code >= 200 && code <= 299;
+}
 
 /**
  * Creazione della notifica. Il messaggio supporta encoding HTML
@@ -75,7 +62,7 @@ function PushNotification(type, msg) {
         autoOpen: true,
         remove: true,
         destroy: true,
-        delay: 1300,
+        delay: 2000,
         stack: new PNotify.Stack({
                 dir1: "down",
                 dir2: "left",
@@ -127,3 +114,30 @@ function ClearChildrenNodes(tag)
         elem.removeChild(elem.lastChild);
 };
 
+
+
+//Da eseguire ogni 15 secondi il ping al server
+setInterval(CheckServerStatus, 15000);
+CheckServerStatus();
+async function CheckServerStatus()
+{
+    var response = await ExecuteApiCall("GET", API_PING, {}, null, false);
+    var isOnline = HasHttpSuccessCode(response.code);
+
+    ClearChildrenNodes("wBtnNavbarServerStatus");
+    var iconTag = $("<i></i>").addClass("fa-solid fa-circle");
+    var statusLabelTag = $("<span></span>").addClass("ml-2");
+    
+    if (isOnline)
+    {
+        iconTag.css("color", "darkgreen");
+        statusLabelTag.text("Connesso").css("color", "darkgreen");
+    }
+    else
+    {
+        iconTag.css("color", "darkred");
+        statusLabelTag.text("Non connesso").css("color", "darkred");
+    }
+    
+    $("#wBtnNavbarServerStatus").append(iconTag, statusLabelTag);
+}

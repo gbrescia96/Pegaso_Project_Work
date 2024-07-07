@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <head>
+        <title>Prenotazione</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/site.css">
+        <link rel="stylesheet" href="css/fontawesome.css">
+        <link rel="stylesheet" href="css/PNotify.css">
+        <link rel="stylesheet" href="css/BrightTheme.css">
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/fontawesome.js"></script>
+        <script src="js/general.js"></script>
+        <script src="js/PNotify.js"></script>
+    </head>
+    
+    <body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#divTopNavbar" aria-controls="divTopNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="divTopNavbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a id="wBtnNavbarAreaHomepage" href="homepage.html" class="btn btn-outline-primary">Homepage<i class="fa-solid fa-house"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="wBtnNavbarAreaPrenotazione" href="prenotazione.html" class="btn btn-outline-primary active">Gestione Prenotazione<i class="fa-solid far fa-plus-square"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="wBtnNavbarAreaStorico" href="ricerca.html" class="btn btn-outline-primary">Ricerca<i class="fa-solid fas fa-search"></i></a>
+                    </li>
+                    <li>
+                        <button id="wBtnNavbarServerStatus" type="button" class="btn" class="fw-bold" onclick="CheckServerStatus()"></button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div id="wDivAlert" class="alert alert-primary" role="alert">
+                        Inserimento <b>nuova</b> prenotazione
+                    </div>
+                </div>
+            </div>
+            <form>
+                <div class="row">
+                    <div class="col-3">
+                        <label>ID</label>
+                        <input id="wPrId" type="text" class="form-control" readonly>
+                    </div>
+                    <div class="col-3">
+                        <label>Nome</label>
+                        <input id="wPrNome" type="text" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label>Cognome</label>
+                        <input id="wPrCognome" type="text" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label>Codice fiscale</label>
+                        <input id="wPrCf" type="text" class="form-control" maxlength="16">
+                    </div>
+                    <div class="col-3">
+                        <label>E-mail</label>
+                        <input id="wPrEmail" type="text" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label>Data e ora</label>
+                        <input id="wPrDataOra" type="datetime-local" class="form-control">
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <button type="reset" class="btn btn-primary" onclick="ClearFields()">Reset</button>
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-primary" onclick="UpsertReservation()">Invia</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+<script>
+    var isNewReservation = true;
+
+    $(document).ready(function() {
+        var params = new URLSearchParams(window.location.search);
+        var id = params.get("id");
+        var cf = params.get("cf");
+        if (id != null && cf != null)
+        {
+            GetReservation(id, cf)
+        }
+    });
+    
+    function ClearFields()
+    {
+        $("input[id^='wPr'").each(function() {
+            $(this).val();
+        });
+    }
+    
+    async function GetReservation(id, cf) {
+        var response = await ExecuteApiCall("GET", API_GET_PRENOTAZIONE, {"id": id, "cf": cf});
+        if (HasHttpSuccessCode(response.code) == false)
+        {
+            PushNotification("error", response.error_message);
+            return;
+        }
+
+        var data = response.response_data;
+        $("#wPrId").val(data.id);
+        $("#wPrNome").val(data.nome);
+        $("#wPrCognome").val(data.cognome); 
+        $("#wPrCf").val(data.cf);
+        $("#wPrEmail").val(data.email);
+        $("#wPrDataOra").val(data.dataOraPrenotazione);
+
+        var stringAlertMessage = `La prenotazione è stata inserita il <b>${data.dataOraInserimento}</b>`;
+        if (data.dataOraModifica != null)
+        {
+            stringAlertMessage += ` e modificata il <b>${data.dataOraModifica}</b>`;
+        }
+        stringAlertMessage += '<br />Attenzione: la modifica questi dati sovrascriverà la prenotazione esistente. Se vuoi inserire una nuova prenotazione <a href="prenotazione.html">clicca qui</a>';
+        ClearChildrenNodes("wDivAlert");
+        $("#wDivAlert").append(stringAlertMessage);
+
+        isNewReservation = false;
+    }
+    
+    async function UpsertReservation() {
+        var response = null;
+        //TODO: raggruppa campi
+        jsonData = {
+
+        };
+
+        if (isNewReservation)
+            response = await ExecuteApiCall("POST", API_ADD_PRENOTAZIONE, {}, jsonData);
+        else
+            response = await ExecuteApiCall("POST", API_UPDATE_PRENOTAZIONE, {}, jsonData);    
+    }
+</script>
+</html>

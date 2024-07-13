@@ -46,30 +46,6 @@ html, body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-.carousel {
-    margin-bottom: 30px;
-}
-
-.carousel-item {
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    text-align: center;
-}
-
-.carousel-caption h5 {
-    font-family: 'Arial', sans-serif;
-    font-size: 2rem;
-}
-
-.carousel-caption p {
-    font-family: 'Arial', sans-serif;
-    font-size: 1.25rem;
-}
-
 .container {
     flex: 1 0 auto; /* Allows the container to grow and fill available space */
     border-radius: 8px;
@@ -116,4 +92,14 @@ h3 {
     color: #ffffff;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     flex-shrink: 0; /* Prevents the footer from shrinking */
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 500px; /* Altezza del carousel */
+    object-fit: cover; /* Adatta l'immagine mantenendo le proporzioni */
+}
+
+input[readonly] {
+    background-color: #d4d1d1;
 }

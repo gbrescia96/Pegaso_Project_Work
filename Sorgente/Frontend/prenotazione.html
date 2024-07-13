@@ -17,35 +17,6 @@
     </head>
     
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <i class="fas fa-vials"></i>
-                    <!-- <img src="img/background_lab.png" alt="Laboratory" width="30" height="30" class="d-inline-block align-top" hidden> -->
-                    Brescia
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#wDivNavbar" aria-controls="wDivNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="wDivNavbar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="homepage.html">Homepage</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="prenotazione.html">Prenotazione</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ricerca.html">Ricerca</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html">Contatti</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    
         <div class="container-fluid main-content">
             <div class="row">
                 <div class="col-12">
@@ -277,12 +248,12 @@
         isNewReservation = false;
 
         //Alert di maggiori info sullo stato della prenotazione
-        var stringAlertMessage = `La prenotazione è stata inserita il <b>${data.dataOraInserimento}</b>`;
+        var stringAlertMessage = `La prenotazione è stata inserita il <b>${FormatDateDDMMAAAA(data.dataOraInserimento)} alle ${GetHoursMinutesFromDateTime(data.dataOraInserimento)}</b>`;
         if (data.dataOraModifica != null)
         {
-            stringAlertMessage += ` e modificata il <b>${data.dataOraModifica}</b>`;
+            stringAlertMessage += ` e modificata il <b>${FormatDateDDMMAAAA(data.dataOraModifica)} alle ${GetHoursMinutesFromDateTime(data.dataOraModifica)}`;
         }
-        stringAlertMessage += '<br />Attenzione: la modifica questi dati sovrascriverà la prenotazione esistente. Se vuoi inserire una nuova prenotazione <a href="prenotazione.html">clicca qui</a>';
+        stringAlertMessage += '<br />Attenzione: non è possibile variare di dati anagrafici. Se vuoi inserire una nuova prenotazione <a href="prenotazione.html">clicca qui</a>';
         ClearChildrenNodes("wDivAlert");
         $("#wDivAlert").append(stringAlertMessage);
 
@@ -298,7 +269,10 @@
             $('input[type="checkbox"][data-scope="' + item.tipo + '"][value="' + item.nome + '"]').prop('checked', true);
         });
         $("#wPrDataOra").val(data.dataOraPrenotazione);
-        $("#wPrLaboratorio").val(data.laboratorio)
+        $("#wPrLaboratorio").val(data.laboratorio);
+
+        //Blocca campi anagrafica
+        $("#wPrId, #wPrNome, #wPrCognome, #wPrCf").prop("readonly", true);
     }
     
     
@@ -306,14 +280,7 @@
         var response = null;
         
         //Sezione esami
-        var listaAnalisi = [];
-        $('input[type="checkbox"][data-scope]').each(function() {
-            if ($(this).is(':checked')) {
-                var tipo = $(this).attr('data-scope');
-                var nome = $(this).val();
-                listaAnalisi.push({  tipo: tipo, nome: nome });
-            }
-        });
+        var listaAnalisi = GetListaAnalisiFromCheckbox();
         
         jsonData = {
             "id": $("#wPrId").val(),
@@ -348,17 +315,23 @@
 
     function SummaryReservation()
     {
-        //TODO: codice fiscale, email
+        listaAnalisi = GetListaAnalisiFromCheckbox();
+        if (listaAnalisi.lenght == 0)
+        {
+            PushNotification("error","Non è stato selezionato alcun esame"); 
+        }
+
+        //Mapping di tutti i tipi di analisi
+        var tipiAnalisi = [...new Set(listaAnalisi.map(element => element.tipo))];
+
+
         var summary = `
             <p>Il/la sig./ra <b>${$("#wPrNome").val()} ${$("#wPrCognome").val()}</b> con codice fiscale <b>${$("#wPrCf").val()}</b>
                 eseguirà il giorno ${FormatDateDDMMAAAA($("#wPrDataOra").val())} alle ${GetHoursMinutesFromDateTime($("#wPrDataOra").val())}
                 i seguenti esami:</p>
         `;
 
-        listaAnalisi = GetListaAnalisiFromCheckbox();
-        //Mapping di tutti i tipi di analisi
-        var tipiAnalisi = [...new Set(listaAnalisi.map(element => element.tipo))];
-
+        
         summary += tipiAnalisi.reduce((acc, tipo) => {
             var esami = listaAnalisi
                 .filter(element => element.tipo === tipo)

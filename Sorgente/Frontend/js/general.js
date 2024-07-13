@@ -243,21 +243,65 @@ function GetHoursMinutesFromDateTime(datetime)
 }
 
 
-//Automazione del rilevamento pagina corrente e gestione voce nella navar
+//Automazioni al caricamento di ogni pagina
 $(document).ready(function() {
+    //Creazione navbar
+    GenerateNavbar();
+
     var path = window.location.pathname;
     var page = path.split("/").pop();
 
-    //Gestione navbar e link active sulla pagina in corso
+    //Gestione link attivo sulla navbar basandosi sulla pagina attuale
     $(".navbar-nav .nav-link").each(function() {
         var href = $(this).attr('href');
-        if (href === page) {
+        if (href === page) 
+        {
             $(this).parent().addClass('active');
+        }
+        else
+        {
+            $(this).parent().removeClass('active');
         }
     });
 
-    //Rendering del contenuto nel div "main-content" lasciando lo spazio necessario dalla top nav
+    //Rendering del contenuto nel div "main-content" lasciando lo spazio necessario dalla navbar
     //20 pixel extra sono stati aggiungi per un padding maggiore oltre a quello minimo definito dall'outer height
-        var navbarHeight = $('.navbar').outerHeight();
-        $('.main-content').css('padding-top', (navbarHeight + 15) + 'px');
+    var navbarHeight = $('.navbar').outerHeight();
+    $('.main-content').css('padding-top', (navbarHeight) + 'px');
 });
+
+
+function GenerateNavbar()
+{
+    var navbar = `
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-vials"></i>
+                    <!-- <img src="img/background_lab.png" alt="Laboratory" width="30" height="30" class="d-inline-block align-top" hidden> -->
+                    Brescia
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#wDivNavbar" aria-controls="wDivNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="wDivNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="homepage.html">Homepage</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="prenotazione.html">Prenotazione</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ricerca.html">Ricerca</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">Contatti</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>`;
+
+        $('body').prepend(navbar);
+}

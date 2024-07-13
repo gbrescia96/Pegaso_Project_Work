@@ -124,7 +124,7 @@ async function CheckServerStatus()
     var response = await ExecuteApiCall("GET", API_PING, {}, null, false);
     var isOnline = HasHttpSuccessCode(response.code);
 
-    ClearChildrenNodes("wBtnNavbarServerStatus");
+    //ClearChildrenNodes("wBtnNavbarServerStatus");
     var iconTag = $("<i></i>").addClass("fa-solid fa-circle");
     var statusLabelTag = $("<span></span>").addClass("ml-2");
     
@@ -141,3 +141,123 @@ async function CheckServerStatus()
     
     $("#wBtnNavbarServerStatus").append(iconTag, statusLabelTag);
 }
+
+
+/**
+ * Genera e visualizza un modal con un messaggio custom e due handler per i tasti NO e CONFERM
+ *
+ * @param {string} message - messaggio custom
+ * @param {function} [onClickYes] - handler al click su CONFERMA (di default non ha alcun comportamento)
+ * @param {function} [onClickNo] - handler al click su NO (di default chiude il modal)
+ * @example
+ * 
+ * Esempio di invocazione con due handler
+ * GenerateModal('Testo custom', 
+ *                  function() {
+ *                      alert('Invocato handler CONFERMA');
+ *                  }, 
+ *                  function() {
+ *                      alert('Invocato handler NO');
+ *                  });
+ */
+function GenerateModal(message, onClickYes, onClickNo) {
+    // Rimuovi modal con lo stesso ID pre-esistenti
+    $('#wDivGeneratedModal').remove();
+
+    var htmlModal = `
+        <div class="modal fade" id="wDivGeneratedModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" hidden>Conferma</h5>
+                        <button id="wGeneratedModalCloseButton" type="button" class="btn btn-light w-100">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ${message}
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-6">
+                                <button id="wGeneratedModalNoButton" type="button" class="btn btn-secondary fw-bold w-100">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button id="wGeneratedModalYesButton" type="button" class="btn btn-success fw-bold w-100">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    //Aggiungi al DOM, successivamente verranno gestiti eventuali handler sui pulsanti
+    $('body').append(htmlModal);
+
+    //Gestione dell'evento on click sul CONFERMA
+    if (onClickYes) {
+        $('#wGeneratedModalYesButton').on('click', function() {
+            onClickYes();
+            $('#wDivGeneratedModal').modal('hide');
+        });
+    }
+
+    //Gestione dell'evento on click sul NO (di default nasconde il modal)
+    $('#wGeneratedModalNoButton').on('click', function() {
+        if (onClickNo) {
+            onClickNo();
+        };
+
+        $('#wDivGeneratedModal').modal('hide');
+    });
+
+    //Gestione dell'evento sul pulsante di chiusura del modal 
+    $('#wGeneratedModalCloseButton').on('click', function() {
+        $('#wDivGeneratedModal').modal('hide');
+    });
+
+    //Trigger di visualizzazione
+    $('#wDivGeneratedModal').modal('show');
+}
+
+function FormatDateDDMMAAAA(datetime, separator = "/")
+{
+    var dateParts = datetime.substring(0, 10);
+    var dateComponents = dateParts.split('-');
+
+    var year = dateComponents[0];
+    var month = dateComponents[1];
+    var day = dateComponents[2];
+
+    return `${day}${separator}${month}${separator}${year}`;
+}
+
+function GetHoursMinutesFromDateTime(datetime)
+{
+   return datetime.substring(11, 16);
+}
+
+
+//Automazione del rilevamento pagina corrente e gestione voce nella navar
+$(document).ready(function() {
+    var path = window.location.pathname;
+    var page = path.split("/").pop();
+
+    //Gestione navbar e link active sulla pagina in corso
+    $(".navbar-nav .nav-link").each(function() {
+        var href = $(this).attr('href');
+        if (href === page) {
+            $(this).parent().addClass('active');
+        }
+    });
+
+    //Rendering del contenuto nel div "main-content" lasciando lo spazio necessario dalla top nav
+    //20 pixel extra sono stati aggiungi per un padding maggiore oltre a quello minimo definito dall'outer height
+        var navbarHeight = $('.navbar').outerHeight();
+        $('.main-content').css('padding-top', (navbarHeight + 15) + 'px');
+});

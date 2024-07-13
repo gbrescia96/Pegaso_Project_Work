@@ -9,7 +9,7 @@
     "cf": "BRSGLC96B09B506O",
     "laboratorio": "lab1",
     "listaAnalisi": [
-        {"tipo": "sangue", "nome": "emocromo"},
-        {"tipo": "sangue", "nome": "glicemia"}
+        {"tipo": "Sangue", "nome": "emocromo"},
+        {"tipo": "Sangue", "nome": "glicemia"}
     ]
 }

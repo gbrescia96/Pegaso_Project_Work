@@ -1,0 +1,119 @@
+/* Custom CSS for Laboratorio Analisi */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #343a40; /* Background scuro per la navbar */
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: white !important;
+}
+
+.navbar-nav .nav-item.active .nav-link {
+    font-weight: bold;
+    color: #007bff !important;
+}
+
+.hero-section {
+    background: url('../img/background_lab.png') no-repeat center center;
+    background-size: cover;
+    color: white;
+    padding: 150px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+}
+
+.hero-section h1 {
+    font-family: 'Arial', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hero-section p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.carousel {
+    margin-bottom: 30px;
+}
+
+.carousel-item {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+}
+
+.carousel-caption h5 {
+    font-family: 'Arial', sans-serif;
+    font-size: 2rem;
+}
+
+.carousel-caption p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.25rem;
+}
+
+.container {
+    flex: 1 0 auto; /* Allows the container to grow and fill available space */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Aggiunta di ombra per dare profondità */
+    padding: 20px;
+}
+
+/* Section headers */
+h3 {
+    color: #007bff; /* Blu scuro per i titoli delle sezioni */
+    margin-bottom: 20px;
+}
+
+/* Form elements */
+.form-control, .form-select {
+    border-radius: 4px;
+    border-color: #ced4da;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Alert box */
+.alert-primary {
+    background-color: #cce5ff;
+    color: #004085;
+    border-color: #b8daff;
+}
+
+.marketing .col-lg-3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.footer {
+    background-color: #343a40;
+    color: #ffffff;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* Prevents the footer from shrinking */
+}

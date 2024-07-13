@@ -6,5 +6,10 @@
     "dataOraInserimento": "2024-01-10T09:00",
     "dataOraModifica": "2024-01-11T10:00",
     "dataOraPrenotazione": "2024-01-20T11:30",
-    "cf": "BRSGLC96B09B506O"
+    "cf": "BRSGLC96B09B506O",
+    "laboratorio": "lab1",
+    "listaAnalisi": [
+        {"tipo": "sangue", "nome": "emocromo"},
+        {"tipo": "sangue", "nome": "glicemia"}
+    ]
 }

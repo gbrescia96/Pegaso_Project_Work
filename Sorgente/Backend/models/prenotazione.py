@@ -9,7 +9,9 @@ class Prenotazione:
             "dataOraInserimento": self.data_ora_inserimento,
             "dataOraModifica": self.data_ora_modifica,
             "dataOraPrenotazione": self.data_ora_prenotazione,
-            "cf": self.cf.upper()
+            "cf": self.cf.upper(),
+            "laboratorio": self.laboratorio,
+            "listaAnalisi": self.lista_analisi
         }
     
     # Converti da json a classe
@@ -22,4 +24,6 @@ class Prenotazione:
         self.data_ora_modifica = json.get("dataOraModifica")
         self.data_ora_prenotazione = json.get("dataOraPrenotazione")
         self.cf = json.get("cf").upper()
+        self.laboratorio = json.get("laboratorio")
+        self.lista_analisi = json.get("listaAnalisi")
         return self

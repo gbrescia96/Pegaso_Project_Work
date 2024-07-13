@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="css/site.css">
         <link rel="stylesheet" href="css/fontawesome.css">
         <link rel="stylesheet" href="css/PNotify.css">
-        <link rel="stylesheet" href="css/BrightTheme.css">
+        <link rel="stylesheet" href="css/PNotifyBrightTheme.css">
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <script src="js/fontawesome.js"></script>
@@ -77,6 +77,7 @@
         }
         
         var response = await ExecuteApiCall("GET", API_GET_LISTA_PRENOTAZIONI, {"cf": cf});
+       
         if (HasHttpSuccessCode(response.code) == false)
         {
             PushNotification("error", response.error_message);
@@ -103,7 +104,7 @@
             
             trTag.append(`<td>${response[i].id}</td>`);
             trTag.append(`<td>${response[i].dataOraPrenotazione}</td>`);
-            trTag.append(`<td><button title="Modifica" type="button" class="btn btn-primary"><i class="fas fa-edit" onclick="EditReservation('${response[i].id}')"></i></button></td>`);
+            trTag.append(`<td><button title="Modifica" type="button" class="btn btn-primary"><i class="fas fa-edit" onclick="EditReservation('${response[i].id}', '${response[i].cf}')"></i></button></td>`);
             trTag.append(`<td><button title="Elimina" type="button" class="btn btn-danger"><i class="fas fa-trash" onclick=""></i></button></td>`);
             
             tagTableBody.append(trTag);
@@ -112,6 +113,11 @@
         tagTable.append(tagTableBody);
         
         $("#wDivStoricoRisultato").append(tagTable);
+    }
+
+    function EditReservation(id, cf)
+    {
+        window.location.href = `prenotazione.html?id=${id}&cf=${cf}`; 
     }
 </script>
 </html>

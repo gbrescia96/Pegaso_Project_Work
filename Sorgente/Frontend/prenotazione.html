@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="css/site.css">
         <link rel="stylesheet" href="css/fontawesome.css">
         <link rel="stylesheet" href="css/PNotify.css">
-        <link rel="stylesheet" href="css/BrightTheme.css">
+        <link rel="stylesheet" href="css/PNotifyBrightTheme.css">
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <script src="js/fontawesome.js"></script>
@@ -50,48 +50,223 @@
                 </div>
             </div>
             <form>
-                <div class="row">
-                    <div class="col-3">
-                        <label>ID</label>
-                        <input id="wPrId" type="text" class="form-control" readonly>
-                    </div>
-                    <div class="col-3">
-                        <label>Nome</label>
-                        <input id="wPrNome" type="text" class="form-control">
-                    </div>
-                    <div class="col-3">
-                        <label>Cognome</label>
-                        <input id="wPrCognome" type="text" class="form-control">
-                    </div>
-                    <div class="col-3">
-                        <label>Codice fiscale</label>
-                        <input id="wPrCf" type="text" class="form-control" maxlength="16">
-                    </div>
-                    <div class="col-3">
-                        <label>E-mail</label>
-                        <input id="wPrEmail" type="text" class="form-control">
-                    </div>
-                    <div class="col-3">
-                        <label>Data e ora</label>
-                        <input id="wPrDataOra" type="datetime-local" class="form-control">
-                    </div>                    
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <button type="reset" class="btn btn-primary" onclick="ClearFields()">Reset</button>
-                    </div>
-                    <div class="col-3">
-                        <button type="submit" class="btn btn-primary" onclick="UpsertReservation()">Invia</button>
+                <div>
+                    <h3>Dati anagrafici</h3>
+                    <div class="row">
+                        <div class="col-3" hidden>
+                            <label>ID</label>
+                            <input id="wPrId" type="text" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <label>Nome</label>
+                            <input id="wPrNome" type="text" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <label>Cognome</label>
+                            <input id="wPrCognome" type="text" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <label>Codice fiscale</label>
+                            <input id="wPrCf" type="text" class="form-control" maxlength="16">
+                        </div>
+                        <div class="col-3">
+                            <label>E-mail</label>
+                            <input id="wPrEmail" type="text" class="form-control">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+                
+                <hr />
+                <div>
+                    <div class="row">
+                        <h3>Area prenotazione</h3>
+                        <div class="col-12">
+                            <label>Tipo analisi</label>
+                            <div class="accordion" id="wDivAreaAnalisi">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#wDivAnalisiSangue" aria-expanded="true" aria-controls="wDivAnalisiSangue">
+                                            Analisi del sangue
+                                        </button>
+                                    </h2>
+                                    <div id="wDivAnalisiSangue" class="accordion-collapse collapse show" data-bs-parent="#wDivAreaAnalisi">
+                                        <div class="accordion-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="sangue" value="emocromo">
+                                                <label class="form-check-label">Emocromo completo</label>
+                                                <br />
+                                                <small class="form-text text-muted">Esame dei valori del sangue, compresi globuli rossi, bianchi e piastrine.</small>
+                                            </div>
+                                            <div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" data-scope="sangue" value="profilo-lipidico">
+                                                    <label class="form-check-label">Profilo lipidico (colesterolo, trigliceridi)</label>
+                                                    <br />
+                                                    <small class="form-text text-muted">Misura dei livelli di colesterolo totale, HDL, LDL e trigliceridi nel sangue.</small>
+                                                </div>
+                                            </div>
+                                            <div >
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" data-scope="sangue" value="glicemia">
+                                                    <label class="form-check-label">Glicemia</label>
+                                                    <br />
+                                                    <small class="form-text text-muted">Misura del livello di glucosio nel sangue, importante per il controllo del diabete.</small>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-group">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" data-scope="sangue" value="funzionalita-epatica">
+                                                    <label class="form-check-label">Funzionalità epatica (AST, ALT)</label>
+                                                    <br />
+                                                    <small class="form-text text-muted">Valutazione degli enzimi epatici per monitorare la salute del fegato.</small>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-group">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" data-scope="sangue" value="test-tiroide">
+                                                    <label class="form-check-label">Test della tiroide (TSH, T3, T4)</label>
+                                                    <br />
+                                                    <small class="form-text text-muted">Valutazione della funzionalità tiroidea attraverso i livelli di TSH, T3 e T4.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wDivAnalisiUrine" aria-expanded="false" aria-controls="wDivAnalisiUrine">
+                                            Analisi delle urine
+                                        </button>
+                                    </h2>
+                                    <div id="wDivAnalisiUrine" class="accordion-collapse collapse" data-bs-parent="#wDivAreaAnalisi">
+                                        <div class="accordion-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="urine" value="creatinina">
+                                                <label class="form-check-label">Clearance della creatinina</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura della quantità di creatinina eliminata nelle urine per valutare la funzionalità renale.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="urine" value="urinocoltura">
+                                                <label class="form-check-label">Urinocoltura</label>
+                                                <br />
+                                                <small class="form-text text-muted">Esame delle urine per rilevare e identificare batteri e altri microrganismi.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="urine" value="test-gravidanza">
+                                                <label class="form-check-label">Test di gravidanza</label>
+                                                <br />
+                                                <small class="form-text text-muted">Test per determinare la presenza dell'ormone hCG, indicativo di gravidanza.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="urine" value="proteinuria">
+                                                <label class="form-check-label">Proteinuria</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura della quantità di proteine nelle urine, indicativa di problemi renali.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="urine" value="microalbuminuria">
+                                                <label class="form-check-label">Microalbuminuria</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura di piccole quantità di albumina nelle urine, importante per il monitoraggio del diabete e malattie renali.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wDivAnalisiNutrizionali" aria-expanded="false" aria-controls="wDivAnalisiNutrizionali">
+                                            Analisi Nutrizionali
+                                        </button>
+                                    </h2>
+                                    <div id="wDivAnalisiNutrizionali" class="accordion-collapse collapse" data-bs-parent="#wDivAreaAnalisi">
+                                        <div class="accordion-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="nutrizionali" value="vitamina-d">
+                                                <label class="form-check-label">Test della vitamina D</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura i livelli di vitamina D nel sangue, essenziale per la salute delle ossa e del sistema immunitario.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="nutrizionali" value="vitamina-b12">
+                                                <label class="form-check-label">Test della vitamina B12</label>
+                                                <br />
+                                                <small class="form-text text-muted">Determina i livelli di vitamina B12 nel sangue, importante per la produzione di globuli rossi e il funzionamento del sistema nervoso.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="nutrizionali" value="folati">
+                                                <label class="form-check-label">Test dei folati:</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura i livelli di folati nel sangue, fondamentali per la sintesi del DNA e la salute del sistema nervoso.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="nutrizionali" value="ferro">
+                                                <label class="form-check-label">Test del ferro e della ferritina:</label>
+                                                <br />
+                                                <small class="form-text text-muted">Valuta i livelli di ferro e ferritina nel sangue, cruciali per il trasporto dell'ossigeno e la salute generale.
+                                                </small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="nutrizionali" value="elettroliti">
+                                                <label class="form-check-label">Test degli elettroliti</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura i livelli di elettroliti (sodio, potassio, calcio, magnesio) nel sangue, importanti per l'equilibrio idrico e il funzionamento di nervi e muscoli.
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="col-3">
+                            <label>Data e ora</label>
+                            <input id="wPrDataOra" type="datetime-local" class="form-control">
+                        </div> 
+                        
+                        <div class="col-3">
+                            <label>Laboratorio</label>
+                            <select id="wPrLaboratorio" class="form-select">
+                                <option value="lab1" selected>Roma - Via Rossi 10</option>
+                                <option value="lab2">Roma - Via Verdi 21</option>
+                                <option value="lab3">Roma - Via Bianchi 3/b</option>
+                            </select>
+                        </div> 
+                    </div> 
+                </div>
+                
+                <hr >
+                <div>
+                    <h4>Riepilogo</h4>
+                    <small class="text-muted">Verificare la validità delle informazioni inserite prima di inviare la prenotazione. Questa potrà comunque essere modificata in seguito.</small>
+                    <div class="row">
+                        <div class="col-12">
+                            Signor NOME COGNOME effettuerà in data DATA presso la struttura LABORATORIOX i seguenti esami:
+                            <br />
+                            -esame 1
+                            -esame 2
+                            -esame 3
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="row">
+                    <div class="col-3">
+                        <button type="reset" class="btn btn-primary w-100" onclick="ClearFields()">Reset</button>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" class="btn btn-primary w-100" onclick="UpsertReservation()">Invia</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 </body>
 
 <script>
     var isNewReservation = true;
+    var jsonData;
 
     $(document).ready(function() {
         var params = new URLSearchParams(window.location.search);
@@ -117,15 +292,10 @@
             PushNotification("error", response.error_message);
             return;
         }
-
         var data = response.response_data;
-        $("#wPrId").val(data.id);
-        $("#wPrNome").val(data.nome);
-        $("#wPrCognome").val(data.cognome); 
-        $("#wPrCf").val(data.cf);
-        $("#wPrEmail").val(data.email);
-        $("#wPrDataOra").val(data.dataOraPrenotazione);
+        isNewReservation = false;
 
+        //Alert di maggiori info sullo stato della prenotazione
         var stringAlertMessage = `La prenotazione è stata inserita il <b>${data.dataOraInserimento}</b>`;
         if (data.dataOraModifica != null)
         {
@@ -135,20 +305,52 @@
         ClearChildrenNodes("wDivAlert");
         $("#wDivAlert").append(stringAlertMessage);
 
-        isNewReservation = false;
+        //Sezione anagrafica
+        $("#wPrId").val(data.id);
+        $("#wPrNome").val(data.nome);
+        $("#wPrCognome").val(data.cognome); 
+        $("#wPrCf").val(data.cf);
+        $("#wPrEmail").val(data.email);
+
+        //Sezione esami
+        data.listaAnalisi.forEach(function(item) {
+            $('input[type="checkbox"][data-scope="' + item.tipo + '"][value="' + item.nome + '"]').prop('checked', true);
+        });
+        $("#wPrDataOra").val(data.dataOraPrenotazione);
+        $("#wPrLaboratorio").val(data.laboratorio)
     }
+    
     
     async function UpsertReservation() {
         var response = null;
-        //TODO: raggruppa campi
+        
+        //Sezione esami
+        var listaAnalisi = [];
+        $('input[type="checkbox"][data-scope]').each(function() {
+            if ($(this).is(':checked')) {
+                var tipo = $(this).attr('data-scope');
+                var nome = $(this).val();
+                listaAnalisi.push({  tipo: tipo, nome: nome });
+            }
+        });
+        
         jsonData = {
-
+            "id": $("#wPrId").val(),
+            "cf": $("#wPrCf").val(),
+            "dataOraPrenotazione": $("#wPrDataOra").val(),
+            "laboratorio": $("#wPrLaboratorio").val(),
+            "listaAnalisi": listaAnalisi
         };
-
+       
+        console.log(jsonData, "upsertdata");
+        return;
+        
         if (isNewReservation)
             response = await ExecuteApiCall("POST", API_ADD_PRENOTAZIONE, {}, jsonData);
         else
             response = await ExecuteApiCall("POST", API_UPDATE_PRENOTAZIONE, {}, jsonData);    
     }
+
+    
 </script>
 </html>

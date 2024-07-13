@@ -39,34 +39,38 @@ def svc_add_prenotazione(prenotazione):
     prenotazione.data_ora_prenotazione = prenotazione.data_ora_prenotazione
 
     prenotazione.id = _get_file_unique_id()
-    new_file_name = "pr" +  prenotazione.id + ".json"
-    new_file_name = os.path.join(LOCAL_STORAGE_FOLDER, new_file_name)
-    _write_data_on_disk(prenotazione, new_file_name)
+    file_full_path = os.path.join(LOCAL_STORAGE_FOLDER, "pr_" +  prenotazione.id + ".json")
+    _write_data_on_disk(prenotazione, file_full_path)
 
     return prenotazione
 
 
-def svc_update_prenotazione(prenotazione):
-    data_ora = datetime.now()
-    prenotazione.data_ora_modifica = data_ora.strftime("%Y/%m/%dT%H:%M:%S")
-    prenotazione.data_ora_prenotazione = prenotazione.data_ora_prenotazione
+def svc_update_prenotazione(new_info):
 
     json_files = _get_data_from_disk()
+    record = None
     file_is_present = False
-    file_name = None
-
+    file_full_path = None
     for json in json_files:
-        if json["data"].get("id") == id and json["data"].get("cf") == prenotazione.cf:
-            file_name = json["file_name"]
+        if json["data"].get("id") == new_info.id and json["data"].get("cf") == new_info.cf:
+            file_full_path = json["file_path"]
+            record = Prenotazione.from_json(json["data"])
             file_is_present = True
             break
 
     if file_is_present == False:
         raise Exception("Il record non è stato trovato")
     
-    _write_data_on_disk(prenotazione, file_name)
+    # Aggiornamento campi
+    data_ora = datetime.now()
+    record.data_ora_modifica = data_ora.strftime("%Y/%m/%dT%H:%M:%S")
+    record.data_ora_prenotazione = new_info.data_ora_prenotazione
+    record.laboratorio = new_info.laboratorio
+    record.lista_esami = new_info.lista_esami
 
-    return prenotazione
+    _write_data_on_disk(record, file_full_path)
+
+    return record
 
 
 def svc_delete_prenotazione(cf, id):

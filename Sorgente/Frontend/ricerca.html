@@ -17,7 +17,7 @@
     </head>
     
     <body>
-        <div class="container-fluid">
+        <div class="container-fluid main-content mt-2">
             <div class="row justify-content-center">
                 <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-3">
                     <label>Ricerca per Codice Fiscale</label>
@@ -57,6 +57,7 @@
         if (HasHttpSuccessCode(response.code) == false)
         {
             PushNotification("error", response.error_message);
+            return;
         }
 
         ClearChildrenNodes("wDivStoricoRisultato");

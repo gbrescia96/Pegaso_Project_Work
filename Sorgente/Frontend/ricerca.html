@@ -37,11 +37,13 @@
                     </div>
                 </div>
             </div>
+            <table id="wTableResult"></table>
         </div>
     </div>
 </body>
 
 <script>
+    var demo_data;
     $(document).ready(function() {
         
     });
@@ -74,6 +76,8 @@
         tagTable.append(tagTableHead);
         
         response = response.response_data;
+        //TODO: eliminami
+        demo_data = response;
         console.log(response);
         tagTableBody = $("<tbody></tbody>");
         for (let i = 0; i < response.length; i++)
@@ -83,7 +87,7 @@
             
             trTag.append(`<td>${response[i].id}</td>`);
             trTag.append(`<td>${response[i].dataOraPrenotazione}</td>`);
-            trTag.append(`<td><button title="Modifica" type="button" class="btn btn-primary"><i class="fas fa-edit" onclick="EditReservation('${response[i].id}', '${response[i].cf}')"></i></button></td>`);
+            trTag.append(`<td><button title="Modifica" type="button" class="btn btn-primary"><i class="fas fa-edit" onclick="EditReservation('${response[i].id}', '${response[i].cf}', '${response[i].ts}')"></i></button></td>`);
             trTag.append(`<td><button title="Elimina" type="button" class="btn btn-danger"><i class="fas fa-trash" onclick=""></i></button></td>`);
             
             tagTableBody.append(trTag);
@@ -94,9 +98,38 @@
         $("#wDivStoricoRisultato").append(tagTable);
     }
 
-    function EditReservation(id, cf)
+    function EditReservation(id, cf, ts)
     {
-        window.location.href = `prenotazione.html?id=${id}&cf=${cf}`; 
+        window.location.href = `prenotazione.html?id=${id}&cf=${cf}&ts=${ts}`; 
+    }
+
+    function GenerateTable(reservationList)
+    {
+        reservationList = demo_data;
+        new DataTable('#wTableResult', 
+        {
+            info: false,
+            ordering: true,
+            paging: false,
+            data: reservationList,
+            columns: [
+                {
+                    title: "Id"
+                },
+                {
+                    title: "Data/ora"
+                },
+                {
+                    title: "Laboratorio"
+                },
+                {
+                    title: "Modifica"
+                },
+                {
+                    title: "Elimina"
+                }
+            ]
+        });
     }
 </script>
 </html>

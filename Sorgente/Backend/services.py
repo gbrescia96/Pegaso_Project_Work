@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import uuid
 from datetime import datetime
 from models.prenotazione import Prenotazione
 
@@ -8,26 +9,25 @@ from models.prenotazione import Prenotazione
 current_directory = os.path.dirname(os.path.abspath(__file__))
 LOCAL_STORAGE_FOLDER = os.path.join(current_directory, 'storage')
 
-
-def svc_get_prenotazione(cf, id):
+def svc_get_prenotazione(cf, ts, id):
     cf = cf.upper()
     json_files = _get_data_from_disk()
 
     for json in json_files:
         print(json["data"].get("id") + " " + json["data"].get("cf"))
-        if json["data"].get("id") == id and json["data"].get("cf") == cf:
+        if json["data"].get("id") == id and json["data"].get("cf") == cf and json["data"].get("ts") == ts:
             return Prenotazione().from_json(json["data"])
 
     return None
 
 
-def svc_get_lista_prenotazioni(cf):
+def svc_get_lista_prenotazioni(cf, ts):
     cf = cf.upper()
     json_files = _get_data_from_disk()
     result_list = []
 
     for json in json_files:
-       if json["data"].get("cf") == cf:
+       if json["data"].get("cf") == cf and json["data"].get("ts") == ts:
         result_list.append(Prenotazione().from_json(json["data"]))
 
     return result_list
@@ -61,7 +61,7 @@ def svc_update_prenotazione(new_info):
     if file_is_present == False:
         raise Exception("Il record non è stato trovato")
     
-    # Aggiornamento campi
+    # Aggiornamento campi sul record riletto precedentemente
     data_ora = datetime.now()
     record.data_ora_modifica = data_ora.strftime("%Y/%m/%dT%H:%M:%S")
     record.data_ora_prenotazione = new_info.data_ora_prenotazione
@@ -113,14 +113,7 @@ def _write_data_on_disk(prenotazione, file_path):
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(prenotazione.to_json(), f)
 
+
 def _get_file_unique_id():
-    data_ora = datetime.now()
-    year = data_ora.year
-    month = f"{data_ora.month:02}"
-    day = f"{data_ora.day:02}" 
-    hours = f"{data_ora.hour:02}"  
-    minutes = f"{data_ora.minute:02}" 
-    seconds = f"{data_ora.second:02}"  
-    milliseconds = f"{data_ora.microsecond // 1000:03}"
-         
-    return f"{year}{month}{day}{hours}{minutes}{seconds}{milliseconds}"
+    #UUID1: Generato utilizzando una combinazione di indirizzo MAC del computer, timestamp e un numero casuale. È unico nel contesto di spazio e tempo.
+    return uuid.uuid1()

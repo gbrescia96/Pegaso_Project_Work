@@ -28,11 +28,7 @@
             <form>
                 <div>
                     <h3>Dati anagrafici</h3>
-                    <div class="row">
-                        <div class="col-3" hidden>
-                            <label>ID</label>
-                            <input id="wPrId" type="text" class="form-control">
-                        </div>
+                        <input id="wPrId" type="text" hidden>
                         <div class="col-3">
                             <label>Nome</label>
                             <input id="wPrNome" type="text" class="form-control">
@@ -44,6 +40,10 @@
                         <div class="col-3">
                             <label>Codice fiscale</label>
                             <input id="wPrCf" type="text" class="form-control" maxlength="16">
+                        </div>
+                        <div class="col-3">
+                            <label>Tessera Sanitaria</label>
+                            <input id="wPrTs" type="text" class="form-control" maxlength="20">
                         </div>
                         <div class="col-3">
                             <label>E-mail</label>
@@ -263,6 +263,7 @@
         $("#wPrCognome").val(data.cognome); 
         $("#wPrCf").val(data.cf);
         $("#wPrEmail").val(data.email);
+        $("#wPrTs").val(dta.cod.ts)
 
         //Sezione esami
         data.listaAnalisi.forEach(function(item) {
@@ -272,7 +273,7 @@
         $("#wPrLaboratorio").val(data.laboratorio);
 
         //Blocca campi anagrafica
-        $("#wPrId, #wPrNome, #wPrCognome, #wPrCf").prop("readonly", true);
+        $("#wPrId, #wPrNome, #wPrCognome, #wPrCf, #wPrTs").prop("readonly", true);
     }
     
     

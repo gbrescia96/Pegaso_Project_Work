@@ -9,12 +9,11 @@ from models.prenotazione import Prenotazione
 current_directory = os.path.dirname(os.path.abspath(__file__))
 LOCAL_STORAGE_FOLDER = os.path.join(current_directory, 'storage')
 
-def svc_get_prenotazione(cf, ts, id):
+def svc_get_prenotazione(id, cf, ts):
     cf = cf.upper()
     json_files = _get_data_from_disk()
 
     for json in json_files:
-        print(json["data"].get("id") + " " + json["data"].get("cf"))
         if json["data"].get("id") == id and json["data"].get("cf") == cf and json["data"].get("ts") == ts:
             return Prenotazione().from_json(json["data"])
 
@@ -73,12 +72,12 @@ def svc_update_prenotazione(new_info):
     return record
 
 
-def svc_delete_prenotazione(cf, id):
+def svc_delete_prenotazione(cf, id, ts):
     cf = cf.upper()
     json_files = _get_data_from_disk()
 
     for json in json_files:
-        if json["data"].get("id") == id and json["data"].get("cf") == cf:
+        if json["data"].get("id") == id and json["data"].get("cf") == cf and json["data"].get("ts") == ts:
             os.remove(json["file_path"])
             return
     

@@ -13,9 +13,10 @@ def ping():
 @app.route('/api/getPrenotazione', methods=['GET'])
 def get_prenotazione():
     try:
-        cf = request.args.get('cf', type=str)
         id = request.args.get('id', type=str)
-        prenotazione = svc_get_prenotazione(cf, id)
+        cf = request.args.get('cf', type=str)
+        ts = request.args.get('ts', type=str)
+        prenotazione = svc_get_prenotazione(id, cf, ts)
         if prenotazione:
             return HttpResponse(200, data=prenotazione.to_json()).to_json()
         else:
@@ -28,7 +29,8 @@ def get_prenotazione():
 def get_lista_prenotazioni():
     try:
         cf = request.args.get('cf', type=str)
-        prenotazioni = svc_get_lista_prenotazioni(cf)
+        ts = request.args.get('ts', type=str)
+        prenotazioni = svc_get_lista_prenotazioni(cf, ts)
         if prenotazioni:
             lista_prenotazioni = []
             for prenotazione in prenotazioni:
@@ -81,9 +83,10 @@ def update_prenotazione():
 @app.route('/api/deletePrenotazione', methods=['DELETE'])
 def delete_prenotazione():
     try:
-        cf = request.args.get('cf', type=str)
         id = request.args.get('id', type=str)
-        svc_delete_prenotazione(cf, id) 
+        cf = request.args.get('cf', type=str)
+        cf = request.args.get('ts', type=str)
+        svc_delete_prenotazione(cf, id, ts) 
         return HttpResponse(204, data=None).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()

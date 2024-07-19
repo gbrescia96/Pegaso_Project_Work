@@ -4,30 +4,37 @@
     <meta charset="UTF-8">
     <head>
         <title>Prenotazione</title>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/site.css">
-        <link rel="stylesheet" href="css/fontawesome.css">
-        <link rel="stylesheet" href="css/PNotify.css">
-        <link rel="stylesheet" href="css/PNotifyBrightTheme.css">
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/fontawesome.js"></script>
-        <script src="js/general.js"></script>
-        <script src="js/PNotify.js"></script>
+        <link rel="stylesheet" href="cgi-bin/common/bootstrap.css">
+        <link rel="stylesheet" href="cgi-bin/common/fontawesome.css">
+        <link rel="stylesheet" href="cgi-bin/pnotify/PNotify.css">
+        <link rel="stylesheet" href="cgi-bin/pnotify/PNotifyBrightTheme.css">
+        <link rel="stylesheet" href="cgi-bin/datatable/datatables.css">
+        <link rel="stylesheet" href="cgi-bin/common/general.css">
+        <script src="cgi-bin/common/jquery.js"></script>
+        <script src="cgi-bin/common/bootstrap.js"></script>
+        <script src="cgi-bin/common/fontawesome.js"></script>
+        <script src="cgi-bin/pnotify/PNotify.js"></script>
+        <script src="cgi-bin/datatable/datatables.js"></script>
+        <script src="cgi-bin/common/general.js"></script>
     </head>
     
     <body>
         <div class="container-fluid main-content mt-2">
-            <div class="row">
-                <div class="col-12">
-                    <div id="wDivAlert" class="alert alert-primary" role="alert">
-                        Inserimento <b>nuova</b> prenotazione
-                    </div>
-                </div>
+            <div id="wDivError">
+                <h3>Non trovata</h3>
+                <a href="prenotazione.html">Inserisci nuova</a>
             </div>
-            <form>
+            <form id="wFormPrenotazione">
                 <div>
-                    <h3>Dati anagrafici</h3>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="wDivInfoAlert" class="alert alert-primary" role="alert">
+                                Inserimento prenotazione
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3>Dati anagrafici</h3>
                         <input id="wPrId" type="text" hidden>
                         <div class="col-3">
                             <label>Nome</label>
@@ -62,7 +69,7 @@
                                     <div class="card">
                                         <img class="card-img-top" src="..." alt="Card image cap">
                                         <div class="card-body">
-                                          <h5 class="card-title">Esami sangue</h5>
+                                            <h5 class="card-title">Esami sangue</h5>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" data-scope="Sangue" value="emocromo">
                                                 <label class="form-check-label">Emocromo completo</label>
@@ -102,88 +109,88 @@
                                                 </div>
                                             </div>
                                         </div>
-                                      </div>
+                                    </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="card">
                                         <img class="card-img-top" src="..." alt="Card image cap">
                                         <div class="card-body">
-                                          <h5 class="card-title">Esami urine</h5>
-                                          <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Urine" value="creatinina">
-                                            <label class="form-check-label">Clearance della creatinina</label>
-                                            <br />
-                                            <small class="form-text text-muted">Misura della quantità di creatinina eliminata nelle urine per valutare la funzionalità renale.</small>
+                                            <h5 class="card-title">Esami urine</h5>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Urine" value="creatinina">
+                                                <label class="form-check-label">Clearance della creatinina</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura della quantità di creatinina eliminata nelle urine per valutare la funzionalità renale.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Urine" value="urinocoltura">
+                                                <label class="form-check-label">Urinocoltura</label>
+                                                <br />
+                                                <small class="form-text text-muted">Esame delle urine per rilevare e identificare batteri e altri microrganismi.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Urine" value="test-gravidanza">
+                                                <label class="form-check-label">Test di gravidanza</label>
+                                                <br />
+                                                <small class="form-text text-muted">Test per determinare la presenza dell'ormone hCG, indicativo di gravidanza.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Urine" value="proteinuria">
+                                                <label class="form-check-label">Proteinuria</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura della quantità di proteine nelle urine, indicativa di problemi renali.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Urine" value="microalbuminuria">
+                                                <label class="form-check-label">Microalbuminuria</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura di piccole quantità di albumina nelle urine, importante per il monitoraggio del diabete e malattie renali.</small>
+                                            </div>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Urine" value="urinocoltura">
-                                            <label class="form-check-label">Urinocoltura</label>
-                                            <br />
-                                            <small class="form-text text-muted">Esame delle urine per rilevare e identificare batteri e altri microrganismi.</small>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Urine" value="test-gravidanza">
-                                            <label class="form-check-label">Test di gravidanza</label>
-                                            <br />
-                                            <small class="form-text text-muted">Test per determinare la presenza dell'ormone hCG, indicativo di gravidanza.</small>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Urine" value="proteinuria">
-                                            <label class="form-check-label">Proteinuria</label>
-                                            <br />
-                                            <small class="form-text text-muted">Misura della quantità di proteine nelle urine, indicativa di problemi renali.</small>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Urine" value="microalbuminuria">
-                                            <label class="form-check-label">Microalbuminuria</label>
-                                            <br />
-                                            <small class="form-text text-muted">Misura di piccole quantità di albumina nelle urine, importante per il monitoraggio del diabete e malattie renali.</small>
-                                        </div>
-                                        </div>
-                                      </div>
+                                    </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="card">
                                         <img class="card-img-top" src="..." alt="Card image cap">
                                         <div class="card-body">
-                                          <h5 class="card-title">Esami nutrizionali</h5>
-                                          <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-d">
-                                            <label class="form-check-label">Test della vitamina D</label>
-                                            <br />
-                                            <small class="form-text text-muted">Misura i livelli di vitamina D nel sangue, essenziale per la salute delle ossa e del sistema immunitario.</small>
+                                            <h5 class="card-title">Esami nutrizionali</h5>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-d">
+                                                <label class="form-check-label">Test della vitamina D</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura i livelli di vitamina D nel sangue, essenziale per la salute delle ossa e del sistema immunitario.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-b12">
+                                                <label class="form-check-label">Test della vitamina B12</label>
+                                                <br />
+                                                <small class="form-text text-muted">Determina i livelli di vitamina B12 nel sangue, importante per la produzione di globuli rossi e il funzionamento del sistema nervoso.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="folati">
+                                                <label class="form-check-label">Test dei folati:</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura i livelli di folati nel sangue, fondamentali per la sintesi del DNA e la salute del sistema nervoso.</small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="ferro">
+                                                <label class="form-check-label">Test del ferro e della ferritina:</label>
+                                                <br />
+                                                <small class="form-text text-muted">Valuta i livelli di ferro e ferritina nel sangue, cruciali per il trasporto dell'ossigeno e la salute generale.
+                                                </small>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="elettroliti">
+                                                <label class="form-check-label">Test degli elettroliti</label>
+                                                <br />
+                                                <small class="form-text text-muted">Misura i livelli di elettroliti (sodio, potassio, calcio, magnesio) nel sangue, importanti per l'equilibrio idrico e il funzionamento di nervi e muscoli.
+                                                </small>
+                                            </div>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-b12">
-                                            <label class="form-check-label">Test della vitamina B12</label>
-                                            <br />
-                                            <small class="form-text text-muted">Determina i livelli di vitamina B12 nel sangue, importante per la produzione di globuli rossi e il funzionamento del sistema nervoso.</small>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="folati">
-                                            <label class="form-check-label">Test dei folati:</label>
-                                            <br />
-                                            <small class="form-text text-muted">Misura i livelli di folati nel sangue, fondamentali per la sintesi del DNA e la salute del sistema nervoso.</small>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="ferro">
-                                            <label class="form-check-label">Test del ferro e della ferritina:</label>
-                                            <br />
-                                            <small class="form-text text-muted">Valuta i livelli di ferro e ferritina nel sangue, cruciali per il trasporto dell'ossigeno e la salute generale.
-                                            </small>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="elettroliti">
-                                            <label class="form-check-label">Test degli elettroliti</label>
-                                            <br />
-                                            <small class="form-text text-muted">Misura i livelli di elettroliti (sodio, potassio, calcio, magnesio) nel sangue, importanti per l'equilibrio idrico e il funzionamento di nervi e muscoli.
-                                            </small>
-                                        </div>
-                                        </div>
-                                      </div>
+                                    </div>
                                 </div>
                             </div>
-                           
+                            
                         </div>  
                         
                         <div class="col-3">
@@ -201,7 +208,7 @@
                         </div> 
                     </div> 
                 </div>
-
+                
                 <hr />
                 <div class="row">
                     <div class="col-3">
@@ -219,14 +226,21 @@
 <script>
     var isNewReservation = true;
     var jsonData;
-
+    
     $(document).ready(function() {
+        $("#wDivError, #wFormPrenotazione").hide();
+
         var params = new URLSearchParams(window.location.search);
         var id = params.get("id");
         var cf = params.get("cf");
-        if (id != null && cf != null)
+        var ts = params.get("ts");
+        if (id != null && cf != null && ts != null)
         {
-            GetReservation(id, cf)
+            GetReservation(id, cf, ts)
+        }
+        else
+        {
+            $("#wFormPrenotazione").show();
         }
     });
     
@@ -237,16 +251,20 @@
         });
     }
     
-    async function GetReservation(id, cf) {
-        var response = await ExecuteApiCall("GET", API_GET_PRENOTAZIONE, {"id": id, "cf": cf});
+    async function GetReservation(id, cf, ts) 
+    {
+        var response = await ExecuteApiCall("GET", API_GET_PRENOTAZIONE, {"id": id, "cf": cf, "ts": ts});
         if (HasHttpSuccessCode(response.code) == false)
         {
             PushNotification("error", response.error_message);
+            $("#wDivError").show();
             return;
         }
+        $("#wFormPrenotazione").show();
+
         var data = response.response_data;
         isNewReservation = false;
-
+        
         //Alert di maggiori info sullo stato della prenotazione
         var stringAlertMessage = `La prenotazione è stata inserita il <b>${FormatDateDDMMAAAA(data.dataOraInserimento)} alle ${GetHoursMinutesFromDateTime(data.dataOraInserimento)}</b>`;
         if (data.dataOraModifica != null)
@@ -254,96 +272,96 @@
             stringAlertMessage += ` e modificata il <b>${FormatDateDDMMAAAA(data.dataOraModifica)} alle ${GetHoursMinutesFromDateTime(data.dataOraModifica)}`;
         }
         stringAlertMessage += '<br />Attenzione: non è possibile variare di dati anagrafici. Se vuoi inserire una nuova prenotazione <a href="prenotazione.html">clicca qui</a>';
-        ClearChildrenNodes("wDivAlert");
-        $("#wDivAlert").append(stringAlertMessage);
-
+        ClearChildrenNodes("wDivInfoAlert");
+        $("#wDivInfoAlert").append(stringAlertMessage);
+        
         //Sezione anagrafica
         $("#wPrId").val(data.id);
         $("#wPrNome").val(data.nome);
         $("#wPrCognome").val(data.cognome); 
         $("#wPrCf").val(data.cf);
         $("#wPrEmail").val(data.email);
-        $("#wPrTs").val(dta.cod.ts)
-
+        $("#wPrTs").val(data.ts)
+        
         //Sezione esami
         data.listaAnalisi.forEach(function(item) {
             $('input[type="checkbox"][data-scope="' + item.tipo + '"][value="' + item.nome + '"]').prop('checked', true);
         });
         $("#wPrDataOra").val(data.dataOraPrenotazione);
         $("#wPrLaboratorio").val(data.laboratorio);
-
+        
         //Blocca campi anagrafica
         $("#wPrId, #wPrNome, #wPrCognome, #wPrCf, #wPrTs").prop("readonly", true);
     }
-    
-    
-    async function UpsertReservation() {
-        var response = null;
         
-        //Sezione esami
-        var listaAnalisi = GetListaAnalisiFromCheckbox();
         
-        jsonData = {
-            "id": $("#wPrId").val(),
-            "cf": $("#wPrCf").val(),
-            "dataOraPrenotazione": $("#wPrDataOra").val(),
-            "laboratorio": $("#wPrLaboratorio").val(),
-            "listaAnalisi": listaAnalisi
-        };
-       
-        console.log(jsonData, "upsertdata");
-        return;
-        
-        if (isNewReservation)
+        async function UpsertReservation() {
+            var response = null;
+            
+            //Sezione esami
+            var listaAnalisi = GetListaAnalisiFromCheckbox();
+            
+            jsonData = {
+                "id": $("#wPrId").val(),
+                "cf": $("#wPrCf").val(),
+                "dataOraPrenotazione": $("#wPrDataOra").val(),
+                "laboratorio": $("#wPrLaboratorio").val(),
+                "listaAnalisi": listaAnalisi
+            };
+            
+            console.log(jsonData, "upsertdata");
+            return;
+            
+            if (isNewReservation)
             response = await ExecuteApiCall("POST", API_ADD_PRENOTAZIONE, {}, jsonData);
-        else
+            else
             response = await ExecuteApiCall("POST", API_UPDATE_PRENOTAZIONE, {}, jsonData);    
-    }
-
-    function GetListaAnalisiFromCheckbox()
-    {
-        var listaAnalisi = [];
-        $('input[type="checkbox"][data-scope]').each(function() {
-            if ($(this).is(':checked')) {
-                var tipo = $(this).attr('data-scope');
-                var nome = $(this).val();
-                listaAnalisi.push({  tipo: tipo, nome: nome });
-            }
-        });
-
-        return listaAnalisi;
-    }
-
-    function SummaryReservation()
-    {
-        listaAnalisi = GetListaAnalisiFromCheckbox();
-        if (listaAnalisi.lenght == 0)
-        {
-            PushNotification("error","Non è stato selezionato alcun esame"); 
         }
-
-        //Mapping di tutti i tipi di analisi
-        var tipiAnalisi = [...new Set(listaAnalisi.map(element => element.tipo))];
-
-
-        var summary = `
+        
+        function GetListaAnalisiFromCheckbox()
+        {
+            var listaAnalisi = [];
+            $('input[type="checkbox"][data-scope]').each(function() {
+                if ($(this).is(':checked')) {
+                    var tipo = $(this).attr('data-scope');
+                    var nome = $(this).val();
+                    listaAnalisi.push({  tipo: tipo, nome: nome });
+                }
+            });
+            
+            return listaAnalisi;
+        }
+        
+        function SummaryReservation()
+        {
+            listaAnalisi = GetListaAnalisiFromCheckbox();
+            if (listaAnalisi.lenght == 0)
+            {
+                PushNotification("error","Non è stato selezionato alcun esame"); 
+            }
+            
+            //Mapping di tutti i tipi di analisi
+            var tipiAnalisi = [...new Set(listaAnalisi.map(element => element.tipo))];
+            
+            
+            var summary = `
             <p>Il/la sig./ra <b>${$("#wPrNome").val()} ${$("#wPrCognome").val()}</b> con codice fiscale <b>${$("#wPrCf").val()}</b>
                 eseguirà il giorno ${FormatDateDDMMAAAA($("#wPrDataOra").val())} alle ${GetHoursMinutesFromDateTime($("#wPrDataOra").val())}
                 i seguenti esami:</p>
         `;
-
-        
-        summary += tipiAnalisi.reduce((acc, tipo) => {
-            var esami = listaAnalisi
+            
+            
+            summary += tipiAnalisi.reduce((acc, tipo) => {
+                var esami = listaAnalisi
                 .filter(element => element.tipo === tipo)
                 .map(element => element.nome)
                 .join(', '); // Crea una stringa di esami separati da virgola
-
-            acc += `<p><b>${tipo}</b>: ${esami}</p>`; // Aggiungi la stringa al risultato finale
-            return acc;
-        }, '');
-
-        GenerateModal(summary, function() { UpsertReservation() });
-    }
-</script>
-</html>
+                
+                acc += `<p><b>${tipo}</b>: ${esami}</p>`; // Aggiungi la stringa al risultato finale
+                return acc;
+            }, '');
+            
+            GeneratePromptModal(summary, function() { UpsertReservation() });
+        }
+    </script>
+    </html>

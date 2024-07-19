@@ -121,6 +121,8 @@ setInterval(CheckServerStatus, 15000);
 CheckServerStatus();
 async function CheckServerStatus()
 {
+    isOnline = true;
+    return;
     var response = await ExecuteApiCall("GET", API_PING, {}, null, false);
     var isOnline = HasHttpSuccessCode(response.code);
 
@@ -152,7 +154,7 @@ async function CheckServerStatus()
  * @example
  * 
  * Esempio di invocazione con due handler
- * GenerateModal('Testo custom', 
+ * GeneratePromptModal('Testo custom', 
  *                  function() {
  *                      alert('Invocato handler CONFERMA');
  *                  }, 
@@ -160,7 +162,7 @@ async function CheckServerStatus()
  *                      alert('Invocato handler NO');
  *                  });
  */
-function GenerateModal(message, onClickYes, onClickNo) {
+function GeneratePromptModal(message, onClickYes, onClickNo) {
     // Rimuovi modal con lo stesso ID pre-esistenti
     $('#wDivGeneratedModal').remove();
 
@@ -200,14 +202,15 @@ function GenerateModal(message, onClickYes, onClickNo) {
     $('body').append(htmlModal);
 
     //Gestione dell'evento on click sul CONFERMA
-    if (onClickYes) {
-        $('#wGeneratedModalYesButton').on('click', function() {
+    $('#wGeneratedModalYesButton').on('click', function() {
+        if (onClickYes) {
             onClickYes();
-            $('#wDivGeneratedModal').modal('hide');
-        });
-    }
+        }
+        
+        $('#wDivGeneratedModal').modal('hide');
+    });
 
-    //Gestione dell'evento on click sul NO (di default nasconde il modal)
+    //Gestione dell'evento on click sul NO
     $('#wGeneratedModalNoButton').on('click', function() {
         if (onClickNo) {
             onClickNo();
@@ -216,13 +219,65 @@ function GenerateModal(message, onClickYes, onClickNo) {
         $('#wDivGeneratedModal').modal('hide');
     });
 
-    //Gestione dell'evento sul pulsante di chiusura del modal 
+    //Gestione dell'evento sul pulsante di chiusura del modal
     $('#wGeneratedModalCloseButton').on('click', function() {
         $('#wDivGeneratedModal').modal('hide');
     });
 
     //Trigger di visualizzazione
     $('#wDivGeneratedModal').modal('show');
+}
+
+
+/**
+ * Genera e visualizza un modal con un messaggio custom
+ *
+ * @param {string} message - messaggio custom
+ * @example
+ * 
+ * Esempio di invocazione con due handler
+ * GenerateInfoModal('Testo custom')
+ */
+function GenerateInfoModal(message, onClickYes, onClickNo) {
+    // Rimuovi modal con lo stesso ID pre-esistenti
+    $('#wDivGeneratedModal').remove();
+
+    var htmlModal = `
+        <div class="modal fade" id="wDivGeneratedModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" hidden>Conferma</h5>
+                        <button id="wGeneratedModalCloseButton" type="button" class="btn btn-light w-100">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ${message}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    //Aggiungi al DOM, successivamente verranno gestiti eventuali handler sui pulsanti
+    $('body').append(htmlModal);
+
+    //Gestione dell'evento sul pulsante di chiusura del modal
+    $('#wGeneratedModalCloseButton').on('click', function() {
+        $('#wDivGeneratedModal').modal('hide');
+    });
+
+    //Trigger di visualizzazione
+    $('#wDivGeneratedModal').modal('show');
+}
+
+function DateTimeSplit(datetime)
+{
+    return {
+        "Date": datetime.substring(0, 10),
+        "Time": datetime.substring(11, 16),
+    }
 }
 
 function FormatDateDDMMAAAA(datetime, separator = "/")
@@ -305,3 +360,69 @@ function GenerateNavbar()
 
         $('body').prepend(navbar);
 }
+
+function ValidatorCodiceFiscale(cf) {
+    if (cf.length !== 16) {
+        return false;
+    }
+
+//     ^: Inizio della stringa. Questo assicura che la stringa da testare inizi esattamente con il pattern specificato.
+// [A-Z0-9]{6}: Sei caratteri alfanumerici. [A-Z0-9] indica una classe di caratteri che permette lettere maiuscole (A-Z) e numeri (0-9). {6} indica che questo pattern deve ripetersi esattamente sei volte.
+// [0-9]{2}: Due numeri. [0-9] indica una classe di caratteri che permette solo numeri, e {2} specifica che questo pattern deve ripetersi esattamente due volte.
+// [A-Z]: Una lettera maiuscola. [A-Z] indica una classe di caratteri che permette solo lettere maiuscole. Non ci sono quantificatori, quindi deve apparire esattamente una volta.
+// [0-9]{2}: Due numeri. Stessa logica di prima, due cifre numeriche.
+// [A-Z]: Una lettera maiuscola. Stessa logica di prima, una singola lettera maiuscola.
+// [0-9]{3}: Tre numeri. [0-9] indica una classe di caratteri che permette solo numeri, e {3} specifica che questo pattern deve ripetersi esattamente tre volte.
+// [A-Z]: Una lettera maiuscola. Stessa logica di prima, una singola lettera maiuscola.
+// $: Fine della stringa. Questo assicura che la stringa da testare termini esattamente con il pattern specificato.
+    return /^[A-Z0-9]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/.test(cf);
+}
+
+function ValidatorTesseraSanitaria(codice) {
+    if (codice.length !== 20) {
+        return false;
+    }
+
+    // Il primo carattere è 0
+    if (codice.charAt(0) !== '0') {
+        return false;
+    }
+
+    // Codice Tipo Tessera (fisso "80" per prestazioni sanitarie)
+    if (codice.substring(1, 3) !== '80') {
+        return false;
+    }
+
+    // Codice Stato: (fisso "380" per Italia)
+    if (codice.substring(3, 6) !== '380') {
+        return false;
+    }
+
+    // Codice Ente: deve essere cinque cifre (primi due "00" seguiti dalle tre cifre specifiche della regione o ente)
+    if (codice.substring(6, 8) !== '00') {
+        return false;
+    }
+
+    let ente = codice.substring(8, 11);
+    if (!ValidatorCodiceEnte(ente)) {
+        return false;
+    }
+
+    // I successivi 9 caratteri devono essere cifre
+    if (! /^\d{9}$/.test(codice.substring(11, 20))) {
+        return false;
+    }
+
+    return true;
+}
+
+function ValidatorCodiceEnte(codiceRegione) {
+    const regioniValide = new Set([
+        "010", "020", "030", "041", "042", "050", "060", "070", "080", "090",
+        "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200",
+        "001", "002", "003"
+    ]);
+
+    return regioniValide.has(codiceRegione);
+}
+

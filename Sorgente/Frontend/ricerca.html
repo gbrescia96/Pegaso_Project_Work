@@ -4,98 +4,90 @@
     <meta charset="UTF-8">
     <head>
         <title>Homepage</title>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/site.css">
-        <link rel="stylesheet" href="css/fontawesome.css">
-        <link rel="stylesheet" href="css/PNotify.css">
-        <link rel="stylesheet" href="css/PNotifyBrightTheme.css">
-        <link rel="stylesheet" href="css/datatables.css">
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/fontawesome.js"></script>
-        <script src="js/general.js"></script>
-        <script src="js/PNotify.js"></script>
-        <script src="js/datatables.js"></script>
+        <link rel="stylesheet" href="cgi-bin/common/bootstrap.css">
+        <link rel="stylesheet" href="cgi-bin/common/fontawesome.css">
+        <link rel="stylesheet" href="cgi-bin/pnotify/PNotify.css">
+        <link rel="stylesheet" href="cgi-bin/pnotify/PNotifyBrightTheme.css">
+        <link rel="stylesheet" href="cgi-bin/datatable/datatables.css">
+        <link rel="stylesheet" href="cgi-bin/common/general.css">
+        <script src="cgi-bin/common/jquery.js"></script>
+        <script src="cgi-bin/common/bootstrap.js"></script>
+        <script src="cgi-bin/common/fontawesome.js"></script>
+        <script src="cgi-bin/pnotify/PNotify.js"></script>
+        <script src="cgi-bin/datatable/datatables.js"></script>
+        <script src="cgi-bin/common/general.js"></script>
     </head>
     
     <body>
         <div class="container-fluid main-content mt-2">
             <div class="row justify-content-center">
                 <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-3">
-                    <label>Ricerca per Codice Fiscale</label>
-                    <input id="wTextStoricoRicerca" type="text" class="form-control" maxlength="16">
+                    <label>Codice fiscale</label>
+                    <input id="wCf" type="text" class="form-control" maxlength="16">
+                </div>
+                <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-3">
+                    <label>Tessera sanitaria</label>
+                    <input id="wTs" type="text" class="form-control" maxlength="20">
                 </div>
                 <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-1 d-flex align-items-end">
                     <button title="Ricerca" type="button" class="btn btn-info w-100" onclick="GetReservationList()"><i class="fas fa-search"></i></button>
                 </div>
             </div>
             <hr />
-            <div class="row">
-                <div class="col-12">
-                    <div id="wDivStoricoRisultato">
-                        <!-- Generato in automatico -->
-                    </div>
-                </div>
+            <div id="wDivResult">
+  
+            <table id="wTableResult" class=" w-100 row-border">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Data</th>
+                        <th>Ora</th>
+                        <th>Laboratorio</th>
+                        <th>Esami</th>
+                        <th>Modifica</th>
+                        <th>Elimina</th>
+                    </tr>
+                </thead>
+            </table>
             </div>
-            <table id="wTableResult"></table>
         </div>
     </div>
 </body>
 
 <script>
-    var demo_data;
     $(document).ready(function() {
-        
+        $("#wDivResult").hide();
+        $("#wCf").val("BRSGLC96B09B506O");
+        $("#wTs").val("08038000110345678900");
     });
     
     async function GetReservationList() {
-        var cf = $("#wTextStoricoRicerca").val();
-        if (cf.length != 16)
+        var cf = $("#wCf").val();
+        var ts = $("#wTs").val();
+        if (!ValidatorCodiceFiscale(cf))
         {
             PushNotification("error", "Il codice fiscale non è corretto");
+            $("#wDivResult").hide();
             return;      
         }
-        
-        var response = await ExecuteApiCall("GET", API_GET_LISTA_PRENOTAZIONI, {"cf": cf});
+        if (!ValidatorTesseraSanitaria(ts))
+        {
+            PushNotification("error", "Il codice della tessera sanitaria non è corretto");
+            $("#wDivResult").hide();
+            return;      
+        }
+
+        var response = await ExecuteApiCall("GET", API_GET_LISTA_PRENOTAZIONI, {"cf": cf, "ts": ts});
        
         if (HasHttpSuccessCode(response.code) == false)
         {
             PushNotification("error", response.error_message);
+            $("#wDivResult").hide();
             return;
         }
 
-        ClearChildrenNodes("wDivStoricoRisultato");
-        
-        //Output come tabella
-        var tagTable = $('<table></table>').addClass("table");
-        tagTableHead = $('<thead><tr></tr></thead>');
-        tagTableHead.find("tr").append("<th>ID</th>");
-        tagTableHead.find("tr").append("<th>Data/ora</th>");
-        tagTableHead.find("tr").append("<th></th>");
-        tagTableHead.find("tr").append("<th></th>");
-        tagTable.append(tagTableHead);
-        
         response = response.response_data;
-        //TODO: eliminami
-        demo_data = response;
-        console.log(response);
-        tagTableBody = $("<tbody></tbody>");
-        for (let i = 0; i < response.length; i++)
-        {
-
-            var trTag = $("<tr></tr>");
-            
-            trTag.append(`<td>${response[i].id}</td>`);
-            trTag.append(`<td>${response[i].dataOraPrenotazione}</td>`);
-            trTag.append(`<td><button title="Modifica" type="button" class="btn btn-primary"><i class="fas fa-edit" onclick="EditReservation('${response[i].id}', '${response[i].cf}', '${response[i].ts}')"></i></button></td>`);
-            trTag.append(`<td><button title="Elimina" type="button" class="btn btn-danger"><i class="fas fa-trash" onclick=""></i></button></td>`);
-            
-            tagTableBody.append(trTag);
-        }
-        
-        tagTable.append(tagTableBody);
-        
-        $("#wDivStoricoRisultato").append(tagTable);
+        GenerateTable(response);
     }
 
     function EditReservation(id, cf, ts)
@@ -103,30 +95,103 @@
         window.location.href = `prenotazione.html?id=${id}&cf=${cf}&ts=${ts}`; 
     }
 
+    async function DeleteReservation(id, cf, ts)
+    {
+        var response = await ExecuteApiCall("GET", API_GET_LISTA_PRENOTAZIONI, {"id": id, "cf": cf, "ts": ts});
+        if (HasHttpSuccessCode(response.code) == false)
+        {
+            PushNotification("error", response.error_message);
+            return;
+        }
+        else
+        {
+            PushNotification("success", "Eliminazione effettuata");
+        }
+
+        //Ricarica lista
+        await GetReservationList();
+    }
+
     function GenerateTable(reservationList)
     {
-        reservationList = demo_data;
+        $("#wDivResult").show();
         new DataTable('#wTableResult', 
         {
+            destroy: true,
             info: false,
             ordering: true,
             paging: false,
             data: reservationList,
             columns: [
                 {
-                    title: "Id"
+                    data: "id",
                 },
                 {
-                    title: "Data/ora"
+                    data: "dataOraPrenotazione",
+                    render: function (data, type, row) {
+                        if (type === "display" || type === "filter")
+                        {
+                            var dateTime = DateTimeSplit(data);
+                            return FormatDateDDMMAAAA(dateTime.Date)
+                        }
+
+                        return data;
+                    }
                 },
                 {
-                    title: "Laboratorio"
+                    data: "dataOraPrenotazione",
+                    render: function (data, type, row) {
+                        if (type === "display" || type === "filter")
+                        {
+                            var dateTime = DateTimeSplit(data);
+                            return dateTime.Time
+                        }
+
+                        return data;
+                    }
                 },
                 {
-                    title: "Modifica"
+                    data: "laboratorio",
                 },
                 {
-                    title: "Elimina"
+                    data: "listaAnalisi",
+                    render: function (data, type, row) {
+                        if (type === "display" || type === "filter")
+                        {
+                            var listaAnalisi = data[0].tipo + " " + data[0].nome;
+                            return `<button title="Visualizza" type="button" class="btn btn-link" onclick="GenerateInfoModal('${listaAnalisi}')"><i class="fas fa-list"></i></button>`;
+                        }
+
+                        return data;
+                    }
+                },
+                //Tasto modifica prenotazione
+                {
+                    data: null,
+                    render: function (data, type, row) {
+                        if (type === "display")
+                        {
+                            return `<button title="Modifica" type="button" class="btn btn-primary" onclick="EditReservation('${row.id}', '${row.cf}', '${row.ts}')"><i class="fas fa-edit"></i></button>`;
+                        }
+
+                        return "";
+                    }
+                },
+                //Tasto elimina prenotaazione
+                {
+                    data: null,
+                    render: function (data, type, row) {
+                        if (type === "display")
+                        {
+                            var id = row.id;
+                            var cf = row.cf;
+                            var ts = row.ts;
+                            var handler = function(id, cf, ts) { DeleteReservation(id, cf, ts) }
+                            return `<button title="Elimina" type="button" class="btn btn-danger" onclick="GeneratePromptModal('Confermi eliminazione?', ${handler})"><i class="fas fa-trash"></i></button>`;
+                        }
+
+                        return "";
+                    }
                 }
             ]
         });

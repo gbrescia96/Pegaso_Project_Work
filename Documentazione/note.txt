@@ -1,2 +1,2 @@
 python + flask + flask-cors
-documentazione
+modifica datatable.js, parametro sSearch, riga 10797 con traduzione ita e 10827 parametro zeroRecord

@@ -127,7 +127,8 @@ class Prenotazione:
         return self
 
     # Validatore codice fiscale
-    def validator_codice_fiscale(self, codice_fiscale):
+    @staticmethod
+    def validator_codice_fiscale(codice_fiscale):
         if len(codice_fiscale) != 16:
             return False
 
@@ -150,7 +151,8 @@ class Prenotazione:
 
 
     # Validatore per codice tessera sanitaria
-    def validator_tessera_sanitaria(self, codice):
+    @staticmethod
+    def validator_tessera_sanitaria(codice):
         if len(codice) != 20:
             return False
 
@@ -174,18 +176,18 @@ class Prenotazione:
             return False
 
         ente = codice[8:11]
-        if not validator_codice_ente(ente):
+        if not Prenotazione.validator_codice_ente(ente):
             return False
 
         # I successivi 9 caratteri devono essere cifre
         if not codice[11:20].isdigit():
             return False
 
-
         return True
     
 
     # Oltre alle regioni vi sono i tre codici speciali (001, 002, 003) di SASN Genova, Napoli e AIRE
+    @staticmethod
     def validator_codice_ente(codice_regione):
         regioni_valide = {
             "010", "020", "030", "041", "042", "050", "060", "070", "080", "090",

@@ -18,7 +18,7 @@ def get_prenotazione():
         ts = request.args.get('ts', type=str)
         prenotazione = svc_get_prenotazione(id, cf, ts)
         if prenotazione:
-            return HttpResponse(200, data=prenotazione.to_json()).to_json()
+            return HttpResponse(200, payload=prenotazione.to_json()).to_json()
         else:
             return HttpResponse(404, error_message="Prenotazione non trovata").to_json()
     except Exception as ex:
@@ -36,7 +36,7 @@ def get_lista_prenotazioni():
             for prenotazione in prenotazioni:
                 lista_prenotazioni.append(prenotazione.to_json())
 
-            return HttpResponse(200, data=lista_prenotazioni).to_json()
+            return HttpResponse(200, payload=lista_prenotazioni).to_json()
         else:
             return HttpResponse(404, error_message="Il codice fiscale indicato non ha prenotazioni registrate").to_json()
     except Exception as ex:
@@ -57,7 +57,7 @@ def add_prenotazione():
             return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 
         prenotazione = svc_add_prenotazione(prenotazione)    
-        return HttpResponse(200, data=prenotazione.to_json()).to_json()
+        return HttpResponse(200, payload=prenotazione.to_json()).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 
@@ -76,7 +76,7 @@ def update_prenotazione():
             return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 
         prenotazione = svc_update_prenotazione(prenotazione)    
-        return HttpResponse(200, data=prenotazione.to_json()).to_json()
+        return HttpResponse(200, payload=prenotazione.to_json()).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 
@@ -85,9 +85,9 @@ def delete_prenotazione():
     try:
         id = request.args.get('id', type=str)
         cf = request.args.get('cf', type=str)
-        cf = request.args.get('ts', type=str)
+        ts = request.args.get('ts', type=str)
         svc_delete_prenotazione(cf, id, ts) 
-        return HttpResponse(204, data=None).to_json()
+        return HttpResponse(204, payload=None).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 

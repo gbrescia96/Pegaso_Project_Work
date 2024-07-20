@@ -30,10 +30,10 @@
                     <input id="wTs" type="text" class="form-control" maxlength="20">
                 </div>
                 <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-1 d-flex align-items-end">
-                    <button title="Ricerca" type="button" class="btn btn-info w-100" onclick="GetReservationList()"><i class="fas fa-search"></i></button>
+                    <button title="Ricerca" type="button" class="btn btn-dark w-100" onclick="GetReservationList()"><i class="fas fa-search"></i></button>
                 </div>
             </div>
-            <hr />
+            <hr class="line-separator-blue" />
             <div id="wDivResult">
   
             <table id="wTableResult" class=" w-100 row-border">
@@ -86,7 +86,7 @@
             return;
         }
 
-        response = response.response_data;
+        response = response.payload;
         GenerateTable(response);
     }
 

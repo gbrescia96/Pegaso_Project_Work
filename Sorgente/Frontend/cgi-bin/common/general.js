@@ -43,7 +43,7 @@ async function ExecuteApiCall(methodType, apiEndpoint, urlParams = {}, body = nu
   } 
   catch (error) 
   {
-    return { code: 500, error_message: "Il server non risponde" };
+    return { code: 503, error_message: "Il server non risponde" };
   }
 }
 

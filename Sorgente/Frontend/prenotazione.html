@@ -35,6 +35,7 @@
         <li class="breadcrumb-item" id="breadcrumb-appuntamento">APPUNTAMENTO</li>
       </ol>
     </nav>
+    <hr class="line-separator-blue" />
     <div id="wDivErrore">
       <h3>Non trovata</h3>
       <a href="prenotazione.html">Inserisci nuova</a>
@@ -84,169 +85,170 @@
 
       <div id="section-esami">
         <h3>Area prenotazione</h3>
-        <div class="row">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-4">
-                <div class="card">
-                  <img class="card-img-top" src="..." alt="Card image cap" />
-                  <div class="card-body">
-                    <h5 class="card-title">Esami sangue</h5>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Sangue" value="emocromo" />
-                      <label class="form-check-label">Emocromo completo</label>
-                      <br />
-                      <small class="form-text text-muted">Esame dei valori del sangue, compresi
-                        globuli rossi, bianchi e piastrine.</small>
-                    </div>
-                    <div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" data-scope="Sangue" value="profilo-lipidico" />
-                        <label class="form-check-label">Profilo lipidico (colesterolo,
-                          trigliceridi)</label>
-                        <br />
-                        <small class="form-text text-muted">Misura dei livelli di colesterolo
-                          totale, HDL, LDL e trigliceridi nel sangue.</small>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" data-scope="Sangue" value="glicemia" />
-                        <label class="form-check-label">Glicemia</label>
-                        <br />
-                        <small class="form-text text-muted">Misura del livello di glucosio nel
-                          sangue, importante per il controllo del diabete.</small>
-                      </div>
-                    </div>
-                    <div class="checkbox-group">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" data-scope="Sangue"
-                          value="funzionalita-epatica" />
-                        <label class="form-check-label">Funzionalità epatica (AST, ALT)</label>
-                        <br />
-                        <small class="form-text text-muted">Valutazione degli enzimi epatici per
-                          monitorare la salute del fegato.</small>
-                      </div>
-                    </div>
-                    <div class="checkbox-group">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" data-scope="Sangue" value="test-tiroide" />
-                        <label class="form-check-label">Test della tiroide (TSH, T3, T4)</label>
-                        <br />
-                        <small class="form-text text-muted">Valutazione della funzionalità tiroidea attraverso i livelli
-                          di TSH, T3 e T4.</small>
-                      </div>
-                    </div>
-                  </div>
+        <div class="block-item block-item-border-red">
+          <h2 class="text-center text-lab-red">Esami del sangue</h2>
+          <hr class="line-separator-red" />
+          <div class="d-flex flex-wrap flex-sm-nowrap">
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Sangue" value="emocromo" />
+                <label class="form-check-label">Emocromo completo</label>
+                <br />
+                <small class="form-text text-muted">Esame dei valori del sangue, compresi
+                  globuli rossi, bianchi e piastrine.</small>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="card">
-                  <img class="card-img-top" src="..." alt="Card image cap" />
-                  <div class="card-body">
-                    <h5 class="card-title">Esami urine</h5>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Urine" value="creatinina" />
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Sangue" value="profilo-lipidico" />
+                  <label class="form-check-label">Profilo lipidico (colesterolo,
+                    trigliceridi)</label>
+                  <br />
+                  <small class="form-text text-muted">Misura dei livelli di colesterolo
+                    totale, HDL, LDL e trigliceridi nel sangue.</small>
+                </div>
+              </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Sangue" value="glicemia" />
+                  <label class="form-check-label">Glicemia</label>
+                  <br />
+                  <small class="form-text text-muted">Misura del livello di glucosio nel
+                    sangue, importante per il controllo del diabete.</small>
+                </div>
+              </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Sangue"
+                    value="funzionalita-epatica" />
+                  <label class="form-check-label">Funzionalità epatica (AST, ALT)</label>
+                  <br />
+                  <small class="form-text text-muted">Valutazione degli enzimi epatici per
+                    monitorare la salute del fegato.</small>
+                </div>
+              </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Sangue" value="test-tiroide" />
+                  <label class="form-check-label">Test della tiroide (TSH, T3, T4)</label>
+                  <br />
+                  <small class="form-text text-muted">Valutazione della funzionalità tiroidea attraverso i livelli
+                    di TSH, T3 e T4.</small>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <div class="block-item block-item-border-yellow">
+          <h2 class="text-center text-lab-yellow">Esami delle urine</h2>
+          <hr class="line-separator-yellow" />
+          <div class="d-flex flex-wrap flex-sm-nowrap">
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Urine" value="creatinina" />
                       <label class="form-check-label">Clearance della creatinina</label>
                       <br />
                       <small class="form-text text-muted">Misura della quantità di creatinina
                         eliminata nelle urine per valutare la funzionalità renale.</small>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Urine" value="urinocoltura" />
-                      <label class="form-check-label">Urinocoltura</label>
-                      <br />
-                      <small class="form-text text-muted">Esame delle urine per rilevare e
-                        identificare batteri e altri microrganismi.</small>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Urine" value="test-gravidanza" />
-                      <label class="form-check-label">Test di gravidanza</label>
-                      <br />
-                      <small class="form-text text-muted">Test per determinare la presenza
-                        dell'ormone hCG, indicativo di gravidanza.</small>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Urine" value="proteinuria" />
-                      <label class="form-check-label">Proteinuria</label>
-                      <br />
-                      <small class="form-text text-muted">Misura della quantità di proteine nelle
-                        urine, indicativa di problemi renali.</small>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Urine" value="microalbuminuria" />
-                      <label class="form-check-label">Microalbuminuria</label>
-                      <br />
-                      <small class="form-text text-muted">Misura di piccole quantità di albumina
-                        nelle urine, importante per il monitoraggio del diabete e malattie
-                        renali.</small>
-                    </div>
-                  </div>
+              </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Urine" value="urinocoltura" />
+                  <label class="form-check-label">Urinocoltura</label>
+                  <br />
+                  <small class="form-text text-muted">Esame delle urine per rilevare e
+                    identificare batteri e altri microrganismi.</small>
                 </div>
               </div>
-              <div class="col-4">
-                <div class="card">
-                  <img class="card-img-top" src="..." alt="Card image cap" />
-                  <div class="card-body">
-                    <h5 class="card-title">Esami nutrizionali</h5>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-d" />
-                      <label class="form-check-label">Test della vitamina D</label>
-                      <br />
-                      <small class="form-text text-muted">Misura i livelli di vitamina D nel
-                        sangue, essenziale per la salute delle ossa e del sistema
-                        immunitario.</small>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-b12" />
-                      <label class="form-check-label">Test della vitamina B12</label>
-                      <br />
-                      <small class="form-text text-muted">Determina i livelli di vitamina B12 nel
-                        sangue, importante per la produzione di globuli rossi e il funzionamento
-                        del sistema nervoso.</small>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="folati" />
-                      <label class="form-check-label">Test dei folati</label>
-                      <br />
-                      <small class="form-text text-muted">Misura i livelli di folati nel sangue, fondamentali per la
-                        sintesi del DNA e la salute del sistema nervoso.</small>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="ferro" />
-                      <label class="form-check-label">Test del ferro e della ferritina</label>
-                      <br />
-                      <small class="form-text text-muted">Valuta i livelli di ferro e ferritina
-                        nel sangue, cruciali per il trasporto dell'ossigeno e la salute
-                        generale.</small>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="elettroliti" />
-                      <label class="form-check-label">Test degli elettroliti</label>
-                      <br />
-                      <small class="form-text text-muted">Misura i livelli di elettroliti (sodio,
-                        potassio, calcio, magnesio) nel sangue, importanti per l'equilibrio
-                        idrico e il funzionamento di nervi e muscoli.</small>
-                    </div>
-                  </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Urine" value="proteinuria" />
+                  <label class="form-check-label">Proteinuria</label>
+                  <br />
+                  <small class="form-text text-muted">Misura della quantità di proteine nelle
+                    urine, indicativa di problemi renali.</small>
                 </div>
               </div>
-            </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Sangue"
+                    value="funzionalita-epatica" />
+                  <label class="form-check-label">Funzionalità epatica (AST, ALT)</label>
+                  <br />
+                  <small class="form-text text-muted">Valutazione degli enzimi epatici per
+                    monitorare la salute del fegato.</small>
+                </div>
+              </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Urine" value="microalbuminuria" />
+                  <label class="form-check-label">Microalbuminuria</label>
+                  <br />
+                  <small class="form-text text-muted">Misura di piccole quantità di albumina
+                    nelle urine, importante per il monitoraggio del diabete e malattie
+                    renali.</small>
+                </div>
+              </div>
           </div>
         </div>
-        <hr />
-          <div class="row justify-content-center">
-            <div class="col-xl-2">
-              <button type="button" onclick="ShowSection('anagrafica')" class="btn btn-dark w-100">Indietro</button>
+
+        <div class="block-item block-item-border-green">
+          <h2 class="text-center text-lab-green">Esami nutrizionali</h2>
+          <hr class="line-separator-green" />
+          <div class="d-flex flex-wrap flex-sm-nowrap">
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-d" />
+                <label class="form-check-label">Test della vitamina D</label>
+                <br />
+                <small class="form-text text-muted">Misura i livelli di vitamina D nel
+                  sangue, essenziale per la salute delle ossa e del sistema
+                  immunitario.</small>
+              </div>
             </div>
-            <div class="col-xl-2">
-              <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100">Avanti</button>
-            </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-b12" />
+                  <label class="form-check-label">Test della vitamina B12</label>
+                  <br />
+                  <small class="form-text text-muted">Determina i livelli di vitamina B12 nel
+                    sangue, importante per la produzione di globuli rossi e il funzionamento
+                    del sistema nervoso.</small>
+                </div>
+              </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="folati" />
+                  <label class="form-check-label">Test dei folati</label>
+                  <br />
+                  <small class="form-text text-muted">Misura i livelli di folati nel sangue, fondamentali per la
+                    sintesi del DNA e la salute del sistema nervoso.</small>
+                </div>
+              </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="ferro" />
+                  <label class="form-check-label">Test del ferro e della ferritina</label>
+                  <br />
+                  <small class="form-text text-muted">Valuta i livelli di ferro e ferritina
+                    nel sangue, cruciali per il trasporto dell'ossigeno e la salute
+                    generale.</small>
+                </div>
+              </div>
+              <div class="checkbox-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="elettroliti" />
+                  <label class="form-check-label">Test degli elettroliti</label>
+                  <br />
+                  <small class="form-text text-muted">Misura i livelli di elettroliti (sodio,
+                    potassio, calcio, magnesio) nel sangue, importanti per l'equilibrio
+                    idrico e il funzionamento di nervi e muscoli.</small>
+                </div>
+              </div>
           </div>
+        </div>
       </div>
-
-
-
 
       <div id="section-appuntamento">
         <h3>Appuntamento</h3>
@@ -409,7 +411,7 @@
       }
 
       $("#wFormPrenotazione").show();
-      var data = response.response_data;
+      var data = response.payload;
       existingReservationData = data;
       isNewReservation = false;
       var stringAlertMessage = `La prenotazione è stata inserita il <b>${FormatDateDDMMAAAA(data.dataOraInserimento)} alle ${GetHoursMinutesFromDateTime(data.dataOraInserimento)}</b>`;

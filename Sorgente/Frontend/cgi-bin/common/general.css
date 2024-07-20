@@ -5,6 +5,7 @@ html, body {
     margin: 0;
     display: flex;
     flex-direction: column;
+    background-color: #f0f0f0;
 }
 
 .navbar {
@@ -18,32 +19,6 @@ html, body {
 .navbar-nav .nav-item.active .nav-link {
     font-weight: bold;
     color: #007bff !important;
-}
-
-.hero-section {
-    background: url('../img/background_lab.png') no-repeat center center;
-    background-size: cover;
-    color: white;
-    padding: 150px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    position: relative;
-}
-
-.hero-section h1 {
-    font-family: 'Arial', sans-serif;
-    font-size: 3rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-.hero-section p {
-    font-family: 'Arial', sans-serif;
-    font-size: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .container {
@@ -75,16 +50,77 @@ h3 {
     border-color: #6c757d;
 }
 
-/* Alert box */
-.alert-primary {
-    background-color: #cce5ff;
-    color: #004085;
-    border-color: #b8daff;
+input[readonly] {
+    background-color: #d4d1d1;
 }
 
-.marketing .col-lg-3 {
+.full-screen-bg {
+    background: url('../../img/background_lab.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #007bff; /* Blu scuro */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Ombreggiatura attorno al testo */
+}
+
+.main-lab-title {
+    font-size: 8rem;
+}
+
+.main-lab-sub-title {
+    font-size: 5rem;
+}
+
+
+.main-lab-show-more {
+    font-size: 3rem;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+
+#info, #wDivInfo {
+    padding: 50px;
     text-align: center;
-    margin-bottom: 20px;
+}
+
+.main-lab-show-more::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #007bff;
+    transform-origin: bottom right;
+    animation: underlineAnimation 2s infinite ease-in-out;
+}
+
+@keyframes underlineAnimation {
+    0% {
+        transform: scaleX(0);
+        transform-origin: bottom right;
+    }
+    50% {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+    100% {
+        transform: scaleX(0);
+        transform-origin: bottom left;
+    }
+}
+
+.main-content {
+    flex: 1;
+    width: 100%;
+    position: relative;
 }
 
 .footer {
@@ -94,12 +130,89 @@ h3 {
     flex-shrink: 0; /* Prevents the footer from shrinking */
 }
 
-.carousel-item img {
-    width: 100%;
-    height: 500px; /* Altezza del carousel */
-    object-fit: cover; /* Adatta l'immagine mantenendo le proporzioni */
+   /* Carousel Styles */
+   .carousel-container {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
 }
 
-input[readonly] {
-    background-color: #d4d1d1;
+.carousel-slide {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+.carousel-item .card {
+    margin: 20px;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+
+.breadcrumb {
+  background-color: transparent;
+  padding: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.breadcrumb-item {
+  font-size: 1.2em;
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+}
+
+.breadcrumb-item.active {
+  font-weight: bold;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "●";
+  margin: 0 10px;
+  color: #007bff;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-item {
+      font-size: 1em;
+  }
+}
+
+
+#section-anagrafica, #section-esami, #section-appuntamento {
+  display: none;
+}
+
+#section-anagrafica.active, #section-esami.active, #section-appuntamento.active {
+  display: block;
 }

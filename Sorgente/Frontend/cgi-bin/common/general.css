@@ -12,6 +12,7 @@ html, body {
     display: flex;
     flex-direction: column;
     background-color: #f0f0f0;
+    font-size: 1.2rem;
 }
 
 .text-lab-blue {
@@ -49,13 +50,6 @@ html, body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Aggiunta di ombra per dare profondità */
     padding: 20px;
 }
-
-/* Section headers */
-h3 {
-    color: var(--lab-color-blue); /* Blu scuro per i titoli delle sezioni */
-    margin-bottom: 20px;
-}
-
 
 input[readonly] {
     background-color: #d4d1d1;
@@ -184,8 +178,6 @@ input[readonly] {
 }
 
 .block-item {
-  margin-left: 10px;
-  padding-left: 15px;
   margin-bottom: 20px;
   background-color: #f9f9f9;
   padding: 15px;

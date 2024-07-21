@@ -335,12 +335,12 @@ function GenerateNavbar()
   var navbar = `
      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand fw-bold" href="#" style="font-size: 2rem">
                     <i class="fas fa-vials"></i>
                     <!-- <img src="img/background_lab.png" alt="Laboratory" width="30" height="30" class="d-inline-block align-top" hidden> -->
-                    Brescia
+                    L.A.B.
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#wDivNavbar" aria-controls="wDivNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#wDivNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="wDivNavbar">
@@ -353,9 +353,6 @@ function GenerateNavbar()
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="ricerca.html">Ricerca</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html">Contatti</a>
                         </li>
                     </ul>
                 </div>

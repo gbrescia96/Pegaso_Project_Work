@@ -33,6 +33,7 @@
         <li data-scope="anagrafica" class="breadcrumb-item active" onclick="ShowSection('anagrafica')">ANAGRAFICA</li>
         <li data-scope="esami" class="breadcrumb-item" onclick="ShowSection('esami')">ESAMI</li>
         <li data-scope="appuntamento" class="breadcrumb-item" onclick="ShowSection('appuntamento')">APPUNTAMENTO</li>
+        <li data-scope="preconferma" class="breadcrumb-item" onclick="ShowSection('preconferma')">CONTROLLA E INVIA</li>
       </ol>
     </nav>
     <hr class="line-separator-blue" />
@@ -284,7 +285,6 @@
         <div class="row">
           <div class="col-3">
             <label>Data e ora</label>
-            <small>* Dal lunedì al venerdì, dalle 08:00 alle 18:00</small>
             <input id="wPrDataOra" type="datetime-local" class="form-control" />
           </div>
           <div class="col-3">
@@ -302,10 +302,35 @@
             <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100">Indietro</button>
           </div>
           <div class="col-3">
+            <button type="button" class="btn btn-primary w-100" onclick="ShowSection('preconferma')">Avanti</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="section-preconferma">
+        <div class="row">
+          <div class="col-12">
+            <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
+              <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
+              <div>
+                <p>y</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label class="form-check-label"><input class="form-check-input" type="checkbox" />Confermo la veridicità e correttezza dei dati</label>
+        </div>
+        <hr />
+        <div class="row justify-content-center">
+          <div class="col-xl-2">
+            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100">Indietro</button>
+          </div>
+          <div class="col-3">
             <button type="reset" class="btn btn-primary w-100" onclick="ResetForm()">Reset</button>
           </div>
           <div class="col-3">
-            <button type="button" class="btn btn-primary w-100" onclick="RiassuntoPrenotazione()">Invia</button>
+            <button type="button" class="btn btn-primary w-100" onclick="UpsertReservation()">Invia</button>
           </div>
         </div>
       </div>
@@ -322,33 +347,33 @@
       var cf = params.get("cf");
       var ts = params.get("ts");
       if (id != null && cf != null && ts != null)
+      {
+
         GetReservation(id, cf, ts);
+      }
       else {
         $("#wFormPrenotazione").show();
-        ShowSection("anagrafica", false);
+        ShowSection("anagrafica");
       }
     });
 
     //Visualizza una sezione specifica, nascondendo le altre e accendendo la voce specifica nel breadcrumb.
-    //Di default vengono eseguiti tutti i controlli sui campi prima di cambiare sezione
-    function ShowSection(section, validateActualSectionBeforeChange = true) {
-      if (validateActualSectionBeforeChange)
-      {
-        //Prendi la sezione dall'attributo scope nella voce attualmente attiva del breadcrumb
-        var actualSection = $("#breadcrumb li.active").attr("data-scope");
-        console.log(actualSection);
-        var isSubSectionValid = ValidatorSubSection(actualSection);
-        if (isSubSectionValid == false)
-          return;
-      }
-
-      //Togli l'active da tutti
+    function ShowSection(targetSection) {
+      //Rimuovi l'active attuale e cicla nello scope di ogni tag nel breadcrumb. 
+      //Saranno nascoste tutte le sezioni tranne quella esplicitamente indicata nel parametro targetSection
       $("#breadcrumb .breadcrumb-item").removeClass("active");
-      $("#section-anagrafica, #section-esami, #section-appuntamento").removeClass("active");
-
-      //Aggiungi active sulla sezione corrente e visualizza il div section specifico
-      $(`#breadcrumb li[data-scope="${section}"]`).addClass("active");
-      $(`#section-${section}`).addClass("active");
+      $("#breadcrumb li").each(function(){
+        var thisSection = $(this).attr("data-scope");
+        if (thisSection != targetSection)
+        {
+          $(`#section-${thisSection}`).hide();
+        }
+        else
+        {
+          $(`#breadcrumb li[data-scope="${targetSection}"]`).addClass("active");
+          $(`#section-${targetSection}`).show();
+        }
+      });
 
       //Nascondi div alert guida
       $('div[data-scope="guide"]').each(function () {
@@ -368,8 +393,11 @@
       }
     }
 
+    //Contiene la validazione dei campi di ogni sotto-sezione
     function ValidatorSubSection(section) {
+      console.log(section)
       if (section == "anagrafica") {
+        return true;
         var validator;
         if (IsNullOrEmpty($("#wPrNome").val())) {
           PushNotification("error", "Il campo nome è vuoto");
@@ -392,7 +420,6 @@
           return false;
         }
 
-
         if (IsNullOrEmpty($("#wPrTs").val())) {
           PushNotification("error", "Il campo tessera sanitaria è vuoto");
           return false;
@@ -405,21 +432,74 @@
         }
 
         if (IsNullOrEmpty($("#wPrEmail").val())) {
-          PushNotification("error", "Il campo codice fiscale è vuoto");
+          PushNotification("error", "Il campo e-mail è vuoto");
           return false;
         }
 
         validator = ValidatorEmail($("#wPrEmail").val());
         if (validator.IsValid == false) {
-          PushNotification("error", `L'email non è valida: ${validator.Error}`);
+          PushNotification("error", `L'e-mail non è valida: ${validator.Error}`);
           return false;
         }
       }
       else if (section == "esami") {
-
+        return true;
+        var listExams = GetExamsSelectedFromCheckboxes();
+        if (listExams.length == 0)
+        {
+          PushNotification("error", "È necessario selezionare almeno un esame")
+          return false;
+        }
       }
-      else {
+      else if (section == "appuntamento") {
+        var dateTime = GetDateTimeFromString($("#wPrDataOra").val());
+        if (dateTime < new Date())
+        {
+          PushNotification("error", "Data e ora non possono essere minori di adesso");
+          return false;
+        }
 
+        if (dateTime == null) {
+          PushNotification("error", "Data e ora prenotazione non hanno un formato valido");
+          return false;
+        }
+
+        if (CheckReservationDay(dateTime) == false) {
+          PushNotification("error", "Il giorno deve essere compreso tra lunedì e venerdì")
+          return false;
+        }
+
+        if (CheckReservationTimeRange(dateTime) == false) {
+          PushNotification("error", "L'orario deve essere compreso tra le 08:00 e le 18:00")
+          return false;
+        }
+
+        if (CheckReservationTimeRange(dateTime) == false) {
+          PushNotification("error", "L'orario deve essere compreso tra le 08:00 e le 18:00")
+          return false;
+        }
+      
+        //TODO: controllo prossimi 30 minuti
+        var nextHalfHour = new Date(dateReservation);
+        nextHalfHour.setMinutes(nextHalfHour.getMinutes() + 30);
+        if (CheckReservationTimeNextHalfHour(dateTime) == false) {
+          PushNotification("error", "L'orario deve essere almeno tra 30 minuti")
+          return false;
+        }
+
+        //In caso di modifica prenotazione il giorno e l'ora devono essere relativi al giorno successivo a quello già presente, rispettando i vincoli precedenti
+        if (isNewReservation == false && CheckReservationNextDay(dateTime) == false) {
+          PushNotification("error", "Il giorno dev'essere il primo lavorativo successivo ad oggi")
+          return false;
+        }
+      }
+      else if (section == "preconferma")
+      {
+        if ($("#wCheckConfirmPr").is(":checked") == false)
+        {
+          PushNotification("error", "È necessaria l'esplicita conferma dei dati inseriti prima di inviare la prenotazione")
+          return false;
+        }
       }
 
       return true;
@@ -438,7 +518,7 @@
       return true;
     }
 
-    function CheckReservationTime(dateTime = null) {
+    function CheckReservationTimeRange(dateTime = null) {
       if (dateTime == null)
         return false;
 
@@ -450,9 +530,22 @@
       return true;
     }
 
+    function CheckReservationTimeNextHalfHour(dateReservation = null) {
+      if (dateReservation == null)
+        return false;
+  
+      var nextHalfHour = new Date(dateReservation);
+      nextHalfHour.setMinutes(nextHalfHour.getMinutes() + 30);
+
+      if (dateReservation < nextHalfHour)
+        return false;
+
+      return true;
+    }
+
     function CheckReservationNextDay(dateTime) {
       var dateTimeTomorrow = dateTime.getDay() + 1;
-      return CheckReservationDay(dateTimeTomorrow) && CheckReservationTime(dateTimeTomorrow);
+      return CheckReservationDay(dateTimeTomorrow) && CheckReservationTimeRange(dateTimeTomorrow);
     }
 
 
@@ -477,7 +570,7 @@
         return false;
       }
 
-      if (CheckReservationTime(dateTime) == false) {
+      if (CheckReservationTimeRange(dateTime) == false) {
         PushNotification("error", "L'orario deve essere compreso tra le 08:00 e le 18:00")
         return false;
       }
@@ -537,36 +630,21 @@
     async function UpsertReservation() {
       var response = null;
 
-      //Validazioni data/ora
-      if (CheckDateTimeReservation() == false)
-        return;
-
-      var validatorResult;
-      var cf = $("#wPrCf").val();
-      var ts = $("#wPrTs").val();
-
-      //Validazione CF
-      validatorResult = ValidatorCodiceFiscale(cf);
-      if (validatorResult.IsValid == false) {
-        PushNotification("error", `Codice fiscale non valido: ${validatorResult.Error}`);
-        return;
+      if (ValidatorSubSection("anagrafica") == false ||
+          ValidatorSubSection("esami") == false ||
+          ValidatorSubSection("appuntamento") == false || 
+          ValidatorSubSection("preconferma") == false)
+      {
+        return false;
       }
-
-      //Validazione TS
-      validatorResult = ValidatorTesseraSanitaria(ts);
-      if (validatorResult.IsValid == false) {
-        PushNotification("error", `Tessera sanitaria non valida: ${validatorResult.Error}`);
-        return;
-      }
-
-      var listaAnalisi = GetListaAnalisiFromCheckbox();
+      
       jsonData =
       {
         id: $("#wPrId").val(),
         cf: $("#wPrCf").val(),
         dataOraPrenotazione: $("#wPrDataOra").val(),
         laboratorio: $("#wPrLaboratorio").val(),
-        listaAnalisi: listaAnalisi,
+        listaAnalisi: GetExamsSelectedFromCheckboxes(),
       };
 
       PushNotification("info", "call disattivata");
@@ -586,7 +664,7 @@
 
 
     //Recupero array delle analisi selezionate dalle checkbox
-    function GetListaAnalisiFromCheckbox() {
+    function GetExamsSelectedFromCheckboxes() {
       var listaAnalisi = [];
       $('input[type="checkbox"][data-scope]').each(function () {
         if ($(this).is(":checked")) {
@@ -601,7 +679,7 @@
 
     //Riassumi la prenotazione in un modal per un controllo finale. Il modal visualizzato conterrà l'handler per chiamare UpsertReservation in caso di esisto positivo.
     function RiassuntoPrenotazione() {
-      listaAnalisi = GetListaAnalisiFromCheckbox();
+      listaAnalisi = GetExamsSelectedFromCheckboxes();
       if (listaAnalisi.length == 0) {
         PushNotification("error", "Non è stato selezionato alcun esame");
         return;
@@ -617,9 +695,6 @@
         acc += `<p><b>${tipo}</b>: ${esami}</p>`;
         return acc;
       }, "");
-
-      if (CheckDateTimeReservation() == false)
-        return;
 
       GeneratePromptModal(summary,
         function () {

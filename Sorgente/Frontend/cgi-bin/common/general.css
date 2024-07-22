@@ -150,14 +150,6 @@ input[readonly] {
       font-size: 1em;
   }
 }
-/* Gestione aree del form non attive o attive */
-#section-anagrafica, #section-esami, #section-appuntamento {
-  display: none;
-}
-
-#section-anagrafica.active, #section-esami.active, #section-appuntamento.active {
-  display: block;
-}
 
 /* Gestione di un blocco di testo con margine laterale colorato e proprietà comuni (ogni colore ha la classe dedicata) */
 .block-item {

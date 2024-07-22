@@ -1,4 +1,4 @@
-/* Custom CSS for Laboratorio Analisi */
+/* Custom CSS per L.A.B. Laboratorio Analisi Brescia */
 :root {
   --lab-color-blue: #007bff;
   --lab-color-red: #ff5930;
@@ -15,46 +15,38 @@ html, body {
     font-size: 1.1rem;
 }
 
+/* Testi basati sui colori principali */
 .text-lab-blue {
   color: var(--lab-color-blue) !important;
 }
-
 .text-lab-red {
   color: var(--lab-color-red) !important;
 }
-
 .text-lab-green {
   color: var(--lab-color-green) !important;
 }
-
 .text-lab-yellow {
   color: var(--lab-color-yellow) !important;
 }
 
+/* Gestione navar fissa e colore del link attivo */
 .navbar {
-    background-color: #343a40; /* Background scuro per la navbar */
+    background-color: #343a40; /* Background navbar */
 }
-
 .navbar-nav .nav-item .nav-link {
     color: white !important;
 }
-
 .navbar-nav .nav-item.active .nav-link {
     font-weight: bold;
     color: var(--lab-color-blue)!important;
 }
 
-.container {
-    flex: 1 0 auto; /* Allows the container to grow and fill available space */
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Aggiunta di ombra per dare profondità */
-    padding: 20px;
-}
-
+/* Override degli input text con attributo readonly con colore di background grigio */
 input[readonly] {
     background-color: #d4d1d1;
 }
 
+/* Gestione della Homepage con immagine background, testi sovrapposti all'immegine e sezione di altre info */
 .full-screen-bg {
     background: url('../../img/background_lab.png') no-repeat center center;
     background-size: cover;
@@ -64,32 +56,25 @@ input[readonly] {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: #007bff; /* Blu scuro */
+    color: var(--lab-color-blue);
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Ombreggiatura attorno al testo */
 }
-
 .main-lab-title {
     font-size: 8rem;
 }
-
 .main-lab-sub-title {
     font-size: 5rem;
 }
-
-
 .main-lab-show-more {
     font-size: 3rem;
     cursor: pointer;
     position: relative;
     display: inline-block;
 }
-
-
 #info, #wDivInfo {
     padding: 50px;
     text-align: center;
 }
-
 .main-lab-show-more::after {
     content: '';
     position: absolute;
@@ -102,7 +87,6 @@ input[readonly] {
     transform-origin: bottom right;
     animation: underlineAnimation 2s infinite ease-in-out;
 }
-
 @keyframes underlineAnimation {
     0% {
         transform: scaleX(0);
@@ -118,6 +102,7 @@ input[readonly] {
     }
 }
 
+/* Ogni pagina contiene il main content e il footer, gestiti autonomamente rispetto al contenuto della pagina stessa */
 .main-content {
     flex: 1;
     width: 100%;
@@ -128,9 +113,11 @@ input[readonly] {
     background-color: #343a40;
     color: #ffffff;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
-    flex-shrink: 0; /* Prevents the footer from shrinking */
+    flex-shrink: 0;
 }
 
+
+/* Gestione sezioni del form prenotazione tramite breadcrumb */
 .breadcrumb {
   background-color: transparent;
   padding: 10px;
@@ -141,34 +128,29 @@ input[readonly] {
   align-items: center;
   gap: 10px;
 }
-
 .breadcrumb-item {
   font-size: 1.2em;
   display: inline-block;
   cursor: pointer;
   position: relative;
 }
-
 .breadcrumb-item.active {
   font-weight: bold;
   color: #007bff;
   text-decoration: underline;
 }
-
 .breadcrumb-item + .breadcrumb-item::before {
   content: "●";
   margin: 0 10px;
-  color: #007bff;
+  color: var(--lab-color-blue);
   font-weight: bold;
 }
-
 @media (max-width: 768px) {
   .breadcrumb-item {
       font-size: 1em;
   }
 }
-
-
+/* Gestione aree del form non attive o attive */
 #section-anagrafica, #section-esami, #section-appuntamento {
   display: none;
 }
@@ -177,6 +159,7 @@ input[readonly] {
   display: block;
 }
 
+/* Gestione di un blocco di testo con margine laterale colorato e proprietà comuni (ogni colore ha la classe dedicata) */
 .block-item {
   margin-bottom: 20px;
   background-color: #f9f9f9;
@@ -184,51 +167,53 @@ input[readonly] {
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 .block-item-border-blue
 {
   border-left: 10px solid var(--lab-color-blue);
 }
-
 .block-item-border-red
 {
   border-left: 10px solid var(--lab-color-red);
 }
-
 .block-item-border-green
 {
   border-left: 10px solid var(--lab-color-green);
 }
-
 .block-item-border-yellow
 {
   border-left: 10px solid var(--lab-color-yellow);
 }
 
+/* Linee di separazione con colore specifico. usato in combinazione con il separatore standard <hr /> ma reso generico per qualsiasi utilizzo */
 .line-separator-blue {
   border: none;
   height: 2px;
   background: linear-gradient(to right, rgba(0, 0, 255, 0) 0%, var(--lab-color-blue) 50%, rgba(0, 0, 255, 0) 100%);
   margin: 20px 0;
 }
-
 .line-separator-red {
   border: none;
   height: 2px;
   background: linear-gradient(to right, rgba(0, 0, 255, 0) 0%, var(--lab-color-red) 50%, rgba(0, 0, 255, 0) 100%);
   margin: 20px 0;
 }
-
 .line-separator-green {
   border: none;
   height: 2px;
   background: linear-gradient(to right, rgba(0, 0, 255, 0) 0%, var(--lab-color-green) 50%, rgba(0, 0, 255, 0) 100%);
   margin: 20px 0;
 }
-
 .line-separator-yellow {
   border: none;
   height: 2px;
   background: linear-gradient(to right, rgba(0, 0, 255, 0) 0%, var(--lab-color-yellow) 50%, rgba(0, 0, 255, 0) 100%);
   margin: 20px 0;
+}
+
+.alert-overlay {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8); /* Aggiunge uno sfondo semi-trasparente */
 }

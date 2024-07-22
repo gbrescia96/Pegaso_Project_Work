@@ -30,9 +30,9 @@
 
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb" id="breadcrumb">
-        <li class="breadcrumb-item active" id="breadcrumb-anagrafica">ANAGRAFICA</li>
-        <li class="breadcrumb-item" id="breadcrumb-esami">ESAMI</li>
-        <li class="breadcrumb-item" id="breadcrumb-appuntamento">APPUNTAMENTO</li>
+        <li data-scope="anagrafica" class="breadcrumb-item active" onclick="ShowSection('anagrafica')">ANAGRAFICA</li>
+        <li data-scope="esami" class="breadcrumb-item" onclick="ShowSection('esami')">ESAMI</li>
+        <li data-scope="appuntamento" class="breadcrumb-item" onclick="ShowSection('appuntamento')">APPUNTAMENTO</li>
       </ol>
     </nav>
     <hr class="line-separator-blue" />
@@ -42,49 +42,65 @@
     </div>
     <form id="wFormPrenotazione">
       <div id="section-anagrafica" class="active">
-          <h3>Dati anagrafici</h3>
-          <div class="row">
-            <input id="wPrId" type="text" hidden />
-            <div class="col-xl-1 d-flex align-items-end">
-              <select class="form-select">
-                <option value="Sig.">Sig.</option>
-                <option value="Sig.ra">Sig.ra</option>
-              </select>
-            </div>
-            <div class="col-3 col-xl-2">
-              <label>Nome</label>
-              <input id="wPrNome" type="text" class="form-control" />
-            </div>
-            <div class="col-3 col-xl-2">
-              <label>Cognome</label>
-              <input id="wPrCognome" type="text" class="form-control" />
-            </div>
-            <div class="col-3 col-xl-2">
-              <label>Codice fiscale</label>
-              <input id="wPrCf" type="text" class="form-control" maxlength="16" />
-            </div>
-            <div class="col-3 col-xl-2">
-              <label>Tessera Sanitaria</label>
-              <input id="wPrTs" type="text" class="form-control" maxlength="20" />
-            </div>
-            <div class="col-3 col-xl-2">
-              <label>E-mail</label>
-              <input id="wPrEmail" type="text" class="form-control" />
+        <div class="row">
+          <div class="col-12">
+            <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
+              <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
+              <div>
+                Inserisci le informazioni anagrafiche. Useremo l'e-mail per inviare i referti.
+                <b>Nota: dopo aver inviato la prenotazione puoi modificare solo l'e-mail.</b>
+              </div>
             </div>
           </div>
-          <hr />
-          <div class="row justify-content-center">
-            <div class="col-xl-2">
-              <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100">Avanti</button>
-            </div>
+        </div>
+        <div class="row">
+          <input id="wPrId" type="text" hidden />
+          <div class="col-xl-1 d-flex align-items-end">
+            <select class="form-select">
+              <option value="Sig.">Sig.</option>
+              <option value="Sig.ra">Sig.ra</option>
+            </select>
           </div>
+          <div class="col-3 col-xl-2">
+            <label>Nome</label>
+            <input id="wPrNome" type="text" class="form-control" />
+          </div>
+          <div class="col-3 col-xl-2">
+            <label>Cognome</label>
+            <input id="wPrCognome" type="text" class="form-control" />
+          </div>
+          <div class="col-3 col-xl-2">
+            <label>Codice fiscale</label>
+            <input id="wPrCf" type="text" class="form-control" maxlength="16" style="text-transform:uppercase;" />
+          </div>
+          <div class="col-3 col-xl-2">
+            <label>Tessera Sanitaria</label>
+            <input id="wPrTs" type="text" class="form-control" maxlength="20" />
+          </div>
+          <div class="col-3 col-xl-2">
+            <label>E-mail</label>
+            <input id="wPrEmail" type="text" class="form-control" />
+          </div>
+        </div>
+        <hr />
+        <div class="row justify-content-center">
+          <div class="col-xl-2">
+            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100">Avanti</button>
+          </div>
+        </div>
       </div>
 
-
-
-
       <div id="section-esami">
-        <h3>Area prenotazione</h3>
+        <div class="row">
+          <div class="col-12">
+            <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
+              <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
+              <div>
+                Seleziona gli esami da effettuare. È necessario selezionare almeno un esame prima di andare avanti.
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="block-item block-item-border-red">
           <h2 class="text-center text-lab-red">Esami del sangue</h2>
           <hr class="line-separator-red" />
@@ -96,46 +112,45 @@
                 <br />
                 <small class="form-text text-muted">Esame dei valori del sangue, compresi
                   globuli rossi, bianchi e piastrine.</small>
-                </div>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Sangue" value="profilo-lipidico" />
-                  <label class="form-check-label">Profilo lipidico (colesterolo,
-                    trigliceridi)</label>
-                  <br />
-                  <small class="form-text text-muted">Misura dei livelli di colesterolo
-                    totale, HDL, LDL e trigliceridi nel sangue.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Sangue" value="profilo-lipidico" />
+                <label class="form-check-label">Profilo lipidico (colesterolo,
+                  trigliceridi)</label>
+                <br />
+                <small class="form-text text-muted">Misura dei livelli di colesterolo
+                  totale, HDL, LDL e trigliceridi nel sangue.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Sangue" value="glicemia" />
-                  <label class="form-check-label">Glicemia</label>
-                  <br />
-                  <small class="form-text text-muted">Misura del livello di glucosio nel
-                    sangue, importante per il controllo del diabete.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Sangue" value="glicemia" />
+                <label class="form-check-label">Glicemia</label>
+                <br />
+                <small class="form-text text-muted">Misura del livello di glucosio nel
+                  sangue, importante per il controllo del diabete.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Sangue"
-                    value="funzionalita-epatica" />
-                  <label class="form-check-label">Funzionalità epatica (AST, ALT)</label>
-                  <br />
-                  <small class="form-text text-muted">Valutazione degli enzimi epatici per
-                    monitorare la salute del fegato.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Sangue" value="funzionalita-epatica" />
+                <label class="form-check-label">Funzionalità epatica (AST, ALT)</label>
+                <br />
+                <small class="form-text text-muted">Valutazione degli enzimi epatici per
+                  monitorare la salute del fegato.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Sangue" value="test-tiroide" />
-                  <label class="form-check-label">Test della tiroide (TSH, T3, T4)</label>
-                  <br />
-                  <small class="form-text text-muted">Valutazione della funzionalità tiroidea attraverso i livelli
-                    di TSH, T3 e T4.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Sangue" value="test-tiroide" />
+                <label class="form-check-label">Test della tiroide (TSH, T3, T4)</label>
+                <br />
+                <small class="form-text text-muted">Valutazione della funzionalità tiroidea attraverso i livelli
+                  di TSH, T3 e T4.</small>
               </div>
+            </div>
           </div>
         </div>
 
@@ -146,50 +161,49 @@
             <div class="checkbox-group">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" data-scope="Urine" value="creatinina" />
-                      <label class="form-check-label">Clearance della creatinina</label>
-                      <br />
-                      <small class="form-text text-muted">Misura della quantità di creatinina
-                        eliminata nelle urine per valutare la funzionalità renale.</small>
-                    </div>
+                <label class="form-check-label">Clearance della creatinina</label>
+                <br />
+                <small class="form-text text-muted">Misura della quantità di creatinina
+                  eliminata nelle urine per valutare la funzionalità renale.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Urine" value="urinocoltura" />
-                  <label class="form-check-label">Urinocoltura</label>
-                  <br />
-                  <small class="form-text text-muted">Esame delle urine per rilevare e
-                    identificare batteri e altri microrganismi.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Urine" value="urinocoltura" />
+                <label class="form-check-label">Urinocoltura</label>
+                <br />
+                <small class="form-text text-muted">Esame delle urine per rilevare e
+                  identificare batteri e altri microrganismi.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Urine" value="proteinuria" />
-                  <label class="form-check-label">Proteinuria</label>
-                  <br />
-                  <small class="form-text text-muted">Misura della quantità di proteine nelle
-                    urine, indicativa di problemi renali.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Urine" value="proteinuria" />
+                <label class="form-check-label">Proteinuria</label>
+                <br />
+                <small class="form-text text-muted">Misura della quantità di proteine nelle
+                  urine, indicativa di problemi renali.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Sangue"
-                    value="funzionalita-epatica" />
-                  <label class="form-check-label">Funzionalità epatica (AST, ALT)</label>
-                  <br />
-                  <small class="form-text text-muted">Valutazione degli enzimi epatici per
-                    monitorare la salute del fegato.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Sangue" value="funzionalita-epatica" />
+                <label class="form-check-label">Funzionalità epatica (AST, ALT)</label>
+                <br />
+                <small class="form-text text-muted">Valutazione degli enzimi epatici per
+                  monitorare la salute del fegato.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Urine" value="microalbuminuria" />
-                  <label class="form-check-label">Microalbuminuria</label>
-                  <br />
-                  <small class="form-text text-muted">Misura di piccole quantità di albumina
-                    nelle urine, importante per il monitoraggio del diabete e malattie
-                    renali.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Urine" value="microalbuminuria" />
+                <label class="form-check-label">Microalbuminuria</label>
+                <br />
+                <small class="form-text text-muted">Misura di piccole quantità di albumina
+                  nelle urine, importante per il monitoraggio del diabete e malattie
+                  renali.</small>
               </div>
+            </div>
           </div>
         </div>
 
@@ -207,51 +221,66 @@
                   immunitario.</small>
               </div>
             </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-b12" />
-                  <label class="form-check-label">Test della vitamina B12</label>
-                  <br />
-                  <small class="form-text text-muted">Determina i livelli di vitamina B12 nel
-                    sangue, importante per la produzione di globuli rossi e il funzionamento
-                    del sistema nervoso.</small>
-                </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-b12" />
+                <label class="form-check-label">Test della vitamina B12</label>
+                <br />
+                <small class="form-text text-muted">Determina i livelli di vitamina B12 nel
+                  sangue, importante per la produzione di globuli rossi e il funzionamento
+                  del sistema nervoso.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="folati" />
-                  <label class="form-check-label">Test dei folati</label>
-                  <br />
-                  <small class="form-text text-muted">Misura i livelli di folati nel sangue, fondamentali per la
-                    sintesi del DNA e la salute del sistema nervoso.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="folati" />
+                <label class="form-check-label">Test dei folati</label>
+                <br />
+                <small class="form-text text-muted">Misura i livelli di folati nel sangue, fondamentali per la
+                  sintesi del DNA e la salute del sistema nervoso.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="ferro" />
-                  <label class="form-check-label">Test del ferro e della ferritina</label>
-                  <br />
-                  <small class="form-text text-muted">Valuta i livelli di ferro e ferritina
-                    nel sangue, cruciali per il trasporto dell'ossigeno e la salute
-                    generale.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="ferro" />
+                <label class="form-check-label">Test del ferro e della ferritina</label>
+                <br />
+                <small class="form-text text-muted">Valuta i livelli di ferro e ferritina
+                  nel sangue, cruciali per il trasporto dell'ossigeno e la salute
+                  generale.</small>
               </div>
-              <div class="checkbox-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="elettroliti" />
-                  <label class="form-check-label">Test degli elettroliti</label>
-                  <br />
-                  <small class="form-text text-muted">Misura i livelli di elettroliti (sodio,
-                    potassio, calcio, magnesio) nel sangue, importanti per l'equilibrio
-                    idrico e il funzionamento di nervi e muscoli.</small>
-                </div>
+            </div>
+            <div class="checkbox-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="elettroliti" />
+                <label class="form-check-label">Test degli elettroliti</label>
+                <br />
+                <small class="form-text text-muted">Misura i livelli di elettroliti (sodio,
+                  potassio, calcio, magnesio) nel sangue, importanti per l'equilibrio
+                  idrico e il funzionamento di nervi e muscoli.</small>
               </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div id="section-appuntamento">
-        <h3>Appuntamento</h3>
+        <div class="row">
+          <div class="col-12">
+            <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
+              <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
+              <div>
+                Scegli data e ora per effettuare gli esami <b>dal lunedì al venerdì, dalle 08:00 alle 18:00</b>.
+                <br />
+                <b>Inserimento prenotazione: puoi selezionare la data di oggi ma l'ora dovrà essere almeno 30 minuti
+                  dopo rispetto alla prenotazione</b>
+                <br />
+                <b>Modifica prenotazione: la nuova data di prenotazione dovrà essere il giorno successivo a quello in
+                  cui si modifica la prenotazione</b>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-3">
             <label>Data e ora</label>
@@ -296,37 +325,102 @@
         GetReservation(id, cf, ts);
       else {
         $("#wFormPrenotazione").show();
-        ShowSection("anagrafica");
+        ShowSection("anagrafica", false);
       }
-
-      $("#breadcrumb-anagrafica").on('click', function () {
-        ShowSection("anagrafica");
-      });
-
-      $("#breadcrumb-esami").on('click', function () {
-        ShowSection("esami");
-      });
-
-      $("#breadcrumb-appuntamento").on('click', function () {
-        ShowSection("appuntamento");
-      });
     });
 
-    function ShowSection(section) {
+    function ShowSection(section, validateActualSectionBeforeChange = true) {
+      if (validateActualSectionBeforeChange)
+      {
+        //Prendi la sezione dall'atributo scope nella voce attualmente attiva del breadcrumb
+        var actualSection = $("#breadcrumb li.active").attr("data-scope");
+        console.log(actualSection);
+        var isSubSectionValid = ValidatorSubSection(actualSection);
+        if (isSubSectionValid == false)
+          return;
+      }
+
+      //Togli l'active da tutti
       $("#breadcrumb .breadcrumb-item").removeClass("active");
       $("#section-anagrafica, #section-esami, #section-appuntamento").removeClass("active");
 
-      if (section === "anagrafica") {
-        $("#breadcrumb-anagrafica").addClass("active");
-        $("#section-anagrafica").addClass("active");
-      } else if (section === "esami") {
-        $("#breadcrumb-esami").addClass("active");
-        $("#section-esami").addClass("active");
-      } else if (section === "appuntamento") {
-        $("#breadcrumb-appuntamento").addClass("active");
-        $("#section-appuntamento").addClass("active");
+      //Aggiungi active sulla sezione corrente e visualizza il div section specifico
+      $(`#breadcrumb li[data-scope="${section}"]`).addClass("active");
+      $(`#section-${section}`).addClass("active");
+
+      //Nascondi div alert guida
+      $('div[data-scope="guide"]').each(function () {
+        ShowAlert(this, true);
+      });
+    }
+
+    function ShowAlert(alert, forceClose = false) {
+      var guide = $(alert).find("div");
+      if (guide.is(":hidden") && !forceClose) {
+        guide.show();
+      }
+      else {
+        guide.hide();
       }
     }
+
+    function ValidatorSubSection(section) {
+      if (section == "anagrafica") {
+        var validator;
+        if (IsNullOrEmpty($("#wPrNome").val())) {
+          PushNotification("error", "Il campo nome è vuoto");
+          return false;
+        }
+
+        if (IsNullOrEmpty($("#wPrCognome").val())) {
+          PushNotification("error", "Il campo cognome è vuoto");
+          return false;
+        }
+
+        if (IsNullOrEmpty($("#wPrCf").val())) {
+          PushNotification("error", "Il campo codice fiscale è vuoto");
+          return false;
+        }
+
+        validator = ValidatorCodiceFiscale($("#wPrCf").val());
+        if (validator.IsValid == false) {
+          PushNotification("error", `Il codice fiscale non è valido: ${validator.Error}`);
+          return false;
+        }
+
+
+        if (IsNullOrEmpty($("#wPrTs").val())) {
+          PushNotification("error", "Il campo tessera sanitaria è vuoto");
+          return false;
+        }
+
+        validator = ValidatorTesseraSanitaria($("#wPrTs").val());
+        if (validator.IsValid == false) {
+          PushNotification("error", `La tessera sanitaria non è valida: ${validator.Error}`);
+          return false;
+        }
+
+        if (IsNullOrEmpty($("#wPrEmail").val())) {
+          PushNotification("error", "Il campo codice fiscale è vuoto");
+          return false;
+        }
+
+        validator = ValidatorEmail($("#wPrEmail").val());
+        if (validator.IsValid == false) {
+          PushNotification("error", `L'email non è valida: ${validator.Error}`);
+          return false;
+        }
+      }
+      else if (section == "esami") {
+
+      }
+      else {
+
+      }
+
+      return true;
+    }
+
 
     function CheckReservationDay(dateTime = null) {
       if (dateTime == null)
@@ -385,8 +479,7 @@
       }
 
       //In caso di modifica prenotazione il giorno e l'ora devono essere relativi al giorno successivo a quello già presente, rispettando i vincoli precedenti
-      if (isNewReservation == false && CheckReservationNextDay(dateTime) == false)
-      {
+      if (isNewReservation == false && CheckReservationNextDay(dateTime) == false) {
         PushNotification("error", "Il giorno dev'essere successivo")
         return false;
       }
@@ -444,6 +537,24 @@
       if (CheckDateTimeReservation() == false)
         return;
 
+      var validatorResult;
+      var cf = $("#wPrCf").val();
+      var ts = $("#wPrTs").val();
+
+      //Validazione CF
+      validatorResult = ValidatorCodiceFiscale(cf);
+      if (validatorResult.IsValid == false) {
+        PushNotification("error", `Codice fiscale non valido: ${validatorResult.Error}`);
+        return;
+      }
+
+      //Validazione TS
+      validatorResult = ValidatorTesseraSanitaria(ts);
+      if (validatorResult.IsValid == false) {
+        PushNotification("error", `Tessera sanitaria non valida: ${validatorResult.Error}`);
+        return;
+      }
+
       var listaAnalisi = GetListaAnalisiFromCheckbox();
       jsonData =
       {
@@ -454,6 +565,7 @@
         listaAnalisi: listaAnalisi,
       };
 
+      PushNotification("info", "call disattivata");
       return;
       if (isNewReservation)
         response = await ExecuteApiCall("POST", API_ADD_PRENOTAZIONE, {}, jsonData);

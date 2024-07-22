@@ -4,7 +4,6 @@ const API_GET_LISTA_PRENOTAZIONI = "getListaPrenotazioni";
 const API_DELETE_PRENOTAZIONE = "deletePrenotazione";
 const API_ADD_PRENOTAZIONE = "addPrenotazione";
 const API_UPDATE_PRENOTAZIONE = "updatePrenotazione";
-const API_PING = "ping";
 
 /**
  * Astrazione di chiamata API al server. Ritorna l'oggetto Response (modello di risposta presente sul server)
@@ -47,10 +46,17 @@ async function ExecuteApiCall(methodType, apiEndpoint, urlParams = {}, body = nu
   }
 }
 
+/**
+ * Verifica se il codice HTTP indica un successo.
+ *
+ * @param {number} code - Codice di stato HTTP.
+ * @returns {boolean} True se il codice indica successo, false altrimenti.
+ */
 function HasHttpSuccessCode(code) 
 {
   return code >= 200 && code <= 299;
 }
+
 
 /**
  * Creazione della notifica. Il messaggio supporta encoding HTML
@@ -84,6 +90,8 @@ function PushNotification(type, msg)
     labels: { close: "chiudi", pin: "blocca", unstick: "sblocca" },
   };
 
+  PNotify.defaults.mode = 'light';
+
   switch (type) 
   {
     case "success":
@@ -109,6 +117,7 @@ function PushNotification(type, msg)
   }
 }
 
+
 /** Svuota tutti i tag html figli all'interno di un tag padre
  *
  * @param {string} tagID - ID del campo padre (senza #)
@@ -122,14 +131,6 @@ function ClearChildrenNodes(tag)
   }
 }
 
-//Da eseguire ogni 15 secondi il ping al server
-setInterval(CheckServerStatus, 15000);
-CheckServerStatus();
-async function CheckServerStatus() 
-{
-  isOnline = true;
-  return;
-}
 
 /**
  * Genera e visualizza un modal con un messaggio custom e due handler per i tasti NO e CONFERM
@@ -265,6 +266,13 @@ function GenerateInfoModal(message)
     $("#wDivGeneratedModal").modal("show");
 }
 
+
+/**
+ * Converte una stringa di data e ora in un oggetto Date
+ *
+ * @param {string} dateTimeString - La stringa della data e ora
+ * @returns {Date|null} L'oggetto Date se valido, altrimenti null
+ */
 function GetDateTimeFromString(dateTimeString)
 {
     var dateTime = new Date(dateTimeString);
@@ -276,6 +284,13 @@ function GetDateTimeFromString(dateTimeString)
     return dateTime;
 }
 
+
+/**
+ * Divide una stringa datetime in data e ora
+ *
+ * @param {string} datetime - La stringa datetime
+ * @returns {Object} Un oggetto con le proprietà Date e Time
+ */
 function DateTimeSplit(datetime) 
 {
     return {
@@ -284,6 +299,14 @@ function DateTimeSplit(datetime)
     };
 }
 
+
+/**
+ * Formatta una data nel formato DD/MM/AAAA
+ *
+ * @param {string} datetime - La stringa datetime
+ * @param {string} [separator='/'] - Il separatore tra giorno, mese e anno
+ * @returns {string} La data formattata
+ */
 function FormatDateDDMMAAAA(datetime, separator = "/") 
 {
     var dateParts = datetime.substring(0, 10);
@@ -296,6 +319,12 @@ function FormatDateDDMMAAAA(datetime, separator = "/")
     return `${day}${separator}${month}${separator}${year}`;
 }
 
+/**
+ * Estrae ore e minuti da una stringa datetime
+ *
+ * @param {string} datetime - La stringa datetime
+ * @returns {string} Le ore e i minuti nel formato HH:MM
+ */
 function GetHoursMinutesFromDateTime(datetime) 
 {
     return datetime.substring(11, 16);
@@ -328,7 +357,6 @@ $(document).ready(function ()
   });
 
   //Rendering del contenuto nel div "main-content" lasciando lo spazio necessario dalla navbar
-  //20 pixel extra sono stati aggiungi per un padding maggiore oltre a quello minimo definito dall'outer height
   var navbarHeight = $(".navbar").outerHeight();
   $(".main-content").css("padding-top", navbarHeight + "px");
 });
@@ -369,21 +397,76 @@ function GenerateFooter()
 {
   var footer = `<footer class="footer mt-auto py-1 bg-light">
                   <div class="container text-center">
-                    <span class="text-muted">&copy; Unipegaso - Project Work L.A.B. Laboratorio Analisi Brescia - Traccia 1.4</span>
+                    <span class="text-muted">&copy; Unipegaso - CdL L-31 - Project Work AA 2023/2024: <b>L.A.B. Laboratorio Analisi dr. Brescia </b> - Traccia 1.4 - Gianluca Brescia</span>
                   </div>
                 </footer>`;
 
   $("body").append(footer);
 }
 
+//Validatore di codice fiscale
 function ValidatorCodiceFiscale(cf) 
 {
+  var validatorResult = { IsValid: false, Error: null };
+
   if (cf.length !== 16) 
   {
-    return false;
+    validatorResult.Error = "il codice non è di 16 caratteri";
+    return validatorResult;
   }
 
-  //     ^: Inizio della stringa. Questo assicura che la stringa da testare inizi esattamente con il pattern specificato.
+    // Verifica i primi sei caratteri alfanumerici
+    for (let i = 0; i < 6; i++) {
+      if (!/[A-Z0-9]/.test(cf.charAt(i))) {
+        validatorResult.Error = "i primi sei caratteri non sono alfanumerici";
+        return validatorResult;
+      }
+  }
+
+  // Verifica i successivi due caratteri numerici (anno nascita)
+  for (let i = 6; i < 8; i++) {
+      if (!/[0-9]/.test(cf.charAt(i))) {
+          validatorResult.Error = "l'anno di nascita non è numerico";
+          return validatorResult;
+      }
+  }
+
+  // Verifica il carattere successivo come lettera maiuscola (mese nascita)
+  if (!/[A-Z]/.test(cf.charAt(8))) {
+    validatorResult.Error = "il mese di nascita non è una lettera";      
+    return validatorResult;
+  }
+
+  // Verifica i successivi due caratteri numerici (giorno nascita)
+  for (let i = 9; i < 11; i++) {
+      if (!/[0-9]/.test(cf.charAt(i))) {
+        validatorResult.Error = "il giorno di nascita non è numerico";   
+        return validatorResult;
+      }
+  }
+
+  // Verifica il carattere successivo come lettera maiuscola
+  if (!/[A-Z]/.test(cf.charAt(11))) {
+    validatorResult.Error = "carattere errato";   
+    return validatorResult;
+  }
+
+  // Verifica i successivi tre caratteri numerici
+  for (let i = 12; i < 15; i++) {
+      if (!/[0-9]/.test(cf.charAt(i))) {
+        validatorResult.Error = "carattere errato";   
+        return validatorResult;
+      }
+  }
+
+  // Verifica l'ultimo carattere come lettera maiuscola
+  if (!/[A-Z]/.test(cf.charAt(15))) {
+    validatorResult.Error = "carattere errato";   
+    return validatorResult;
+  }
+
+
+  // ^: Inizio della stringa. Questo assicura che la stringa da testare inizi esattamente con il pattern specificato.
   // [A-Z0-9]{6}: Sei caratteri alfanumerici. [A-Z0-9] indica una classe di caratteri che permette lettere maiuscole (A-Z) e numeri (0-9). {6} indica che questo pattern deve ripetersi esattamente sei volte.
   // [0-9]{2}: Due numeri. [0-9] indica una classe di caratteri che permette solo numeri, e {2} specifica che questo pattern deve ripetersi esattamente due volte.
   // [A-Z]: Una lettera maiuscola. [A-Z] indica una classe di caratteri che permette solo lettere maiuscole. Non ci sono quantificatori, quindi deve apparire esattamente una volta.
@@ -392,61 +475,85 @@ function ValidatorCodiceFiscale(cf)
   // [0-9]{3}: Tre numeri. [0-9] indica una classe di caratteri che permette solo numeri, e {3} specifica che questo pattern deve ripetersi esattamente tre volte.
   // [A-Z]: Una lettera maiuscola. Stessa logica di prima, una singola lettera maiuscola.
   // $: Fine della stringa. Questo assicura che la stringa da testare termini esattamente con il pattern specificato.
-  return /^[A-Z0-9]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/.test(cf);
+  //return /^[A-Z0-9]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/.test(cf);
+
+  validatorResult.IsValid = true;
+  return validatorResult;
 }
 
+//Validatore di codice tessera sanitaria 
 function ValidatorTesseraSanitaria(codice) 
 {
+  var validatorResult = { IsValid: false, Error: null };
+
   if (codice.length !== 20) 
   {
-    return false;
+    validatorResult.Error = "Il codice non è di 20 caratteri";
+    return validatorResult;
   }
 
   // Il primo carattere è 0
   if (codice.charAt(0) !== "0") 
   {
-    return false;
+    validatorResult.Error = "Il primo carattere deve essere 0";
+    return validatorResult;
   }
 
   // Codice Tipo Tessera (fisso "80" per prestazioni sanitarie)
   if (codice.substring(1, 3) !== "80") 
   {
-    return false;
+    validatorResult.Error = "Il secondo e il terzo carattere devono essere 80";
+    return validatorResult;
   }
 
   // Codice Stato: (fisso "380" per Italia)
   if (codice.substring(3, 6) !== "380") 
   {
-    return false;
+    validatorResult.Error = "Il quarto e il quinto carattere devono essere 380";
+    return validatorResult;
   }
 
   // Codice Ente: deve essere cinque cifre (primi due "00" seguiti dalle tre cifre specifiche della regione o ente)
   if (codice.substring(6, 8) !== "00") 
   {
-    return false;
+    validatorResult.Error = "Il settimo e ottavo carattere devono essere 00";
+    return validatorResult;
   }
 
+  const regioniValide = new Set([
+    "010", "020", "030", "041", "042", "050", "060", "070", "080", "090", "100",
+    "110", "120", "130", "140", "150", "160", "170", "180", "190", "200", 
+    "001", "002", "003", //enti speciali
+  ]);
   let ente = codice.substring(8, 11);
-  if (!ValidatorCodiceEnte(ente)) 
+  if (!regioniValide.has(ente)) 
   {
-    return false;
+    validatorResult.Error = "Il codice ente non è stato riconosciuto";
+    return validatorResult;
   }
 
   // I successivi 9 caratteri devono essere cifre
   if (!/^\d{9}$/.test(codice.substring(11, 20))) 
   {
-    return false;
+    validatorResult.Error = "Gli ultimi 9 caratteri devono essere cifre";
+    return validatorResult;
   }
 
-  return true;
+  validatorResult.IsValid = true;
+  return validatorResult;
 }
 
-function ValidatorCodiceEnte(codiceRegione) 
+function ValidatorEmail(email)
 {
-  const regioniValide = new Set([
-    "010", "020", "030", "041", "042", "050", "060", "070", "080", "090", "100",
-    "110", "120", "130", "140", "150", "160", "170", "180", "190", "200", "001", "002", "003",
-  ]);
+  var validatorResult = { IsValid: false, Error: null };
+  validatorResult.IsValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  if (validatorResult.IsValid == false)
+    validatorResult.Error = "email non valida";
 
-  return regioniValide.has(codiceRegione);
+  return validatorResult;
+}
+
+function IsNullOrEmpty(text)
+{
+  return (text == null || text === undefined || text == "");
 }

@@ -307,6 +307,9 @@ $(document).ready(function ()
   //Creazione navbar
   GenerateNavbar();
 
+  //Creazione footer 
+  GenerateFooter();
+  
   var path = window.location.pathname;
   var page = path.split("/").pop();
 
@@ -360,6 +363,17 @@ function GenerateNavbar()
         </nav>`;
 
   $("body").prepend(navbar);
+}
+
+function GenerateFooter()
+{
+  var footer = `<footer class="footer mt-auto py-1 bg-light">
+                  <div class="container text-center">
+                    <span class="text-muted">&copy; Unipegaso - Project Work L.A.B. Laboratorio Analisi Brescia - Traccia 1.4</span>
+                  </div>
+                </footer>`;
+
+  $("body").append(footer);
 }
 
 function ValidatorCodiceFiscale(cf) 

@@ -133,11 +133,11 @@ function ClearChildrenNodes(tag)
 
 
 /**
- * Genera e visualizza un modal con un messaggio custom e due handler per i tasti NO e CONFERM
+ * Genera e visualizza un modal con un messaggio custom e due handler per i tasti CONFERMA e ANNULLA
  *
  * @param {string} message - messaggio custom
- * @param {function} [onClickYes] - handler al click su CONFERMA (di default non ha alcun comportamento)
- * @param {function} [onClickNo] - handler al click su NO (di default chiude il modal)
+ * @param {function} [onClickYes] - handler al click su YES/CONFERMA (di default chiude il modal)
+ * @param {function} [onClickNo] - handler al click su NO/ANNULLA (di default chiude il modal)
  * @example
  *
  * Esempio di invocazione con due handler

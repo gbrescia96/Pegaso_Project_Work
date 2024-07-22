@@ -329,10 +329,12 @@
       }
     });
 
+    //Visualizza una sezione specifica, nascondendo le altre e accendendo la voce specifica nel breadcrumb.
+    //Di default vengono eseguiti tutti i controlli sui campi prima di cambiare sezione
     function ShowSection(section, validateActualSectionBeforeChange = true) {
       if (validateActualSectionBeforeChange)
       {
-        //Prendi la sezione dall'atributo scope nella voce attualmente attiva del breadcrumb
+        //Prendi la sezione dall'attributo scope nella voce attualmente attiva del breadcrumb
         var actualSection = $("#breadcrumb li.active").attr("data-scope");
         console.log(actualSection);
         var isSubSectionValid = ValidatorSubSection(actualSection);
@@ -354,6 +356,8 @@
       });
     }
 
+    //Visualizza o nascondi l'alert della guida in una sezione specifica. 
+    //ForceClose è utilizzato per chiudere la sezione in modo forzato, questo viene invocato la prima volta che si entra in una sezione specifica per nascondere la guida automaticamente
     function ShowAlert(alert, forceClose = false) {
       var guide = $(alert).find("div");
       if (guide.is(":hidden") && !forceClose) {

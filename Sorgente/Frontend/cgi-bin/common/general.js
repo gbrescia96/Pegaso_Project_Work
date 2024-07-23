@@ -385,6 +385,9 @@ function GenerateNavbar()
                         <li class="nav-item">
                             <a class="nav-link" href="ricerca.html">Ricerca</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">La nostra storia</a>
+                        </li>
                     </ul>
                 </div>
             </div>

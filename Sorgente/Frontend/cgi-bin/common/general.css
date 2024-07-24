@@ -46,6 +46,27 @@ input[readonly] {
     background-color: #d4d1d1;
 }
 
+/* Override degli input checkbox con bordo più marcato */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 2px solid var(--lab-color-blue);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="checkbox"]:checked {
+  background-color: var(--lab-color-blue);
+}
+input[type="checkbox"]:checked:after {
+  color: white;
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+}
+
 /* Gestione della Homepage con immagine background, testi sovrapposti all'immegine e sezione di altre info */
 .full-screen-bg {
     background: url('../../img/background_lab.png') no-repeat center center;

@@ -84,9 +84,10 @@
           </div>
         </div>
         <hr />
-        <div class="row justify-content-center">
-          <div class="col-xl-2">
-            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100">Avanti</button>
+        <div class="row justify-content-around">
+          <div class="col-4 col-xl-2">
+            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fa-arrow-right"></i></button>
           </div>
         </div>
       </div>
@@ -97,7 +98,7 @@
             <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
-                Seleziona gli esami da effettuare. È necessario selezionare almeno un esame prima di andare avanti.
+                Seleziona gli esami da effettuare. È necessario selezionare almeno <b>un esame</b> prima di andare avanti.
               </div>
             </div>
           </div>
@@ -263,6 +264,17 @@
             </div>
           </div>
         </div>
+
+        <div class="row justify-content-around">
+          <div class="col-4 col-xl-2">
+            <button type="button" onclick="ShowSection('anagrafica')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="ShowSection('anagrafica')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
+          </div>
+          <div class="col-4 col-xl-2">
+            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fa-arrow-right"></i></button>
+          </div>
+        </div>
       </div>
 
       <div id="section-appuntamento">
@@ -271,23 +283,19 @@
             <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
-                Scegli data e ora per effettuare gli esami <b>dal lunedì al venerdì, dalle 08:00 alle 18:00</b>.
+                Scegli data e ora per effettuare gli esami <b>dal lunedì al venerdì, dalle 08:00 alle 18:00</b>. 
                 <br />
-                <b>Inserimento prenotazione: puoi selezionare la data di oggi ma l'ora dovrà essere almeno 30 minuti
-                  dopo rispetto alla prenotazione</b>
-                <br />
-                <b>Modifica prenotazione: la nuova data di prenotazione dovrà essere il giorno successivo a quello in
-                  cui si modifica la prenotazione</b>
+                <b>In caso di prima prenotazione o di modifica della stessa potrai scegliere la data a partire dal giorno <u>successivo ad oggi</u>.</b>
               </div>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-3">
+          <div class="col-6 col-md-6 col-lg-3">
             <label>Data e ora</label>
             <input id="wPrDataOra" type="datetime-local" class="form-control" />
           </div>
-          <div class="col-3">
+          <div class="col-6 col-md-6 col-lg-6">
             <label>Laboratorio</label>
             <select id="wPrLaboratorio" class="form-select">
               <option value="lab1" selected>Roma - Via Rossi 10</option>
@@ -297,12 +305,14 @@
           </div>
         </div>
         <hr />
-        <div class="row justify-content-center">
-          <div class="col-xl-2">
-            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100">Indietro</button>
+        <div class="row justify-content-around">
+          <div class="col-4 col-xl-2">
+            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
           </div>
-          <div class="col-3">
-            <button type="button" class="btn btn-primary w-100" onclick="ShowSection('preconferma')">Avanti</button>
+          <div class="col-4 col-xl-2">
+            <button type="button" onclick="ShowSection('preconferma')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="ShowSection('preconferma')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fa-arrow-right"></i></button>
           </div>
         </div>
       </div>
@@ -313,7 +323,9 @@
             <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
-                <p>y</p>
+                In questa pagina sarà fornito un riassunto della prenotazione. Si consiglia di verificare con attenzione i dati forniti.
+                <br />
+                Prima dell'invio è necessario spuntare la casella per confermare la correttezza e veridicità dei dati immessi.
               </div>
             </div>
           </div>
@@ -322,15 +334,28 @@
           <label class="form-check-label"><input class="form-check-input" type="checkbox" />Confermo la veridicità e correttezza dei dati</label>
         </div>
         <hr />
-        <div class="row justify-content-center">
-          <div class="col-xl-2">
-            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100">Indietro</button>
+        <div class="row justify-content-around">
+          <div class="col-4 col-xl-2">
+            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
           </div>
-          <div class="col-3">
-            <button type="reset" class="btn btn-primary w-100" onclick="ResetForm()">Reset</button>
+          <div class="col-4 col-xl-2">
+            <button type="reset" class="btn btn-warning w-100 d-none d-md-inline" 
+                    onclick="GeneratePromptModal(
+                            'Continuando cancellerai tutti i campi inseriti. Confermi?',  
+                            function () {
+                              ResetForm();
+                            })">Reset</button>
+              <button type="reset" class="btn btn-warning w-100 d-inline d-md-none" 
+                      onclick="GeneratePromptModal(
+                              'Continuando cancellerai tutti i campi inseriti. Confermi?',  
+                              function () {
+                                ResetForm();
+                              })"><i class="fas fa-redo"></i></button>
           </div>
-          <div class="col-3">
-            <button type="button" class="btn btn-primary w-100" onclick="UpsertReservation()">Invia</button>
+          <div class="col-4 col-xl-2">
+            <button type="button" onclick="UpsertReservation()" class="btn btn-dark w-100 d-none d-md-inline">Invia</button>
+            <button type="button" onclick="UpsertReservation()" class="btn btn-success w-100 d-inline d-md-none"><i class="far fa-check-circle"></i></button>
           </div>
         </div>
       </div>
@@ -394,8 +419,7 @@
     }
 
     //Contiene la validazione dei campi di ogni sotto-sezione
-    function ValidatorSubSection(section) {
-      console.log(section)
+    function PreValidateFormSection(section) {
       if (section == "anagrafica") {
         return true;
         var validator;
@@ -453,16 +477,23 @@
       }
       else if (section == "appuntamento") {
         var dateTime = GetDateTimeFromString($("#wPrDataOra").val());
-        if (dateTime < new Date())
-        {
-          PushNotification("error", "Data e ora non possono essere minori di adesso");
-          return false;
-        }
-
         if (dateTime == null) {
           PushNotification("error", "Data e ora prenotazione non hanno un formato valido");
           return false;
         }
+
+        if (dateTime < new Date())
+        {
+          PushNotification("error", "Data e ora non possono essere minori di quelle attuali");
+          return false;
+        }
+
+        if (CheckReservationNextDay(dateTime) == false)
+        {
+          PushNotification("error", `Il giorno dev'essere successivo ad oggi`)
+          return false;
+        }
+
 
         if (CheckReservationDay(dateTime) == false) {
           PushNotification("error", "Il giorno deve essere compreso tra lunedì e venerdì")
@@ -471,25 +502,6 @@
 
         if (CheckReservationTimeRange(dateTime) == false) {
           PushNotification("error", "L'orario deve essere compreso tra le 08:00 e le 18:00")
-          return false;
-        }
-
-        if (CheckReservationTimeRange(dateTime) == false) {
-          PushNotification("error", "L'orario deve essere compreso tra le 08:00 e le 18:00")
-          return false;
-        }
-      
-        //TODO: controllo prossimi 30 minuti
-        var nextHalfHour = new Date(dateReservation);
-        nextHalfHour.setMinutes(nextHalfHour.getMinutes() + 30);
-        if (CheckReservationTimeNextHalfHour(dateTime) == false) {
-          PushNotification("error", "L'orario deve essere almeno tra 30 minuti")
-          return false;
-        }
-
-        //In caso di modifica prenotazione il giorno e l'ora devono essere relativi al giorno successivo a quello già presente, rispettando i vincoli precedenti
-        if (isNewReservation == false && CheckReservationNextDay(dateTime) == false) {
-          PushNotification("error", "Il giorno dev'essere il primo lavorativo successivo ad oggi")
           return false;
         }
       }
@@ -506,11 +518,12 @@
     }
 
 
+    //Verififica se la data passata ha il giorno nel range valido
     function CheckReservationDay(dateTime = null) {
       if (dateTime == null)
         return false;
 
-      var day = dateTime.getDay(); // Domenica (0) - Sabato (6)
+      var day = dateTime.getDay(); // Estremi: Domenica (0) - Sabato (6)
       // Controllo giorno
       if (day < 1 || day > 5)
         return false;
@@ -518,6 +531,7 @@
       return true;
     }
 
+    //Verifica se l'orario è nel range valido
     function CheckReservationTimeRange(dateTime = null) {
       if (dateTime == null)
         return false;
@@ -530,68 +544,34 @@
       return true;
     }
 
-    function CheckReservationTimeNextHalfHour(dateReservation = null) {
-      if (dateReservation == null)
-        return false;
-  
-      var nextHalfHour = new Date(dateReservation);
-      nextHalfHour.setMinutes(nextHalfHour.getMinutes() + 30);
 
-      if (dateReservation < nextHalfHour)
-        return false;
-
-      return true;
-    }
-
+    //Verifica se la data successiva a quella passata rispetta i vincoli di giorno e ora nei range
     function CheckReservationNextDay(dateTime) {
       var dateTimeTomorrow = dateTime.getDay() + 1;
       return CheckReservationDay(dateTimeTomorrow) && CheckReservationTimeRange(dateTimeTomorrow);
     }
 
 
-    function GetDateTimeFromString() {
-      var dateTime = new Date($("#wPrDataOra").val());
+    //Converte la data da un oggetto stringa
+    function GetDateTimeFromString(input) {
+      var dateTime = new Date(input);
       if (isNaN(dateTime))
         return null;
 
       return dateTime;
     }
 
-
-    function CheckDateTimeReservation() {
-      var dateTime = GetDateTimeFromString($("#wPrDataOra").val());
-      if (dateTime == null) {
-        PushNotification("error", "Data e ora prenotazione non hanno un formato valido");
-        return false;
-      }
-
-      if (CheckReservationDay(dateTime) == false) {
-        PushNotification("error", "Il giorno deve essere compreso tra lunedì e venerdì")
-        return false;
-      }
-
-      if (CheckReservationTimeRange(dateTime) == false) {
-        PushNotification("error", "L'orario deve essere compreso tra le 08:00 e le 18:00")
-        return false;
-      }
-
-      //In caso di modifica prenotazione il giorno e l'ora devono essere relativi al giorno successivo a quello già presente, rispettando i vincoli precedenti
-      if (isNewReservation == false && CheckReservationNextDay(dateTime) == false) {
-        PushNotification("error", "Il giorno dev'essere successivo")
-        return false;
-      }
-
-      return true;
-    }
-
-
     function ResetForm() {
       $("input[id^='wPr'").each(function () {
         $(this).val();
       });
+      //Riporta l'utente all'anagrafica
+      ShowSection("anagrafica");
+      PushNotification("success", "Tutti i campi sono stati svuotati")
     }
 
 
+    //In base ai parametri passati nell'url cerca la prenotazione indicata e riempi i campi del form
     async function GetReservation(id, cf, ts) {
       var response = await ExecuteApiCall("GET", API_GET_PRENOTAZIONE, { id: id, cf: cf, ts: ts });
       if (HasHttpSuccessCode(response.code) == false) {
@@ -609,7 +589,7 @@
         stringAlertMessage += ` e modificata il <b>${FormatDateDDMMAAAA(data.dataOraModifica)} alle ${GetHoursMinutesFromDateTime(data.dataOraModifica)}`;
       }
       stringAlertMessage += '<br />Attenzione: non è possibile variare di dati anagrafici. Se vuoi inserire una nuova prenotazione <a href="prenotazione.html">clicca qui</a>';
-      ClearChildrenNodes("wDivInfoAlert");
+      //ClearChildrenNodes("wDivInfoAlert");
       $("#wDivInfoAlert").append(stringAlertMessage);
       $("#wPrId").val(data.id);
       $("#wPrNome").val(data.nome);
@@ -630,10 +610,10 @@
     async function UpsertReservation() {
       var response = null;
 
-      if (ValidatorSubSection("anagrafica") == false ||
-          ValidatorSubSection("esami") == false ||
-          ValidatorSubSection("appuntamento") == false || 
-          ValidatorSubSection("preconferma") == false)
+      if (PreValidateFormSection("anagrafica") == false ||
+          PreValidateFormSection("esami") == false ||
+          PreValidateFormSection("appuntamento") == false || 
+          PreValidateFormSection("preconferma") == false)
       {
         return false;
       }
@@ -677,6 +657,7 @@
       return listaAnalisi;
     }
 
+    //TODO: da eliminare da qui, esiste una pagina ad-hoc
     //Riassumi la prenotazione in un modal per un controllo finale. Il modal visualizzato conterrà l'handler per chiamare UpsertReservation in caso di esisto positivo.
     function RiassuntoPrenotazione() {
       listaAnalisi = GetExamsSelectedFromCheckboxes();

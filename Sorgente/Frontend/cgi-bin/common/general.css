@@ -45,17 +45,28 @@ html, body {
 input[readonly] {
     background-color: #d4d1d1;
 }
-
-/* Override degli input checkbox con bordo più marcato */
-input[type="checkbox"] {
+/* Override degli input text generici e checkbox con bordi arrotondati e blu */
+input[type="text"],
+input[type="datetime-local"],
+select
+{
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  border: 2px solid var(--lab-color-blue);
-  border-radius: 3px;
+  border: 1px solid var(--lab-color-blue)!important;
+  border-radius: 15px!important;
   outline: none;
-  cursor: pointer;
 }
+input[type="checkbox"]
+{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 2px solid var(--lab-color-blue)!important;
+  border-radius: 3px!important;
+  outline: none;
+}
+
 input[type="checkbox"]:checked {
   background-color: var(--lab-color-blue);
 }

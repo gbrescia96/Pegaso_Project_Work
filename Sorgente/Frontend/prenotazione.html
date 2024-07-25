@@ -45,11 +45,13 @@
       <div id="section-anagrafica" class="active">
         <div class="row">
           <div class="col-12">
-            <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
+            <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
                 Inserisci le informazioni anagrafiche. Useremo l'e-mail per inviare i referti.
                 <b>Nota: dopo aver inviato la prenotazione puoi modificare solo l'e-mail.</b>
+                <br />
+                Il codice della tessera sanitaria è lungo 20 caratteri ed è presente sul retro della tessera sanitaria, in fondo.
               </div>
             </div>
           </div>
@@ -64,18 +66,18 @@
           </div>
           <div class="col-3 col-xl-2">
             <label>Nome</label>
-            <input id="wPrNome" type="text" class="form-control" />
+            <input id="wPrNome" type="text" class="form-control" maxlength="20" />
           </div>
           <div class="col-3 col-xl-2">
             <label>Cognome</label>
-            <input id="wPrCognome" type="text" class="form-control" />
+            <input id="wPrCognome" type="text" class="form-control" maxlength="20" />
           </div>
           <div class="col-3 col-xl-2">
-            <label>Codice fiscale</label>
+            <label>Codice Fiscale</label>
             <input id="wPrCf" type="text" class="form-control" maxlength="16" style="text-transform:uppercase;" />
           </div>
           <div class="col-3 col-xl-2">
-            <label>Tessera Sanitaria</label>
+            <label>Codice Tessera Sanitaria</label>
             <input id="wPrTs" type="text" class="form-control" maxlength="20" />
           </div>
           <div class="col-3 col-xl-2">
@@ -83,8 +85,8 @@
             <input id="wPrEmail" type="text" class="form-control" />
           </div>
         </div>
-        <hr />
-        <div class="row justify-content-around">
+        <hr class="line-separator-blue" />
+        <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
             <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
             <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fa-arrow-right"></i></button>
@@ -95,7 +97,7 @@
       <div id="section-esami">
         <div class="row">
           <div class="col-12">
-            <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
+            <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
                 Seleziona gli esami da effettuare. È necessario selezionare almeno <b>un esame</b> prima di andare avanti.
@@ -103,6 +105,17 @@
             </div>
           </div>
         </div>
+        <div class="row justify-content-around mb-3">
+          <div class="col-4 col-xl-2">
+            <button type="button" onclick="ShowSection('anagrafica')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="ShowSection('anagrafica')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
+          </div>
+          <div class="col-4 col-xl-2">
+            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+
         <div class="block-item block-item-border-red">
           <h2 class="text-center text-lab-red">Esami del sangue</h2>
           <hr class="line-separator-red" />
@@ -265,7 +278,7 @@
           </div>
         </div>
 
-        <div class="row justify-content-around">
+        <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
             <button type="button" onclick="ShowSection('anagrafica')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
             <button type="button" onclick="ShowSection('anagrafica')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
@@ -280,7 +293,7 @@
       <div id="section-appuntamento">
         <div class="row">
           <div class="col-12">
-            <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
+            <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
                 Scegli data e ora per effettuare gli esami <b>dal lunedì al venerdì, dalle 08:00 alle 18:00</b>. 
@@ -304,8 +317,8 @@
             </select>
           </div>
         </div>
-        <hr />
-        <div class="row justify-content-around">
+        <hr class="line-separator-blue" />
+        <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
             <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
             <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
@@ -320,7 +333,7 @@
       <div id="section-preconferma">
         <div class="row">
           <div class="col-12">
-            <div data-scope="guide" class="alert alert-info" onclick="ShowAlert(this)" style="cursor: pointer;">
+            <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
                 In questa pagina sarà fornito un riassunto della prenotazione. Si consiglia di verificare con attenzione i dati forniti.
@@ -331,10 +344,17 @@
           </div>
         </div>
         <div class="row">
-          <label class="form-check-label"><input class="form-check-input" type="checkbox" />Confermo la veridicità e correttezza dei dati</label>
+          <div class="col-12">
+            recap autogenerato
+          </div>
         </div>
-        <hr />
-        <div class="row justify-content-around">
+        <div class="row justify-content-center text-center">
+          <div class="col-12">
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" />Confermo la veridicità e correttezza dei dati</label>
+          </div>
+        </div>
+        <hr class="line-separator-blue" />
+        <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
             <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
             <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
@@ -402,18 +422,24 @@
 
       //Nascondi div alert guida
       $('div[data-scope="guide"]').each(function () {
-        ShowAlert(this, true);
+        ShowHelpAlert(this, "close");
       });
+
+      //Rigenera il recap quando si seleziona l'area di preconferma
+      if (section == "preconferma")
+      {
+        
+      }
     }
 
     //Visualizza o nascondi l'alert della guida in una sezione specifica. 
-    //ForceClose è utilizzato per chiudere la sezione in modo forzato, questo viene invocato la prima volta che si entra in una sezione specifica per nascondere la guida automaticamente
-    function ShowAlert(alert, forceClose = false) {
+    //ForceStatus è utilizzato per forzare la visibilità/chiusura a prescindere dallo stato attuale
+    function ShowHelpAlert(alert, forceStatus = null) {
       var guide = $(alert).find("div");
-      if (guide.is(":hidden") && !forceClose) {
+      if (guide.is(":hidden") || forceStatus == "open") {
         guide.show();
       }
-      else {
+      else if (!guide.is(":hidden") || forceStatus == "close") {
         guide.hide();
       }
     }
@@ -586,8 +612,7 @@
       if (data.dataOraModifica != null) {
         stringAlertMessage += ` e modificata il <b>${FormatDateDDMMAAAA(data.dataOraModifica)} alle ${GetHoursMinutesFromDateTime(data.dataOraModifica)}`;
       }
-      stringAlertMessage += '<br />Attenzione: non è possibile variare di dati anagrafici. Se vuoi inserire una nuova prenotazione <a href="prenotazione.html">clicca qui</a>';
-      //ClearChildrenNodes("wDivInfoAlert");
+      ClearChildrenNodes("wDivInfoAlert");
       $("#wDivInfoAlert").append(stringAlertMessage);
       $("#wPrId").val(data.id);
       $("#wPrNome").val(data.nome);

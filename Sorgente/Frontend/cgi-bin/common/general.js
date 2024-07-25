@@ -361,38 +361,35 @@ $(document).ready(function ()
   $(".main-content").css("padding-top", navbarHeight + "px");
 });
 
-function GenerateNavbar() 
-{
+function GenerateNavbar() {
   var navbar = `
-     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand fw-bold" href="#" style="font-size: 2rem">
-                    <i class="fas fa-vials"></i>
-                    <!-- <img src="img/background_lab.png" alt="Laboratory" width="30" height="30" class="d-inline-block align-top" hidden> -->
-                    L.A.B.
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#wDivNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="wDivNavbar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="homepage.html">Homepage</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="prenotazione.html">Prenotazione</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ricerca.html">Ricerca</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html">La nostra storia</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>`;
-
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#" style="font-size: 2rem">
+          <i class="fas fa-vials"></i>
+          L.A.B.
+        </a>
+        <button class="navbar-toggler" type="button" onclick="$('#wDivNavbar').collapse('toggle');">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="wDivNavbar">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="homepage.html">Homepage</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="prenotazione.html">Prenotazione</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="ricerca.html">Ricerca</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">La nostra storia</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>`;
   $("body").prepend(navbar);
 }
 

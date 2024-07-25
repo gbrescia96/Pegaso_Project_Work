@@ -421,7 +421,6 @@
     //Contiene la validazione dei campi di ogni sotto-sezione
     function PreValidateFormSection(section) {
       if (section == "anagrafica") {
-        return true;
         var validator;
         if (IsNullOrEmpty($("#wPrNome").val())) {
           PushNotification("error", "Il campo nome è vuoto");
@@ -467,7 +466,6 @@
         }
       }
       else if (section == "esami") {
-        return true;
         var listExams = GetExamsSelectedFromCheckboxes();
         if (listExams.length == 0)
         {

@@ -1,2 +1,7 @@
-python + flask + flask-cors
-modifica datatable.js, parametro sSearch, riga 10797 con traduzione ita e 10827 parametro zeroRecord
+Risorse per il Front-End
+L’analisi dei requisiti ha evidenziato la necessità di utilizzare, per la parte Front-End, il linguaggio HTML con il supporto di CSS (per gli aspetti grafici) e JavaScript (per gli aspetti funzionali). Sono state incluse le seguenti librerie di terze parti:
+Tra le risorse utilizzate, come librerie di terze parti, sono stati inclusi Jquery e Bootstrap che estendono le funzionalità di CSS e JavaScript fornendo componenti già implementati e facilmente adattabili al proprio contesto.
+È stata utilizzata la libreria DataTable (basata su JS) per le rappresentazioni di dati in forma tabellare con le funzionalità di riordino per colonna e filtro sulle righe.
+È stata utilizzata la libreria Pnotify per gestire l’invio all’utente di notifiche che rappresentino l’esito delle operazioni avvenute e direttamente visualizzabili nella pagina sotto forma di fumetto.
+
+

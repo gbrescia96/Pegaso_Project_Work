@@ -8,7 +8,7 @@ from models.prenotazione import Prenotazione
 current_directory = os.path.dirname(os.path.abspath(__file__))
 LOCAL_STORAGE_FOLDER = os.path.join(current_directory, 'storage')
 
-def svc_get_prenotazione(id: str, cf: str, ts: str):
+def svc_get_reservation(id: str, cf: str, ts: str):
     """
     Recupera una prenotazione specifica dal disco basandosi sull'ID, il codice fiscale (CF) e il codice della tessera sanitaria (TS).
     
@@ -30,7 +30,7 @@ def svc_get_prenotazione(id: str, cf: str, ts: str):
     return None
 
 
-def svc_get_lista_prenotazioni(cf: str, ts: str):
+def svc_get_reservation_list(cf: str, ts: str):
     """
     Recupera una lista di prenotazioni in base a codice fiscale (CF) e codice della tessera sanitaria (TS).
     
@@ -52,7 +52,7 @@ def svc_get_lista_prenotazioni(cf: str, ts: str):
     return result_list
 
 
-def svc_add_prenotazione(prenotazione: Prenotazione):
+def svc_add_reservation(prenotazione: Prenotazione):
     """
     Aggiunge una nuova prenotazione.
     
@@ -73,7 +73,7 @@ def svc_add_prenotazione(prenotazione: Prenotazione):
     return prenotazione
 
 
-def svc_update_prenotazione(new_info: Prenotazione):
+def svc_update_reservation(new_info: Prenotazione):
     """
     Aggiorna una prenotazione esistente in base a codice fiscale (CF) e codice della tessera sanitaria (TS). 
     
@@ -112,7 +112,7 @@ def svc_update_prenotazione(new_info: Prenotazione):
     return record
 
 
-def svc_delete_prenotazione(cf: str, id: str, ts: str):
+def svc_delete_reservation(cf: str, id: str, ts: str):
     """
     Elimina una prenotazione specifica basandosi sull'ID, il codice fiscale (CF) e il codice della tessera sanitaria (TS).
     

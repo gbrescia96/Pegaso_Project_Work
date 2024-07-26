@@ -23,7 +23,7 @@
             <div class="full-screen-bg full-screen-bg-main-titles">
                 <p class="main-lab-title">L.A.B.</p>
                 <p class="main-lab-sub-title">Laboratorio Analisi dr. Brescia</p>
-                <p onclick="ShowMoreInfo()" class="main-lab-show-more underline-animate">SCOPRI DI PIU</p>
+                <p onclick="showMoreInfo()" class="main-lab-show-more underline-animate">SCOPRI DI PIU</p>
             </div>
 
             <div id="wDivInfo" class="info-section">
@@ -93,7 +93,7 @@
         </div>
     </body>
     <script>
-        function ShowMoreInfo()
+        function showMoreInfo()
         {
             $('html, body').animate({
                 scrollTop: $('#wDivInfo').offset().top

@@ -6,17 +6,13 @@ from services import *
 app = Flask(__name__)
 CORS(app)  # Abilita CORS per tutte le route
 
-@app.route('/api/ping', methods=['GET'])
-def ping():
-    return HttpResponse(200).to_json()
-
-@app.route('/api/getPrenotazione', methods=['GET'])
-def get_prenotazione():
+@app.route('/api/getReservation', methods=['GET'])
+def get_reservation():
     try:
         id = request.args.get('id', type=str)
         cf = request.args.get('cf', type=str)
         ts = request.args.get('ts', type=str)
-        prenotazione = svc_get_prenotazione(id, cf, ts)
+        prenotazione = svc_get_reservation(id, cf, ts)
         if prenotazione:
             return HttpResponse(200, payload=prenotazione.to_json()).to_json()
         else:
@@ -25,12 +21,12 @@ def get_prenotazione():
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 
 
-@app.route('/api/getListaPrenotazioni', methods=['GET'])
-def get_lista_prenotazioni():
+@app.route('/api/getReservationList', methods=['GET'])
+def get_reservation_list():
     try:
         cf = request.args.get('cf', type=str)
         ts = request.args.get('ts', type=str)
-        prenotazioni = svc_get_lista_prenotazioni(cf, ts)
+        prenotazioni = svc_get_reservation_list(cf, ts)
         if prenotazioni:
             lista_prenotazioni = []
             for prenotazione in prenotazioni:
@@ -43,8 +39,8 @@ def get_lista_prenotazioni():
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 
 
-@app.route('/api/addPrenotazione', methods=['POST'])
-def add_prenotazione():
+@app.route('/api/addReservation', methods=['POST'])
+def add_reservation():
     try:
         json_data = request.get_json()
         if json_data == None:
@@ -56,14 +52,14 @@ def add_prenotazione():
         except:
             return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 
-        prenotazione = svc_add_prenotazione(prenotazione)    
+        prenotazione = svc_add_reservation(prenotazione)    
         return HttpResponse(200, payload=prenotazione.to_json()).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 
 
-@app.route('/api/updatePrenotazione', methods=['POST'])
-def update_prenotazione():
+@app.route('/api/updateReservation', methods=['POST'])
+def update_reservation():
     try:
         json_data = request.get_json()
         if json_data == None:
@@ -75,18 +71,18 @@ def update_prenotazione():
         except:
             return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 
-        prenotazione = svc_update_prenotazione(prenotazione)    
+        prenotazione = svc_update_reservation(prenotazione)    
         return HttpResponse(200, payload=prenotazione.to_json()).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 
-@app.route('/api/deletePrenotazione', methods=['DELETE'])
-def delete_prenotazione():
+@app.route('/api/deleteReservation', methods=['DELETE'])
+def delete_reservation():
     try:
         id = request.args.get('id', type=str)
         cf = request.args.get('cf', type=str)
         ts = request.args.get('ts', type=str)
-        svc_delete_prenotazione(cf, id, ts) 
+        svc_delete_reservation(cf, id, ts) 
         return HttpResponse(204, payload=None).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()

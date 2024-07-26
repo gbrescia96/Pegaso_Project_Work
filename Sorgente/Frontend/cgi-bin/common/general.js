@@ -1,9 +1,9 @@
 const API_BASE_URL = "http://127.0.0.1:5000/api/";
-const API_GET_PRENOTAZIONE = "getPrenotazione";
-const API_GET_LISTA_PRENOTAZIONI = "getListaPrenotazioni";
-const API_DELETE_PRENOTAZIONE = "deletePrenotazione";
-const API_ADD_PRENOTAZIONE = "addPrenotazione";
-const API_UPDATE_PRENOTAZIONE = "updatePrenotazione";
+const API_GET_RESERVATION = "getReservation";
+const API_GET_RESERVATION_LIST = "getReservationList";
+const API_DELETE_RESERVATION = "deleteReservation";
+const API_ADD_RESERVATION = "addReservation";
+const API_UPDATE_RESERVATION = "updateReservation";
 
 /**
  * Astrazione di chiamata API al server. Ritorna l'oggetto Response (modello di risposta presente sul server)
@@ -14,19 +14,16 @@ const API_UPDATE_PRENOTAZIONE = "updatePrenotazione";
  * @param {Object} [body=null] - Body della richesta se presente.
  * @returns {Promise<Object>} Oggetto della risposta API, se presente, altrimenti null
  */
-async function ExecuteApiCall(methodType, apiEndpoint, urlParams = {}, body = null) 
-{
+async function executeApiCall(methodType, apiEndpoint, urlParams = {}, body = null) {
   //Mapping dei parametri nel formato param=value con concatenazione di multipli parametri con &
   var urlParamsString = Object.keys(urlParams)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(urlParams[key])}`)
     .join("&");
 
-  try 
-  {
+  try {
     var url = API_BASE_URL + apiEndpoint;
     //All'url di base + api viene concatenata la stringa dei parametri, se presente
-    if (urlParamsString != "") 
-    {
+    if (urlParamsString != "") {
       url += "?" + urlParamsString;
     }
 
@@ -39,9 +36,7 @@ async function ExecuteApiCall(methodType, apiEndpoint, urlParams = {}, body = nu
     });
 
     return await response.json();
-  } 
-  catch (error) 
-  {
+  } catch (error) {
     return { code: 503, error_message: "Il server non risponde" };
   }
 }
@@ -52,11 +47,9 @@ async function ExecuteApiCall(methodType, apiEndpoint, urlParams = {}, body = nu
  * @param {number} code - Codice di stato HTTP.
  * @returns {boolean} True se il codice indica successo, false altrimenti.
  */
-function HasHttpSuccessCode(code) 
-{
+function hasHttpSuccessCode(code) {
   return code >= 200 && code <= 299;
 }
-
 
 /**
  * Creazione della notifica. Il messaggio supporta encoding HTML
@@ -64,8 +57,7 @@ function HasHttpSuccessCode(code)
  * @param {string} type - Un tipo tra: success | error | info | notice.
  * @param {string} msg - Messaggio della notifica
  */
-function PushNotification(type, msg) 
-{
+function pushNotification(type, msg) {
   var option = {
     title: "Esito Operazione",
     text: msg,
@@ -92,8 +84,7 @@ function PushNotification(type, msg)
 
   PNotify.defaults.mode = 'light';
 
-  switch (type) 
-  {
+  switch (type) {
     case "success":
       PNotify.success(option);
       break;
@@ -117,20 +108,16 @@ function PushNotification(type, msg)
   }
 }
 
-
 /** Svuota tutti i tag html figli all'interno di un tag padre
  *
  * @param {string} tagID - ID del campo padre (senza #)
  */
-function ClearChildrenNodes(tag) 
-{
-  var elem = document.getElementById(tag);
-  while (elem.firstChild) 
-  {
+function clearChildrenNodes(tagID) {
+  var elem = document.getElementById(tagID);
+  while (elem.firstChild) {
     elem.removeChild(elem.lastChild);
   }
 }
-
 
 /**
  * Genera e visualizza un modal con un messaggio custom e due handler per i tasti CONFERMA e ANNULLA
@@ -141,7 +128,7 @@ function ClearChildrenNodes(tag)
  * @example
  *
  * Esempio di invocazione con due handler
- * GeneratePromptModal('Testo custom',
+ * generatePromptModal('Testo custom',
  *                  function() {
  *                      alert('Invocato handler CONFERMA');
  *                  },
@@ -149,18 +136,17 @@ function ClearChildrenNodes(tag)
  *                      alert('Invocato handler NO');
  *                  });
  */
-function GeneratePromptModal(message, onClickYes, onClickNo) 
-{
+function generatePromptModal(message, onClickYes, onClickNo) {
   // Rimuovi modal con lo stesso ID pre-esistenti
-  $("#wDivGeneratedModal").remove();
+  $("#generatedModal").remove();
 
   var htmlModal = `
-    <div class="modal fade" id="wDivGeneratedModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="generatedModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" hidden>Conferma</h5>
-                    <button id="wGeneratedModalCloseButton" type="button" class="btn btn-light w-100">
+                    <button id="generatedModalCloseButton" type="button" class="btn btn-light w-100">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -170,12 +156,12 @@ function GeneratePromptModal(message, onClickYes, onClickNo)
                 <div class="modal-footer">
                     <div class="row justify-content-between">
                         <div class="col-6">
-                            <button id="wGeneratedModalNoButton" type="button" class="btn btn-secondary fw-bold w-100">
+                            <button id="generatedModalNoButton" type="button" class="btn btn-secondary fw-bold w-100">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
                         <div class="col-6">
-                            <button id="wGeneratedModalYesButton" type="button" class="btn btn-success fw-bold w-100">
+                            <button id="generatedModalYesButton" type="button" class="btn btn-success fw-bold w-100">
                                 <i class="fas fa-check"></i>
                             </button>
                         </div>
@@ -190,35 +176,30 @@ function GeneratePromptModal(message, onClickYes, onClickNo)
   $("body").append(htmlModal);
 
   //Gestione dell'evento on click sul CONFERMA
-  $("#wGeneratedModalYesButton").on("click", function () 
-  {
-    if (onClickYes) 
-    {
+  $("#generatedModalYesButton").on("click", function () {
+    if (onClickYes) {
       onClickYes();
     }
 
-    $("#wDivGeneratedModal").modal("hide");
+    $("#generatedModal").modal("hide");
   });
 
   //Gestione dell'evento on click sul NO
-  $("#wGeneratedModalNoButton").on("click", function () 
-  {
-    if (onClickNo) 
-    {
+  $("#generatedModalNoButton").on("click", function () {
+    if (onClickNo) {
       onClickNo();
     }
 
-    $("#wDivGeneratedModal").modal("hide");
+    $("#generatedModal").modal("hide");
   });
 
   //Gestione dell'evento sul pulsante di chiusura del modal
-  $("#wGeneratedModalCloseButton").on("click", function () 
-  {
-    $("#wDivGeneratedModal").modal("hide");
+  $("#generatedModalCloseButton").on("click", function () {
+    $("#generatedModal").modal("hide");
   });
 
   //Trigger di visualizzazione
-  $("#wDivGeneratedModal").modal("show");
+  $("#generatedModal").modal("show");
 }
 
 /**
@@ -228,20 +209,19 @@ function GeneratePromptModal(message, onClickYes, onClickNo)
  * @example
  *
  * Esempio di invocazione con due handler
- * GenerateInfoModal('Testo custom')
+ * generateInfoModal('Testo custom')
  */
-function GenerateInfoModal(message) 
-{
-    // Rimuovi modal con lo stesso ID pre-esistenti
-    $("#wDivGeneratedModal").remove();
+function generateInfoModal(message) {
+  // Rimuovi modal con lo stesso ID pre-esistenti
+  $("#generatedModal").remove();
 
-    var htmlModal = `
-        <div class="modal fade" id="wDivGeneratedModal" tabindex="-1" role="dialog" aria-hidden="true">
+  var htmlModal = `
+        <div class="modal fade" id="generatedModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" hidden>Conferma</h5>
-                        <button id="wGeneratedModalCloseButton" type="button" class="btn btn-light w-100">
+                        <button id="generatedModalCloseButton" type="button" class="btn btn-light w-100">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -253,19 +233,17 @@ function GenerateInfoModal(message)
         </div>
     `;
 
-    //Aggiungi al DOM, successivamente verranno gestiti eventuali handler sui pulsanti
-    $("body").append(htmlModal);
+  //Aggiungi al DOM, successivamente verranno gestiti eventuali handler sui pulsanti
+  $("body").append(htmlModal);
 
-    //Gestione dell'evento sul pulsante di chiusura del modal
-    $("#wGeneratedModalCloseButton").on("click", function () 
-    {
-        $("#wDivGeneratedModal").modal("hide");
-    });
+  //Gestione dell'evento sul pulsante di chiusura del modal
+  $("#generatedModalCloseButton").on("click", function () {
+    $("#generatedModal").modal("hide");
+  });
 
-    //Trigger di visualizzazione
-    $("#wDivGeneratedModal").modal("show");
+  //Trigger di visualizzazione
+  $("#generatedModal").modal("show");
 }
-
 
 /**
  * Converte una stringa di data e ora in un oggetto Date
@@ -273,17 +251,14 @@ function GenerateInfoModal(message)
  * @param {string} dateTimeString - La stringa della data e ora
  * @returns {Date|null} L'oggetto Date se valido, altrimenti null
  */
-function GetDateTimeFromString(dateTimeString)
-{
-    var dateTime = new Date(dateTimeString);
-    if (isNaN(dateTime))
-    {
-        return null;
-    }
+function getDateTimeFromString(dateTimeString) {
+  var dateTime = new Date(dateTimeString);
+  if (isNaN(dateTime)) {
+    return null;
+  }
 
-    return dateTime;
+  return dateTime;
 }
-
 
 /**
  * Divide una stringa datetime in data e ora
@@ -291,14 +266,12 @@ function GetDateTimeFromString(dateTimeString)
  * @param {string} datetime - La stringa datetime
  * @returns {Object} Un oggetto con le proprietà Date e Time
  */
-function DateTimeSplit(datetime) 
-{
-    return {
-        Date: datetime.substring(0, 10),
-        Time: datetime.substring(11, 16),
-    };
+function dateTimeSplit(datetime) {
+  return {
+    Date: datetime.substring(0, 10),
+    Time: datetime.substring(11, 16),
+  };
 }
-
 
 /**
  * Formatta una data nel formato DD/MM/AAAA
@@ -307,16 +280,15 @@ function DateTimeSplit(datetime)
  * @param {string} [separator='/'] - Il separatore tra giorno, mese e anno
  * @returns {string} La data formattata
  */
-function FormatDateDDMMAAAA(datetime, separator = "/") 
-{
-    var dateParts = datetime.substring(0, 10);
-    var dateComponents = dateParts.split("-");
+function formatDateDDMMYYYY(datetime, separator = "/") {
+  var dateParts = datetime.substring(0, 10);
+  var dateComponents = dateParts.split("-");
 
-    var year = dateComponents[0];
-    var month = dateComponents[1];
-    var day = dateComponents[2];
+  var year = dateComponents[0];
+  var month = dateComponents[1];
+  var day = dateComponents[2];
 
-    return `${day}${separator}${month}${separator}${year}`;
+  return `${day}${separator}${month}${separator}${year}`;
 }
 
 /**
@@ -325,46 +297,41 @@ function FormatDateDDMMAAAA(datetime, separator = "/")
  * @param {string} datetime - La stringa datetime
  * @returns {string} Le ore e i minuti nel formato HH:MM
  */
-function GetHoursMinutesFromDateTime(datetime) 
-{
-    return datetime.substring(11, 16);
+function getHoursMinutesFromDateTime(datetime) {
+  return datetime.substring(11, 16);
 }
 
 //Visualizza o nascondi l'alert della guida in una sezione specifica. 
 //ForceStatus è utilizzato per forzare la visibilità/chiusura a prescindere dallo stato attuale
-function ShowHelpAlert(alert, forceStatus = null) {
+function showHelpAlert(alert, forceStatus = null) {
   var guide = $(alert).find("div");
-  if (guide.is(":hidden") || forceStatus == "open") {
+  if (forceStatus == "open")
     guide.show();
-  }
-  else if (!guide.is(":hidden") || forceStatus == "close") {
+  else if (forceStatus == "close")
     guide.hide();
-  }
+  else if (guide.is(":hidden")) 
+    guide.show();
+  else if (guide.is(":hidden") == false) 
+    guide.hide();
 }
 
-
 //Automazioni al caricamento di ogni pagina
-$(document).ready(function () 
-{
+$(document).ready(function () {
   //Creazione navbar
-  GenerateNavbar();
+  generateNavbar();
 
   //Creazione footer 
-  GenerateFooter();
-  
+  generateFooter();
+
   var path = window.location.pathname;
   var page = path.split("/").pop();
 
   //Gestione link attivo sulla navbar basandosi sulla pagina attuale
-  $(".navbar-nav .nav-link").each(function () 
-  {
+  $(".navbar-nav .nav-link").each(function () {
     var href = $(this).attr("href");
-    if (href === page) 
-    {
+    if (href === page) {
       $(this).parent().addClass("active");
-    } 
-    else 
-    {
+    } else {
       $(this).parent().removeClass("active");
     }
   });
@@ -374,7 +341,7 @@ $(document).ready(function ()
   $(".main-content").css("padding-top", navbarHeight + "px");
 });
 
-function GenerateNavbar() {
+function generateNavbar() {
   var navbar = `
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
@@ -397,7 +364,7 @@ function GenerateNavbar() {
               <a class="nav-link" href="ricerca.html">Ricerca</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.html">La nostra storia</a>
+              <a class="nav-link" href="about.html">La storia</a>
             </li>
           </ul>
         </div>
@@ -406,11 +373,10 @@ function GenerateNavbar() {
   $("body").prepend(navbar);
 }
 
-function GenerateFooter()
-{
+function generateFooter() {
   var footer = `<footer class="footer mt-auto py-1 bg-light">
                   <div class="container text-center">
-                    <span class="text-muted">&copy; Unipegaso - CdL L-31 - Project Work AA 2023/2024: <b>L.A.B. Laboratorio Analisi dr. Brescia </b> - Traccia 1.4 - Gianluca Brescia</span>
+                    <span class="text-muted">&copy; Unipegaso - CdL L-31 - Project Work AA 2023/2024: <b>L.A.B. Laboratory Analysis Dr. Brescia </b> - Track 1.4 - Gianluca Brescia</span>
                   </div>
                 </footer>`;
 
@@ -418,136 +384,114 @@ function GenerateFooter()
 }
 
 //Validatore di codice fiscale
-function ValidatorCodiceFiscale(cf) 
-{
+function validatorCF(cf) {
   var validatorResult = { IsValid: false, Error: null };
 
-  if (cf.length !== 16) 
-  {
+  if (cf.length !== 16) {
     validatorResult.Error = "il codice non è di 16 caratteri";
     return validatorResult;
   }
 
-    // Verifica i primi sei caratteri alfanumerici
-    for (let i = 0; i < 6; i++) {
-      if (!/[A-Z0-9]/.test(cf.charAt(i))) {
-        validatorResult.Error = "i primi sei caratteri non sono alfanumerici";
-        return validatorResult;
-      }
+  // Verifica i primi sei caratteri alfanumerici
+  for (let i = 0; i < 6; i++) {
+    if (!/[A-Z0-9]/.test(cf.charAt(i))) {
+      validatorResult.Error = "i primi sei caratteri non sono alfanumerici";
+      return validatorResult;
+    }
   }
 
   // Verifica i successivi due caratteri numerici (anno nascita)
   for (let i = 6; i < 8; i++) {
-      if (!/[0-9]/.test(cf.charAt(i))) {
-          validatorResult.Error = "l'anno di nascita non è numerico";
-          return validatorResult;
-      }
+    if (!/[0-9]/.test(cf.charAt(i))) {
+      validatorResult.Error = "l'anno di nascita non è numerico";
+      return validatorResult;
+    }
   }
 
   // Verifica il carattere successivo come lettera maiuscola (mese nascita)
   if (!/[A-Z]/.test(cf.charAt(8))) {
-    validatorResult.Error = "il mese di nascita non è una lettera";      
+    validatorResult.Error = "il mese di nascita non è una lettera";
     return validatorResult;
   }
 
   // Verifica i successivi due caratteri numerici (giorno nascita)
   for (let i = 9; i < 11; i++) {
-      if (!/[0-9]/.test(cf.charAt(i))) {
-        validatorResult.Error = "il giorno di nascita non è numerico";   
-        return validatorResult;
-      }
+    if (!/[0-9]/.test(cf.charAt(i))) {
+      validatorResult.Error = "il giorno di nascita non è numerico";
+      return validatorResult;
+    }
   }
 
   // Verifica il carattere successivo come lettera maiuscola
   if (!/[A-Z]/.test(cf.charAt(11))) {
-    validatorResult.Error = "carattere errato";   
+    validatorResult.Error = "carattere errato";
     return validatorResult;
   }
 
   // Verifica i successivi tre caratteri numerici
   for (let i = 12; i < 15; i++) {
-      if (!/[0-9]/.test(cf.charAt(i))) {
-        validatorResult.Error = "carattere errato";   
-        return validatorResult;
-      }
+    if (!/[0-9]/.test(cf.charAt(i))) {
+      validatorResult.Error = "carattere errato";
+      return validatorResult;
+    }
   }
 
   // Verifica l'ultimo carattere come lettera maiuscola
   if (!/[A-Z]/.test(cf.charAt(15))) {
-    validatorResult.Error = "carattere errato";   
+    validatorResult.Error = "carattere errato";
     return validatorResult;
   }
-
-
-  // ^: Inizio della stringa. Questo assicura che la stringa da testare inizi esattamente con il pattern specificato.
-  // [A-Z0-9]{6}: Sei caratteri alfanumerici. [A-Z0-9] indica una classe di caratteri che permette lettere maiuscole (A-Z) e numeri (0-9). {6} indica che questo pattern deve ripetersi esattamente sei volte.
-  // [0-9]{2}: Due numeri. [0-9] indica una classe di caratteri che permette solo numeri, e {2} specifica che questo pattern deve ripetersi esattamente due volte.
-  // [A-Z]: Una lettera maiuscola. [A-Z] indica una classe di caratteri che permette solo lettere maiuscole. Non ci sono quantificatori, quindi deve apparire esattamente una volta.
-  // [0-9]{2}: Due numeri. Stessa logica di prima, due cifre numeriche.
-  // [A-Z]: Una lettera maiuscola. Stessa logica di prima, una singola lettera maiuscola.
-  // [0-9]{3}: Tre numeri. [0-9] indica una classe di caratteri che permette solo numeri, e {3} specifica che questo pattern deve ripetersi esattamente tre volte.
-  // [A-Z]: Una lettera maiuscola. Stessa logica di prima, una singola lettera maiuscola.
-  // $: Fine della stringa. Questo assicura che la stringa da testare termini esattamente con il pattern specificato.
-  //return /^[A-Z0-9]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/.test(cf);
 
   validatorResult.IsValid = true;
   return validatorResult;
 }
 
 //Validatore di codice tessera sanitaria 
-function ValidatorTesseraSanitaria(codice) 
-{
+function validatorTS(code) {
   var validatorResult = { IsValid: false, Error: null };
 
-  if (codice.length !== 20) 
-  {
+  if (code.length !== 20) {
     validatorResult.Error = "Il codice non è di 20 caratteri";
     return validatorResult;
   }
 
   // Il primo carattere è 0
-  if (codice.charAt(0) !== "0") 
-  {
+  if (code.charAt(0) !== "0") {
     validatorResult.Error = "Il primo carattere deve essere 0";
     return validatorResult;
   }
 
   // Codice Tipo Tessera (fisso "80" per prestazioni sanitarie)
-  if (codice.substring(1, 3) !== "80") 
-  {
+  if (code.substring(1, 3) !== "80") {
     validatorResult.Error = "Il secondo e il terzo carattere devono essere 80";
     return validatorResult;
   }
 
   // Codice Stato: (fisso "380" per Italia)
-  if (codice.substring(3, 6) !== "380") 
-  {
+  if (code.substring(3, 6) !== "380") {
     validatorResult.Error = "Il quarto e il quinto carattere devono essere 380";
     return validatorResult;
   }
 
   // Codice Ente: deve essere cinque cifre (primi due "00" seguiti dalle tre cifre specifiche della regione o ente)
-  if (codice.substring(6, 8) !== "00") 
-  {
+  if (code.substring(6, 8) !== "00") {
     validatorResult.Error = "Il settimo e ottavo carattere devono essere 00";
     return validatorResult;
   }
 
-  const regioniValide = new Set([
+  const validRegions = new Set([
     "010", "020", "030", "041", "042", "050", "060", "070", "080", "090", "100",
-    "110", "120", "130", "140", "150", "160", "170", "180", "190", "200", 
+    "110", "120", "130", "140", "150", "160", "170", "180", "190", "200",
     "001", "002", "003", //enti speciali
   ]);
-  let ente = codice.substring(8, 11);
-  if (!regioniValide.has(ente)) 
-  {
+  let entity = code.substring(8, 11);
+  if (!validRegions.has(entity)) {
     validatorResult.Error = "Il codice ente non è stato riconosciuto";
     return validatorResult;
   }
 
   // I successivi 9 caratteri devono essere cifre
-  if (!/^\d{9}$/.test(codice.substring(11, 20))) 
-  {
+  if (!/^\d{9}$/.test(code.substring(11, 20))) {
     validatorResult.Error = "Gli ultimi 9 caratteri devono essere cifre";
     return validatorResult;
   }
@@ -556,17 +500,16 @@ function ValidatorTesseraSanitaria(codice)
   return validatorResult;
 }
 
-function ValidatorEmail(email)
-{
+function validatorEmail(email) {
   var validatorResult = { IsValid: false, Error: null };
   validatorResult.IsValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-  if (validatorResult.IsValid == false)
+  if (!validatorResult.IsValid) {
     validatorResult.Error = "email non valida";
+  }
 
   return validatorResult;
 }
 
-function IsNullOrEmpty(text)
-{
+function isNullOrEmpty(text) {
   return (text == null || text === undefined || text == "");
 }

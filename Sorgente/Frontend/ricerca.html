@@ -22,7 +22,7 @@
         <div class="container-fluid main-content mt-2">
           <div class="row">
             <div class="col-12">
-              <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
+              <div data-scope="guide" class="alert alert-info" onclick="showHelpAlert(this)" style="cursor: pointer;">
                 <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
                 <div>
                   In quest'area potrai cercare le tue prenotazioni. Per favore osserva i seguenti vincoli:
@@ -43,7 +43,7 @@
                     <input id="wTs" type="text" class="form-control" maxlength="20">
                 </div>
                 <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-1 d-flex align-items-end">
-                    <button title="Ricerca" type="button" class="btn btn-dark w-100" onclick="GetReservationList()"><i class="fas fa-search"></i></button>
+                    <button title="Ricerca" type="button" class="btn btn-dark w-100" onclick="getReservationList()"><i class="fas fa-search"></i></button>
                 </div>
             </div>
             <hr class="line-separator-blue" />
@@ -75,64 +75,36 @@
 
         //Nascondi div alert guida
         $('div[data-scope="guide"]').each(function () {
-          ShowHelpAlert(this, "close");
+          showHelpAlert(this, "close");
         });
 
     });
     
-    async function GetReservationList() {
+    async function getReservationList() {
         var cf = $("#wCf").val();
         var ts = $("#wTs").val();
-        if (!ValidatorCodiceFiscale(cf))
+        if (!validatorCF(cf))
         {
-            PushNotification("error", "Il codice fiscale non è corretto");
+            pushNotification("error", "Il codice fiscale non è corretto");
             $("#wDivResult").hide();
             return;      
         }
-        if (!ValidatorTesseraSanitaria(ts))
+        if (!validatorTS(ts))
         {
-            PushNotification("error", "Il codice della tessera sanitaria non è corretto");
+            pushNotification("error", "Il codice della tessera sanitaria non è corretto");
             $("#wDivResult").hide();
             return;      
         }
 
-        var response = await ExecuteApiCall("GET", API_GET_LISTA_PRENOTAZIONI, {"cf": cf, "ts": ts});
+        var response = await executeApiCall("GET", API_GET_RESERVATION_LIST, {"cf": cf, "ts": ts});
        
-        if (HasHttpSuccessCode(response.code) == false)
+        if (hasHttpSuccessCode(response.code) == false)
         {
-            PushNotification("error", response.error_message);
+            pushNotification("error", response.error_message);
             $("#wDivResult").hide();
             return;
         }
 
-        response = response.payload;
-        GenerateTable(response);
-    }
-
-    function EditReservation(id, cf, ts)
-    {
-        window.location.href = `prenotazione.html?id=${id}&cf=${cf}&ts=${ts}`; 
-    }
-
-    async function DeleteReservation(id, cf, ts)
-    {
-        var response = await ExecuteApiCall("GET", API_GET_LISTA_PRENOTAZIONI, {"id": id, "cf": cf, "ts": ts});
-        if (HasHttpSuccessCode(response.code) == false)
-        {
-            PushNotification("error", response.error_message);
-            return;
-        }
-        else
-        {
-            PushNotification("success", "Eliminazione effettuata");
-        }
-
-        //Ricarica lista
-        await GetReservationList();
-    }
-
-    function GenerateTable(reservationList)
-    {
         $("#wDivResult").show();
         new DataTable('#wTableResult', 
         {
@@ -140,7 +112,7 @@
             info: false,
             ordering: true,
             paging: false,
-            data: reservationList,
+            data: response.payload,
             columns: [
                 {
                     data: "id",
@@ -150,8 +122,8 @@
                     render: function (data, type, row) {
                         if (type === "display" || type === "filter")
                         {
-                            var dateTime = DateTimeSplit(data);
-                            return FormatDateDDMMAAAA(dateTime.Date)
+                            var dateTime = dateTimeSplit(data);
+                            return formatDateDDMMYYYY(dateTime.Date)
                         }
 
                         return data;
@@ -162,7 +134,7 @@
                     render: function (data, type, row) {
                         if (type === "display" || type === "filter")
                         {
-                            var dateTime = DateTimeSplit(data);
+                            var dateTime = dateTimeSplit(data);
                             return dateTime.Time
                         }
 
@@ -178,7 +150,7 @@
                         if (type === "display" || type === "filter")
                         {
                             var listaAnalisi = data[0].tipo + " " + data[0].nome;
-                            return `<button title="Visualizza" type="button" class="btn btn-link" onclick="GenerateInfoModal('${listaAnalisi}')"><i class="fas fa-list"></i></button>`;
+                            return `<button title="Visualizza" type="button" class="btn btn-link" onclick="generateInfoModal('${listaAnalisi}')"><i class="fas fa-list"></i></button>`;
                         }
 
                         return data;
@@ -190,7 +162,7 @@
                     render: function (data, type, row) {
                         if (type === "display")
                         {
-                            return `<button title="Modifica" type="button" class="btn btn-primary" onclick="EditReservation('${row.id}', '${row.cf}', '${row.ts}')"><i class="fas fa-edit"></i></button>`;
+                            return `<button title="Modifica" type="button" class="btn btn-primary" onclick="editReservation('${row.id}', '${row.cf}', '${row.ts}')"><i class="fas fa-edit"></i></button>`;
                         }
 
                         return "";
@@ -205,7 +177,7 @@
                             var id = row.id;
                             var cf = row.cf;
                             var ts = row.ts;
-                            var handler = function(id, cf, ts) { DeleteReservation(id, cf, ts) }
+                            var handler = function(id, cf, ts) { deleteReservation(id, cf, ts) }
                             return `<button title="Elimina" type="button" class="btn btn-danger" onclick="GeneratePromptModal('Confermi eliminazione?', ${handler})"><i class="fas fa-trash"></i></button>`;
                         }
 
@@ -214,6 +186,28 @@
                 }
             ]
         });
+    }
+
+    function editReservation(id, cf, ts)
+    {
+        window.location.href = `prenotazione.html?id=${id}&cf=${cf}&ts=${ts}`; 
+    }
+
+    async function deleteReservation(id, cf, ts)
+    {
+        var response = await executeApiCall("GET", API_DELETE_RESERVATION, {"id": id, "cf": cf, "ts": ts});
+        if (hasHttpSuccessCode(response.code) == false)
+        {
+            pushNotification("error", response.error_message);
+            return;
+        }
+        else
+        {
+            pushNotification("success", "Eliminazione effettuata");
+        }
+
+        //Ricarica lista
+        await getReservationList();
     }
 </script>
 </html>

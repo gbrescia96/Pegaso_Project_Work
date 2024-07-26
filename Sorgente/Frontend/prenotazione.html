@@ -30,10 +30,10 @@
 
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb" id="breadcrumb">
-        <li data-scope="anagrafica" class="breadcrumb-item active" onclick="ShowSection('anagrafica')">ANAGRAFICA</li>
-        <li data-scope="esami" class="breadcrumb-item" onclick="ShowSection('esami')">ESAMI</li>
-        <li data-scope="appuntamento" class="breadcrumb-item" onclick="ShowSection('appuntamento')">APPUNTAMENTO</li>
-        <li data-scope="preconferma" class="breadcrumb-item" onclick="ShowSection('preconferma')">CONTROLLA E INVIA</li>
+        <li data-scope="anagrafica" class="breadcrumb-item active" onclick="showSection('anagrafica')">ANAGRAFICA</li>
+        <li data-scope="esami" class="breadcrumb-item" onclick="showSection('esami')">ESAMI</li>
+        <li data-scope="appuntamento" class="breadcrumb-item" onclick="showSection('appuntamento')">APPUNTAMENTO</li>
+        <li data-scope="preconferma" class="breadcrumb-item" onclick="showSection('preconferma')">CONTROLLA E INVIA</li>
       </ol>
     </nav>
     <hr class="line-separator-blue" />
@@ -42,10 +42,10 @@
       <a href="prenotazione.html">Inserisci nuova</a>
     </div>
     <form id="wFormPrenotazione">
-      <div id="section-anagrafica" class="active">
+      <div id="section-anagrafica">
         <div class="row">
           <div class="col-12">
-            <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
+            <div data-scope="guide" class="alert alert-info" onclick="showHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
                 In quest'area inserirai i dati anagrafici relativi alla tua persona. Per favore osserva i seguenti vincoli:
@@ -61,8 +61,8 @@
         </div>
         <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
-            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fas fa-arrow-right"></i></button>
+            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fas fa-arrow-right"></i></button>
           </div>
         </div>
         <hr class="line-separator-blue" />
@@ -100,7 +100,7 @@
       <div id="section-esami">
         <div class="row">
           <div class="col-12">
-            <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
+            <div data-scope="guide" class="alert alert-info" onclick="showHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
                 In quest'area sceglierai a quali esami sottoporti. Per favore osserva i seguenti vincoli:
@@ -115,12 +115,12 @@
 
         <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="ShowSection('anagrafica')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
-            <button type="button" onclick="ShowSection('anagrafica')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
+            <button type="button" onclick="showSection('anagrafica')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="showSection('anagrafica')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
           </div>
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
-            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fa-arrow-right"></i></button>
+            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fa-arrow-right"></i></button>
           </div>
         </div>
         <hr class="line-separator-blue" />
@@ -289,7 +289,7 @@
       <div id="section-appuntamento">
         <div class="row">
           <div class="col-12">
-            <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
+            <div data-scope="guide" class="alert alert-info" onclick="showHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
                 In quest'area sceglierai data, ora e laboratorio in cui sostenere gli esami scelti. Per favore osserva i seguenti vincoli:
@@ -304,12 +304,12 @@
         </div>
         <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
-            <button type="button" onclick="ShowSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
+            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
           </div>
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="ShowSection('preconferma')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
-            <button type="button" onclick="ShowSection('preconferma')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fas fa-arrow-right"></i></button>
+            <button type="button" onclick="showSection('preconferma')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="showSection('preconferma')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fas fas fas fa-arrow-right"></i></button>
           </div>
         </div>
         <hr class="line-separator-blue" />
@@ -332,7 +332,7 @@
       <div id="section-preconferma">
         <div class="row">
           <div class="col-12">
-            <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
+            <div data-scope="guide" class="alert alert-info" onclick="showHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
                 In quest'area sarà fornito un riassunto della prenotazione prima di inviarla. Per favore osserva i seguenti vincoli:
@@ -358,21 +358,21 @@
         <hr class="line-separator-blue" />
         <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
-            <button type="button" onclick="ShowSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
+            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
           </div>
           <div class="col-4 col-xl-2">
             <button type="reset" class="btn btn-warning w-100 d-none d-md-inline" 
-                    onclick="GeneratePromptModal(
+                    onclick="generatePromptModal(
                             'Continuando cancellerai tutti i campi inseriti. Confermi?',  
                             function () {
-                              ResetForm();
+                              resetForm();
                             })">Reset</button>
               <button type="reset" class="btn btn-warning w-100 d-inline d-md-none" 
-                      onclick="GeneratePromptModal(
+                      onclick="generatePromptModal(
                               'Continuando cancellerai tutti i campi inseriti. Confermi?',  
                               function () {
-                                ResetForm();
+                                resetForm();
                               })"><i class="fas fa-redo"></i></button>
           </div>
           <div class="col-4 col-xl-2">
@@ -395,18 +395,18 @@
       var ts = params.get("ts");
       if (id != null && cf != null && ts != null)
       {
-        GetReservation(id, cf, ts);
+        getReservation(id, cf, ts);
       }
       else 
       {
         $("#wFormPrenotazione").show();
       }
       
-      ShowSection("anagrafica");
+      showSection("anagrafica", "close");
     });
 
     //Visualizza una sezione specifica, nascondendo le altre e accendendo la voce specifica nel breadcrumb.
-    function ShowSection(targetSection) {
+    function showSection(targetSection) {
       //Rimuovi l'active attuale e cicla nello scope di ogni tag nel breadcrumb. 
       //Saranno nascoste tutte le sezioni tranne quella esplicitamente indicata nel parametro targetSection
       $("#breadcrumb .breadcrumb-item").removeClass("active");
@@ -425,96 +425,96 @@
 
       //Nascondi div alert guida
       $('div[data-scope="guide"]').each(function () {
-        ShowHelpAlert(this, "close");
+        showHelpAlert(this, "close");
       });
 
       //Rigenera la preview prenotazione quando si seleziona l'area di preconferma
       if (targetSection == "preconferma")
       {
-        PreviewReservation();
+        previewFormDataBeforeUpsert();
       }
     }
 
     //Contiene la validazione dei campi di ogni sotto-sezione
-    function PreValidateFormSection(section) {
+    function preValidateFormSection(section) {
       if (section == "anagrafica") {
         var validator;
-        if (IsNullOrEmpty($("#wPrNome").val())) {
-          PushNotification("error", "Il campo nome è vuoto");
+        if (isNullOrEmpty($("#wPrNome").val())) {
+          pushNotification("error", "Il campo nome è vuoto");
           return false;
         }
 
-        if (IsNullOrEmpty($("#wPrCognome").val())) {
-          PushNotification("error", "Il campo cognome è vuoto");
+        if (isNullOrEmpty($("#wPrCognome").val())) {
+          pushNotification("error", "Il campo cognome è vuoto");
           return false;
         }
 
-        if (IsNullOrEmpty($("#wPrCf").val())) {
-          PushNotification("error", "Il campo codice fiscale è vuoto");
+        if (isNullOrEmpty($("#wPrCf").val())) {
+          pushNotification("error", "Il campo codice fiscale è vuoto");
           return false;
         }
 
-        validator = ValidatorCodiceFiscale($("#wPrCf").val());
+        validator = validatorCF($("#wPrCf").val());
         if (validator.IsValid == false) {
-          PushNotification("error", `Il codice fiscale non è valido: ${validator.Error}`);
+          pushNotification("error", `Il codice fiscale non è valido: ${validator.Error}`);
           return false;
         }
 
-        if (IsNullOrEmpty($("#wPrTs").val())) {
-          PushNotification("error", "Il campo tessera sanitaria è vuoto");
+        if (isNullOrEmpty($("#wPrTs").val())) {
+          pushNotification("error", "Il campo tessera sanitaria è vuoto");
           return false;
         }
 
-        validator = ValidatorTesseraSanitaria($("#wPrTs").val());
+        validator = validatorTS($("#wPrTs").val());
         if (validator.IsValid == false) {
-          PushNotification("error", `La tessera sanitaria non è valida: ${validator.Error}`);
+          pushNotification("error", `La tessera sanitaria non è valida: ${validator.Error}`);
           return false;
         }
 
-        if (IsNullOrEmpty($("#wPrEmail").val()) == false) {
-          validator = ValidatorEmail($("#wPrEmail").val());
+        if (isNullOrEmpty($("#wPrEmail").val()) == false) {
+          validator = validatorEmail($("#wPrEmail").val());
           if (validator.IsValid == false) {
-            PushNotification("error", `L'e-mail non è valida: ${validator.Error}`);
+            pushNotification("error", `L'e-mail non è valida: ${validator.Error}`);
             return false;
           }
         }
 
       }
       else if (section == "esami") {
-        var listExams = GetExamsSelectedFromCheckboxes();
+        var listExams = getExamsSelectedFromCheckboxes();
         if (listExams.length == 0)
         {
-          PushNotification("error", "È necessario selezionare almeno un esame")
+          pushNotification("error", "È necessario selezionare almeno un esame")
           return false;
         }
       }
       else if (section == "appuntamento") {
-        var dateTime = GetDateTimeFromString($("#wPrDataOra").val());
+        var dateTime = getDateTimeFromString($("#wPrDataOra").val());
         if (dateTime == null) {
-          PushNotification("error", "Data e ora prenotazione non hanno un formato valido");
+          pushNotification("error", "Data e ora prenotazione non hanno un formato valido");
           return false;
         }
 
         if (dateTime < new Date())
         {
-          PushNotification("error", "Data e ora non possono essere minori di quelle attuali");
+          pushNotification("error", "Data e ora non possono essere minori di quelle attuali");
           return false;
         }
 
-        if (CheckReservationNextDay(dateTime) == false)
+        if (checkReservationNextDay(dateTime) == false)
         {
-          PushNotification("error", `Il giorno dev'essere successivo ad oggi`)
+          pushNotification("error", `Il giorno dev'essere successivo ad oggi`)
           return false;
         }
 
 
-        if (CheckReservationDay(dateTime) == false) {
-          PushNotification("error", "Il giorno deve essere compreso tra lunedì e venerdì")
+        if (checkReservationDay(dateTime) == false) {
+          pushNotification("error", "Il giorno deve essere compreso tra lunedì e venerdì")
           return false;
         }
 
-        if (CheckReservationTimeRange(dateTime) == false) {
-          PushNotification("error", "L'orario deve essere compreso tra le 08:00 e le 18:00")
+        if (checkReservationTimeRange(dateTime) == false) {
+          pushNotification("error", "L'orario deve essere compreso tra le 08:00 e le 18:00")
           return false;
         }
       }
@@ -522,7 +522,7 @@
       {
         if ($("#wCheckConfirmPr").is(":checked") == false)
         {
-          PushNotification("error", "È necessaria l'esplicita conferma dei dati inseriti prima di inviare la prenotazione")
+          pushNotification("error", "È necessaria l'esplicita conferma dei dati inseriti prima di inviare la prenotazione")
           return false;
         }
       }
@@ -532,7 +532,7 @@
 
 
     //Verififica se la data passata ha il giorno nel range valido
-    function CheckReservationDay(dateTime = null) {
+    function checkReservationDay(dateTime = null) {
       if (dateTime == null)
         return false;
 
@@ -545,7 +545,7 @@
     }
 
     //Verifica se l'orario è nel range valido
-    function CheckReservationTimeRange(dateTime = null) {
+    function checkReservationTimeRange(dateTime = null) {
       if (dateTime == null)
         return false;
 
@@ -559,14 +559,14 @@
 
 
     //Verifica se la data successiva a quella passata rispetta i vincoli di giorno e ora nei range
-    function CheckReservationNextDay(dateTime) {
+    function checkReservationNextDay(dateTime) {
       var dateTimeTomorrow = dateTime.getDay() + 1;
-      return CheckReservationDay(dateTimeTomorrow) && CheckReservationTimeRange(dateTimeTomorrow);
+      return checkReservationDay(dateTimeTomorrow) && checkReservationTimeRange(dateTimeTomorrow);
     }
 
 
     //Converte la data da un oggetto stringa
-    function GetDateTimeFromString(input) {
+    function getDateTimeFromString(input) {
       var dateTime = new Date(input);
       if (isNaN(dateTime))
         return null;
@@ -574,21 +574,21 @@
       return dateTime;
     }
 
-    function ResetForm() {
+    function resetForm() {
       $("input[id^='wPr'").each(function () {
         $(this).val();
       });
       //Riporta l'utente all'anagrafica
-      ShowSection("anagrafica");
-      PushNotification("success", "Tutti i campi sono stati svuotati")
+      showSection("anagrafica");
+      pushNotification("success", "Tutti i campi sono stati svuotati")
     }
 
 
     //In base ai parametri passati nell'url cerca la prenotazione indicata e riempi i campi del form
-    async function GetReservation(id, cf, ts) {
-      var response = await ExecuteApiCall("GET", API_GET_PRENOTAZIONE, { id: id, cf: cf, ts: ts });
-      if (HasHttpSuccessCode(response.code) == false) {
-        PushNotification("error", response.error_message);
+    async function getReservation(id, cf, ts) {
+      var response = await executeApiCall("GET", API_GET_RESERVATION, { id: id, cf: cf, ts: ts });
+      if (hasHttpSuccessCode(response.code) == false) {
+        pushNotification("error", response.error_message);
         $("#wDivErrore").show();
         return;
       }
@@ -597,11 +597,11 @@
       var data = response.payload;
       existingReservationData = data;
       isNewReservation = false;
-      var stringAlertMessage = `La prenotazione è stata inserita il <b>${FormatDateDDMMAAAA(data.dataOraInserimento)} alle ${GetHoursMinutesFromDateTime(data.dataOraInserimento)}</b>`;
+      var stringAlertMessage = `La prenotazione è stata inserita il <b>${formatDateDDMMYYYY(data.dataOraInserimento)} alle ${getHoursMinutesFromDateTime(data.dataOraInserimento)}</b>`;
       if (data.dataOraModifica != null) {
-        stringAlertMessage += ` e modificata il <b>${FormatDateDDMMAAAA(data.dataOraModifica)} alle ${GetHoursMinutesFromDateTime(data.dataOraModifica)}`;
+        stringAlertMessage += ` e modificata il <b>${formatDateDDMMYYYY(data.dataOraModifica)} alle ${getHoursMinutesFromDateTime(data.dataOraModifica)}`;
       }
-      ClearChildrenNodes("wDivInfoAlert");
+      clearChildrenNodes("wDivInfoAlert");
       $("#wDivInfoAlert").append(stringAlertMessage);
       $("#wPrId").val(data.id);
       $("#wPrNome").val(data.nome);
@@ -622,10 +622,10 @@
     async function UpsertReservation() {
       var response = null;
 
-      if (PreValidateFormSection("anagrafica") == false ||
-          PreValidateFormSection("esami") == false ||
-          PreValidateFormSection("appuntamento") == false || 
-          PreValidateFormSection("preconferma") == false)
+      if (preValidateFormSection("anagrafica") == false ||
+          preValidateFormSection("esami") == false ||
+          preValidateFormSection("appuntamento") == false || 
+          preValidateFormSection("preconferma") == false)
       {
         return false;
       }
@@ -636,27 +636,27 @@
         cf: $("#wPrCf").val(),
         dataOraPrenotazione: $("#wPrDataOra").val(),
         laboratorio: $("#wPrLaboratorio").val(),
-        listaAnalisi: GetExamsSelectedFromCheckboxes(),
+        listaAnalisi: getExamsSelectedFromCheckboxes(),
       };
 
-      PushNotification("info", "call disattivata");
+      pushNotification("info", "call disattivata");
       return;
       if (isNewReservation)
-        response = await ExecuteApiCall("POST", API_ADD_PRENOTAZIONE, {}, jsonData);
+        response = await executeApiCall("POST", API_ADD_RESERVATION, {}, jsonData);
       else
-        response = await ExecuteApiCall("POST", API_UPDATE_PRENOTAZIONE, {}, jsonData);
+        response = await executeApiCall("POST", API_UPDATE_RESERVATION, {}, jsonData);
 
-      if (HasHttpSuccessCode(response.code) == false) {
-        PushNotification("error", response.error_message);
+      if (hasHttpSuccessCode(response.code) == false) {
+        pushNotification("error", response.error_message);
         return;
       }
 
-      PushNotification("success", `Prenotazione ${isNewReservation ? "inviata" : "aggiornata"} correttamente!`);
+      pushNotification("success", `Prenotazione ${isNewReservation ? "inviata" : "aggiornata"} correttamente!`);
     }
 
 
     //Recupero array delle analisi selezionate dalle checkbox
-    function GetExamsSelectedFromCheckboxes() {
+    function getExamsSelectedFromCheckboxes() {
       var listaAnalisi = [];
       $('input[type="checkbox"][data-scope]').each(function () {
         if ($(this).is(":checked")) {
@@ -671,15 +671,15 @@
 
 
     //Utility per il recupero del valore di un campo o visualizzazione di stringa vuota. Usato nel RiassuntoPrenotazione
-    function GetFieldValueOrEmpty(field)
+    function getFormFieldValueOrEmpty(field)
     {
-      if (IsNullOrEmpty($(field).val()))
+      if (isNullOrEmpty($(field).val()))
         return "";
       else
         return $(field).val();
     }
 
-    function PreviewReservation() {
+    function previewFormDataBeforeUpsert() {
       var dataFields = [
         { "FieldName": "wPrGenere", "FieldValue": "", "Required": true },
         { "FieldName": "wPrNome", "FieldValue": "", "Required": true },
@@ -693,7 +693,7 @@
       var isFormCompleted = true;
       for(let i = 0; i < dataFields.length; i++)
       {
-        var value = GetFieldValueOrEmpty("#" + dataFields[i].FieldName);
+        var value = getFormFieldValueOrEmpty("#" + dataFields[i].FieldName);
         if (value == "" && dataFields[i].Required == true)
         { 
           isFormCompleted = false;
@@ -715,7 +715,7 @@
         //Prendi il testo della option selezionata, non il valore
         var laboratorio = $('#wPrLaboratorio option:selected').text();
         // Recupera l'elenco degli esami selezionati dalle checkbox
-        var selectedExams = GetExamsSelectedFromCheckboxes();
+        var selectedExams = getExamsSelectedFromCheckboxes();
         // Ottieni i tipi di analisi unici
         var uniqueExamTypes = [...new Set(selectedExams.map((exam) => exam.tipo))];
         // Crea una stringa che raggruppa le analisi per tipo
@@ -731,14 +731,14 @@
           return accumulator;
         }, "");
 
-        var dataOraPrenotazione = DateTimeSplit(dataFields.find(field => field.FieldName === "wPrDataOra").FieldValue);
-        var dataPrenotazione = FormatDateDDMMAAAA(dataOraPrenotazione.Date);
+        var dataOraPrenotazione = dateTimeSplit(dataFields.find(field => field.FieldName === "wPrDataOra").FieldValue);
+        var dataPrenotazione = formatDateDDMMYYYY(dataOraPrenotazione.Date);
         var oraPrenotazione = dataOraPrenotazione.Time;
         var examsResultDelivery;
-        if (IsNullOrEmpty(email))
+        if (isNullOrEmpty(email))
         {
           examsResultDelivery = `Non è stata fornita alcuna e-mail; gli esiti andranno ritirati al laboratorio indicato oppure 
-            <span class="text-lab-blue" style="cursor: pointer" onclick="ShowSection('anagrafica'); $('#wPrEmail').focus();">clicca qui per aggiungere un'e-email</span>`;
+            <span class="text-lab-blue" style="cursor: pointer" onclick="showSection('anagrafica'); $('#wPrEmail').focus();">clicca qui per aggiungere un'e-email</span>`;
         }
         else
         {
@@ -768,7 +768,7 @@
         `;
       }
 
-      ClearChildrenNodes("wDivPreviewPrenotazione");
+      clearChildrenNodes("wDivPreviewPrenotazione");
       $("#wDivPreviewPrenotazione").append(tag);
     }
   </script>

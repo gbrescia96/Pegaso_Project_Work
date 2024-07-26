@@ -28,6 +28,7 @@
                   In quest'area potrai cercare le tue prenotazioni. Per favore osserva i seguenti vincoli:
                   <ul>
                     <li>i campi marcati con il <span class="with-asterisk">simbolo</span> sono obbligatori</li>
+                    <li>dopo la ricerca puoi filtrare i risultati utilizzando il campo '<b>Filtra</b>'</li>
                   </ul>
                 </div>
               </div>
@@ -53,8 +54,8 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Data</th>
-                        <th>Ora</th>
+                        <th>Data/Ora</th>
+                        <th>Stato</th>
                         <th>Laboratorio</th>
                         <th>Esami</th>
                         <th>Modifica</th>
@@ -106,6 +107,12 @@
         }
 
         $("#wDivResult").show();
+        //Disabilita il riconoscimento automatico del tipo di dato in quanto crea delle classi css che non allineano correttamente al centro la tabella
+        DataTable.type('num', 'detect', () => false);
+        DataTable.type('num-fmt', 'detect', () => false);
+        DataTable.type('html-num-fmt', 'detect', () => false);
+        DataTable.type('html-num', 'detect', () => false);
+        DataTable.type('date', 'detect', () => false);
         new DataTable('#wTableResult', 
         {
             destroy: true,
@@ -113,9 +120,13 @@
             ordering: true,
             paging: false,
             data: response.payload,
+            columnDefs: [
+                { "className": "dt-head-center", "targets": "_all" },
+                { "className": "dt-center", "targets": "_all" }
+            ],
             columns: [
                 {
-                    data: "id",
+                    data: "id"
                 },
                 {
                     data: "dataOraPrenotazione",
@@ -123,19 +134,27 @@
                         if (type === "display" || type === "filter")
                         {
                             var dateTime = dateTimeSplit(data);
-                            return formatDateDDMMYYYY(dateTime.Date)
+                            return formatDateDDMMYYYY(dateTime.Date) + " - " + dateTime.Time;
                         }
 
                         return data;
                     }
                 },
                 {
-                    data: "dataOraPrenotazione",
+                    data: null,
                     render: function (data, type, row) {
                         if (type === "display" || type === "filter")
                         {
-                            var dateTime = dateTimeSplit(data);
-                            return dateTime.Time
+                            var tag;
+                            if (isDateExpired(row.dataOraPrenotazione))
+                            {
+                              tag = `<span class="fw-bold" style="color: red;">Scaduta</span>`;
+                            }
+                            else
+                            {
+                              tag = `<span class="fw-bold" style="color: green;">Valida</span>`;
+                            }
+                            return tag;
                         }
 
                         return data;
@@ -145,12 +164,13 @@
                     data: "laboratorio",
                 },
                 {
-                    data: "listaAnalisi",
+                    data: "listaEsami",
+                    orderable: false,
                     render: function (data, type, row) {
                         if (type === "display" || type === "filter")
                         {
-                            var listaAnalisi = data[0].tipo + " " + data[0].nome;
-                            return `<button title="Visualizza" type="button" class="btn btn-link" onclick="generateInfoModal('${listaAnalisi}')"><i class="fas fa-list"></i></button>`;
+                            var listaEsami = data[0].tipo + " " + data[0].nome;
+                            return `<button title="Visualizza" type="button" class="btn btn-link w-100" onclick="generateInfoModal('${listaEsami}')"><i class="fas fa-list"></i></button>`;
                         }
 
                         return data;
@@ -159,10 +179,18 @@
                 //Tasto modifica prenotazione
                 {
                     data: null,
+                    orderable: false,
                     render: function (data, type, row) {
                         if (type === "display")
                         {
-                            return `<button title="Modifica" type="button" class="btn btn-primary" onclick="editReservation('${row.id}', '${row.cf}', '${row.ts}')"><i class="fas fa-edit"></i></button>`;
+                            if (isDateExpired(row.dataOraPrenotazione))
+                            {
+                              return "-";
+                            }
+                            else
+                            {
+                              return `<button title="Modifica" type="button" class="btn btn-secondary" onclick="editReservation('${row.id}', '${row.cf}', '${row.ts}')"><i class="fas fa-edit"></i></button>`;
+                            }
                         }
 
                         return "";
@@ -171,14 +199,22 @@
                 //Tasto elimina prenotaazione
                 {
                     data: null,
+                    orderable: false,
                     render: function (data, type, row) {
                         if (type === "display")
                         {
-                            var id = row.id;
-                            var cf = row.cf;
-                            var ts = row.ts;
-                            var handler = function(id, cf, ts) { deleteReservation(id, cf, ts) }
-                            return `<button title="Elimina" type="button" class="btn btn-danger" onclick="GeneratePromptModal('Confermi eliminazione?', ${handler})"><i class="fas fa-trash"></i></button>`;
+                          if (isDateExpired(row.dataOraPrenotazione))
+                            {
+                              return "-";
+                            }
+                            else
+                            {
+                              var id = row.id;
+                              var cf = row.cf;
+                              var ts = row.ts;
+                              var handler = function(id, cf, ts) { deleteReservation(id, cf, ts) }
+                              return `<button title="Elimina" type="button" class="btn btn-danger" onclick="GeneratePromptModal('Confermi eliminazione?', ${handler})"><i class="fas fa-trash"></i></button>`;
+                            }
                         }
 
                         return "";
@@ -191,6 +227,11 @@
     function editReservation(id, cf, ts)
     {
         window.location.href = `prenotazione.html?id=${id}&cf=${cf}&ts=${ts}`; 
+    }
+
+    function isDateExpired(dateTime)
+    {
+      return getDateTimeFromString(dateTime) < new Date();
     }
 
     async function deleteReservation(id, cf, ts)

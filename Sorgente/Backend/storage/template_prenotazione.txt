@@ -9,5 +9,5 @@
     "cf": "BRSGLC96B09B506O",
     "ts": "",
     "laboratorio": "lab1",
-    "listaAnalisi": [{"tipo": "", "nome": ""}],
+    "listaEsami": [{"tipo": "", "nome": ""}],
 }

@@ -89,10 +89,10 @@ class Reservation:
         self._laboratorio = value
 
     @property
-    def lista_analisi(self):
+    def lista_esami(self):
         return self._lista_esami
-    @lista_analisi.setter
-    def lista_analisi(self, value):
+    @lista_esami.setter
+    def lista_esami(self, value):
         self._lista_esami = value
 
     # Converti da classe a json
@@ -108,7 +108,7 @@ class Reservation:
             "cf": self.cf,
             "ts": self.ts,
             "laboratorio": self.laboratorio,
-            "listaAnalisi": self.lista_analisi
+            "listaEsami": self.lista_esami
         }
 
     # Converti da json a classe
@@ -123,7 +123,7 @@ class Reservation:
         self.cf = json.get("cf").upper()
         self.ts = json.get("ts")
         self.laboratorio = json.get("laboratorio")
-        self.lista_analisi = json.get("listaAnalisi")
+        self.lista_esami = json.get("listaEsami")
         return self
 
     # Validatore codice fiscale

@@ -1,0 +1,16 @@
+{
+  "id": "321",
+  "nome": "Gianluca",
+  "cognome": "Brescia",
+  "email": "g@mail.com",
+  "dataOraInserimento": "2024-01-10T09:00",
+  "dataOraModifica": "2024-01-11T10:00",
+  "dataOraPrenotazione": "2024-01-23T11:00",
+  "cf": "BRSGLC96B09B506O",
+  "ts": "08038000110345678900",
+  "laboratorio": "lab1",
+  "listaEsami": [
+      {"tipo": "Sangue", "nome": "emocromo"},
+      {"tipo": "Sangue", "nome": "glicemia"}
+  ]
+}

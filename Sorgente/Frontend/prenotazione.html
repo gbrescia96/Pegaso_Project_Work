@@ -20,10 +20,9 @@
 
 <body>
   <div class="container-fluid main-content mt-2">
-    <div class="row">
+    <div class="row text-center">
       <div class="col-12">
-        <div id="wDivInfoAlert" class="alert alert-primary" role="alert">
-          Inserimento prenotazione
+        <div id="wDivReservationStatus" class="alert alert-primary" role="alert">
         </div>
       </div>
     </div>
@@ -37,9 +36,12 @@
       </ol>
     </nav>
     <hr class="line-separator-blue" />
-    <div id="wDivErrore">
-      <h3>Non trovata</h3>
-      <a href="prenotazione.html">Inserisci nuova</a>
+    <div id="wDivError" class="row justify-content-center text-center">
+      <div class="col-12">
+        <div id="wErrorMessage" class="alert alert-danger">
+
+        </div>
+      </div>
     </div>
     <form id="wFormPrenotazione">
       <div id="section-anagrafica">
@@ -321,9 +323,9 @@
           <div class="col-6 col-md-6 col-xl-2">
             <label for="wPrLaboratorio">Laboratorio</label>
             <select id="wPrLaboratorio" class="form-select">
-              <option value="lab1" selected>Roma - Via Rossi 10</option>
-              <option value="lab2">Roma - Via Verdi 21</option>
-              <option value="lab3">Roma - Via Bianchi 3/b</option>
+              <option value="Roma - Via Rossi 10" selected>Roma - Via Rossi 10</option>
+              <option value="Roma - Via Verdi 21">Roma - Via Verdi 21</option>
+              <option value="Roma - Via Bianchi 3/b">Roma - Via Bianchi 3/b</option>
             </select>
           </div>
         </div>
@@ -385,25 +387,78 @@
   </div>
   <script>
     var isNewReservation = true;
-    var existingReservationData = null;
+    var existingReservationData;
 
-    $(document).ready(function () {
-      $("#wDivErrore, #wFormPrenotazione").hide();
+    $(document).ready(async function () {
+      $("#wDivError, #wFormPrenotazione").hide();
       var params = new URLSearchParams(window.location.search);
       var id = params.get("id");
       var cf = params.get("cf");
       var ts = params.get("ts");
       if (id != null && cf != null && ts != null)
       {
-        getReservation(id, cf, ts);
+        var response = await executeApiCall("GET", API_GET_RESERVATION, { id: id, cf: cf, ts: ts });
+        if (hasHttpSuccessCode(response.code) == false) {
+          showError(true, response.error_message);
+          return;
+        }
+        //Salva i dati nella variabile globale per poter accedere da ogni sezione della pagina
+        existingReservationData = response.payload;
+        isNewReservation = false;
+
+        //Controlla se la data di prenotazione è inferiore ad ora (prenotazione scaduta)
+        if (getDateTimeFromString(existingReservationData.dataOraPrenotazione) < new Date())
+        {
+          showError(true, `La prenotazione è scaduta il ${formatDateDDMMYYYY(existingReservationData.dataOraPrenotazione)} e non è possibile modificarla`);
+          return;
+        }
+
+        //Riempi i campi con i dati tornati dall'API
+        fillFormWithReservationData();
       }
-      else 
-      {
-        $("#wFormPrenotazione").show();
-      }
-      
+
+      showError(false);
       showSection("anagrafica", "close");
+      showReservationStatus();
     });
+
+
+    function showError(isError, errorMessage = "") {
+      if (isError)
+      {
+        $("#wFormPrenotazione, #breadcrumb").hide();
+        $("#wDivError").show();
+        clearChildrenNodes("wErrorMessage");
+        var errorAlert = `<h4 class="fw-bold">Errore: ${errorMessage}</h4>
+                          <br />
+                          <a href="prenotazione.html">Inserisci nuova prenotazione</a>`;
+        $("#wErrorMessage").append(errorAlert);
+      }
+      else
+      {
+        $("#wFormPrenotazione, #breadcrumb").show();
+        $("#wDivError").hide();
+      }
+    }
+
+    //Visualizza stato prenotazione nell'alert
+    function showReservationStatus() {
+      var status = "Stato: ";
+      if (isNewReservation)
+      {
+        status += `<b>aggiunta nuova prenotazione</b>`
+      }
+      else
+      {
+          status += `<b>modifica prenotazione (ID ${existingReservationData.id})</b>
+                      inserita il <b>${formatDateDDMMYYYY(existingReservationData.dataOraInserimento)} alle ${getHoursMinutesFromDateTime(existingReservationData.dataOraInserimento)}</b> `;
+          if (existingReservationData.dataOraModifica != null) {
+            status += `e modificata il <b>${formatDateDDMMYYYY(existingReservationData.dataOraModifica)} alle ${getHoursMinutesFromDateTime(existingReservationData.dataOraModifica)}</b>`;
+          }
+      }
+      clearChildrenNodes("wDivReservationStatus");
+      $("#wDivReservationStatus").append(status);
+    }
 
     //Visualizza una sezione specifica, nascondendo le altre e accendendo la voce specifica nel breadcrumb.
     function showSection(targetSection) {
@@ -584,25 +639,9 @@
     }
 
 
-    //In base ai parametri passati nell'url cerca la prenotazione indicata e riempi i campi del form
-    async function getReservation(id, cf, ts) {
-      var response = await executeApiCall("GET", API_GET_RESERVATION, { id: id, cf: cf, ts: ts });
-      if (hasHttpSuccessCode(response.code) == false) {
-        pushNotification("error", response.error_message);
-        $("#wDivErrore").show();
-        return;
-      }
-
+    function fillFormWithReservationData() {
+      var data = existingReservationData;
       $("#wFormPrenotazione").show();
-      var data = response.payload;
-      existingReservationData = data;
-      isNewReservation = false;
-      var stringAlertMessage = `La prenotazione è stata inserita il <b>${formatDateDDMMYYYY(data.dataOraInserimento)} alle ${getHoursMinutesFromDateTime(data.dataOraInserimento)}</b>`;
-      if (data.dataOraModifica != null) {
-        stringAlertMessage += ` e modificata il <b>${formatDateDDMMYYYY(data.dataOraModifica)} alle ${getHoursMinutesFromDateTime(data.dataOraModifica)}`;
-      }
-      clearChildrenNodes("wDivInfoAlert");
-      $("#wDivInfoAlert").append(stringAlertMessage);
       $("#wPrId").val(data.id);
       $("#wPrNome").val(data.nome);
       $("#wPrCognome").val(data.cognome);
@@ -688,6 +727,7 @@
         { "FieldName": "wPrCf", "FieldValue": "", "Required": true },
         { "FieldName": "wPrEmail", "FieldValue": "", "Required": false },
         { "FieldName": "wPrDataOra", "FieldValue": "", "Required": true },
+        { "FieldName": "wPrLaboratorio", "FieldValue": "", "Required": true },
       ]
 
       var isFormCompleted = true;
@@ -712,8 +752,7 @@
         var ts = dataFields.find(field => field.FieldName === "wPrTs").FieldValue;
         var cf = dataFields.find(field => field.FieldName === "wPrCf").FieldValue;;
         var email = dataFields.find(field => field.FieldName === "wPrEmail").FieldValue;
-        //Prendi il testo della option selezionata, non il valore
-        var laboratorio = $('#wPrLaboratorio option:selected').text();
+        var laboratorio = dataFields.find(field => field.FieldName === "wPrLaboratorio").FieldValue;
         // Recupera l'elenco degli esami selezionati dalle checkbox
         var selectedExams = getExamsSelectedFromCheckboxes();
         // Ottieni i tipi di analisi unici
@@ -747,6 +786,7 @@
 
         tag = `
           <div class="alert alert-success">
+            <h5 class="text-center fw-bold text-lab-blue">Riepilogo dei dati</h5>
             <p>
               ${genere} <b>${nome} ${cognome}</b>
               con codice fiscale <b>${cf}</b> e codice tessera sanitaria <b>${ts}</b>

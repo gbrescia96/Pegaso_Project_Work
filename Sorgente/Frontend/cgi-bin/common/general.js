@@ -330,6 +330,19 @@ function GetHoursMinutesFromDateTime(datetime)
     return datetime.substring(11, 16);
 }
 
+//Visualizza o nascondi l'alert della guida in una sezione specifica. 
+//ForceStatus è utilizzato per forzare la visibilità/chiusura a prescindere dallo stato attuale
+function ShowHelpAlert(alert, forceStatus = null) {
+  var guide = $(alert).find("div");
+  if (guide.is(":hidden") || forceStatus == "open") {
+    guide.show();
+  }
+  else if (!guide.is(":hidden") || forceStatus == "close") {
+    guide.hide();
+  }
+}
+
+
 //Automazioni al caricamento di ogni pagina
 $(document).ready(function () 
 {

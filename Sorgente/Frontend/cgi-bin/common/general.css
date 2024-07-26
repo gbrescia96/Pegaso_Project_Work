@@ -183,6 +183,13 @@ input[type="checkbox"]:checked:after {
   }
 }
 
+
+.with-asterisk::after {
+  content: "*";
+  color: red;
+  margin-left: 2px; /* Spazio tra il testo e l'asterisco */
+}
+
 /* Gestione di un blocco di testo con margine laterale colorato e proprietà comuni (ogni colore ha la classe dedicata) */
 .block-item {
   margin-bottom: 20px;

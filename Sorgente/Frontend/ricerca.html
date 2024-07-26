@@ -20,13 +20,26 @@
     
     <body>
         <div class="container-fluid main-content mt-2">
+          <div class="row">
+            <div class="col-12">
+              <div data-scope="guide" class="alert alert-info" onclick="ShowHelpAlert(this)" style="cursor: pointer;">
+                <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
+                <div>
+                  In quest'area potrai cercare le tue prenotazioni. Per favore osserva i seguenti vincoli:
+                  <ul>
+                    <li>i campi marcati con il <span class="with-asterisk">simbolo</span> sono obbligatori</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <div class="row justify-content-center">
                 <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-3">
-                    <label>Codice fiscale</label>
+                    <label class="with-asterisk">Codice fiscale</label>
                     <input id="wCf" type="text" class="form-control" maxlength="16">
                 </div>
                 <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-3">
-                    <label>Tessera sanitaria</label>
+                    <label class="with-asterisk">Tessera sanitaria</label>
                     <input id="wTs" type="text" class="form-control" maxlength="20">
                 </div>
                 <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-1 d-flex align-items-end">
@@ -59,6 +72,12 @@
         $("#wDivResult").hide();
         $("#wCf").val("BRSGLC96B09B506O");
         $("#wTs").val("08038000110345678900");
+
+        //Nascondi div alert guida
+        $('div[data-scope="guide"]').each(function () {
+          ShowHelpAlert(this, "close");
+        });
+
     });
     
     async function GetReservationList() {

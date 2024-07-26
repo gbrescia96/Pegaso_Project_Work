@@ -59,7 +59,7 @@
         <div class="row">
           <input id="wPrId" type="text" hidden />
           <div class="col-xl-1 d-flex align-items-end">
-            <select class="form-select">
+            <select id="wPrGenere" class="form-select">
               <option value="Sig.">Sig.</option>
               <option value="Sig.ra">Sig.ra</option>
             </select>
@@ -345,7 +345,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-            recap autogenerato
+            <div id="wDivPreviewPrenotazione"></div>
           </div>
         </div>
         <div class="row justify-content-center text-center">
@@ -426,9 +426,9 @@
       });
 
       //Rigenera il recap quando si seleziona l'area di preconferma
-      if (section == "preconferma")
+      if (targetSection == "preconferma")
       {
-        
+        PreviewReservation();
       }
     }
 
@@ -680,31 +680,66 @@
       return listaAnalisi;
     }
 
-    //TODO: da eliminare da qui, esiste una pagina ad-hoc
-    //Riassumi la prenotazione in un modal per un controllo finale. Il modal visualizzato conterrà l'handler per chiamare UpsertReservation in caso di esisto positivo.
-    function RiassuntoPrenotazione() {
-      listaAnalisi = GetExamsSelectedFromCheckboxes();
-      if (listaAnalisi.length == 0) {
-        PushNotification("error", "Non è stato selezionato alcun esame");
-        return;
-      }
 
-      var tipiAnalisi = [...new Set(listaAnalisi.map((element) => element.tipo))];
-      var summary = `
-                <p>Il/la sig./ra <b>${$("#wPrNome").val()} ${$("#wPrCognome").val()}</b> con codice fiscale <b>${$("#wPrCf").val()}</b>
-                eseguirà il giorno ${FormatDateDDMMAAAA($("#wPrDataOra").val())} alle ${GetHoursMinutesFromDateTime($("#wPrDataOra").val())}
-                i seguenti esami:</p>`;
-      summary += tipiAnalisi.reduce((acc, tipo) => {
-        var esami = listaAnalisi.filter((element) => element.tipo === tipo).map((element) => element.nome).join(", ");
-        acc += `<p><b>${tipo}</b>: ${esami}</p>`;
-        return acc;
+    //Utility per il recupero del valore di un campo o visualizzazione di stringa vuota. Usato nel RiassuntoPrenotazione
+    function GetFieldValueOrEmpty(field)
+    {
+      if (IsNullOrEmpty($(field).val()))
+        return "";
+      else
+        return $(field).val();
+    }
+
+    function PreviewReservation() {
+      var genere = GetFieldValueOrEmpty("#wPrGenere");
+      var nome = GetFieldValueOrEmpty("#wPrNome");
+      var cognome = GetFieldValueOrEmpty("#wPrCognome");
+      var ts = GetFieldValueOrEmpty("#wPrTs");
+      var cf = GetFieldValueOrEmpty("#wPrCf");
+      var email = GetFieldValueOrEmpty("#wPrEmail");
+      //Prendi il testo della option selezionata, non il valore
+      var laboratorio = $('#wPrLaboratorio option:selected').text();
+     // Recupera l'elenco degli esami selezionati dalle checkbox
+      var selectedExams = GetExamsSelectedFromCheckboxes();
+      // Ottieni i tipi di analisi unici
+      var uniqueExamTypes = [...new Set(selectedExams.map((exam) => exam.tipo))];
+      // Crea una stringa che raggruppa le analisi per tipo
+      var groupedExamsString = uniqueExamTypes.reduce((accumulator, tipo) => {
+        // Filtra gli esami per tipo e ottieni i nomi
+        var examsForType = selectedExams
+          .filter((exam) => exam.tipo === tipo)
+          .map((exam) => exam.nome)
+          .join(", ");
+
+        // Aggiungi il gruppo di esami al risultato accumulato
+        accumulator += `<b>${tipo}</b>: ${examsForType} <br />`;
+        return accumulator;
       }, "");
 
-      GeneratePromptModal(summary,
-        function () {
-          UpsertReservation();
-        }
-      );
+      var dataOraPrenotazione = GetFieldValueOrEmpty("#wPrDataOra");
+      var dataPrenotazione;
+      var oraPrenotazione;
+
+      if (IsNullOrEmpty(dataOraPrenotazione) == false)
+      {
+        dataOraPrenotazione = DateTimeSplit(dataOraPrenotazione);
+        dataPrenotazione = FormatDateDDMMAAAA(dataOraPrenotazione.Date);
+        oraPrenotazione = dataOraPrenotazione.Time;
+      }
+      var tag = `
+        <p>
+          ${genere} <b>${nome} ${cognome}</b>
+          con codice fiscale <b>${cf}</b> e codice tessera sanitaria <b>${ts}</b>
+          eseguirà in data <b>${dataPrenotazione}</b> alle ore <b>${oraPrenotazione}</b> presso il laboratorio <b>${laboratorio}</b> i seguenti esami:
+          <br />
+          ${groupedExamsString}
+          <br />
+          L'esito verrà inviato all'e-email <b>${email}</b>
+        </p>
+      `;
+
+      ClearChildrenNodes("wDivPreviewPrenotazione");
+      $("#wDivPreviewPrenotazione").append(tag);
     }
   </script>
 </body>

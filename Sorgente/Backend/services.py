@@ -2,7 +2,7 @@ import os
 import json
 import uuid
 from datetime import datetime
-from models.prenotazione import Prenotazione
+from models.reservation import Reservation
 
 # Crea un puntamento relativo alla cartella storage partendo dalla posizione del file attualmente in esecuzione
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -10,22 +10,22 @@ LOCAL_STORAGE_FOLDER = os.path.join(current_directory, 'storage')
 
 def svc_get_reservation(id: str, cf: str, ts: str):
     """
-    Recupera una prenotazione specifica dal disco basandosi sull'ID, il codice fiscale (CF) e il codice della tessera sanitaria (TS).
+    Recupera una reservation specifica dal disco basandosi sull'ID, il codice fiscale (CF) e il codice della tessera sanitaria (TS).
     
     Args:
-        id (str): L'ID della prenotazione
+        id (str): L'ID della reservation
         cf (str): Il codice fiscale
         ts (str): Il codice della tessera sanitaria
         
     Returns:
-        Prenotazione: L'oggetto Prenotazione se trovato, altrimenti None.
+        Reservation: L'oggetto Reservation se trovato, altrimenti None.
     """
     cf = cf.upper()
     json_files = _get_data_from_disk()
 
     for json in json_files:
         if json["data"].get("id") == id and json["data"].get("cf") == cf and json["data"].get("ts") == ts:
-            return Prenotazione().from_json(json["data"])
+            return Reservation().from_json(json["data"])
 
     return None
 
@@ -39,7 +39,7 @@ def svc_get_reservation_list(cf: str, ts: str):
         ts (str): Il codice della tessera sanitaria
         
     Returns:
-        list: Lista di oggetti Prenotazione trovati.
+        list: Lista di oggetti Reservation trovati.
     """
     cf = cf.upper()
     json_files = _get_data_from_disk()
@@ -47,44 +47,44 @@ def svc_get_reservation_list(cf: str, ts: str):
 
     for json in json_files:
        if json["data"].get("cf") == cf and json["data"].get("ts") == ts:
-        result_list.append(Prenotazione().from_json(json["data"]))
+        result_list.append(Reservation().from_json(json["data"]))
 
     return result_list
 
 
-def svc_add_reservation(prenotazione: Prenotazione):
+def svc_add_reservation(reservation: Reservation):
     """
-    Aggiunge una nuova prenotazione.
+    Aggiunge una nuova reservation.
     
     Args:
-        prenotazione (Prenotazione): Oggetto Prenotazione da aggiungere
+        reservation (Reservation): Oggetto Reservation da aggiungere
         
     Returns:
-        Prenotazione: Prenotazione aggiunta
+        Reservation: Reservation aggiunta
     """
     data_ora = datetime.now()
-    prenotazione.data_ora_inserimento = data_ora.strftime("%Y/%m/%dT%H:%M:%S")
-    prenotazione.data_ora_prenotazione = prenotazione.data_ora_prenotazione
+    reservation.data_ora_inserimento = data_ora.strftime("%Y/%m/%dT%H:%M:%S")
+    reservation.data_ora_prenotazione = reservation.data_ora_prenotazione
 
-    prenotazione.id = _get_file_unique_id()
-    file_full_path = os.path.join(LOCAL_STORAGE_FOLDER, "pr_" +  prenotazione.id + ".json")
-    _write_data_on_disk(prenotazione, file_full_path)
+    reservation.id = _get_file_unique_id()
+    file_full_path = os.path.join(LOCAL_STORAGE_FOLDER, "pr_" +  reservation.id + ".json")
+    _write_data_on_disk(reservation, file_full_path)
 
-    return prenotazione
+    return reservation
 
 
-def svc_update_reservation(new_info: Prenotazione):
+def svc_update_reservation(new_info: Reservation):
     """
-    Aggiorna una prenotazione esistente in base a codice fiscale (CF) e codice della tessera sanitaria (TS). 
+    Aggiorna una reservation esistente in base a codice fiscale (CF) e codice della tessera sanitaria (TS). 
     
     Args:
-        new_info (Prenotazione): L'oggetto Prenotazione con le nuove informazioni.
+        new_info (Reservation): L'oggetto Reservation con le nuove informazioni.
         
     Returns:
-        Prenotazione: L'oggetto Prenotazione aggiornato.
+        Reservation: L'oggetto Reservation aggiornato.
         
     Raises:
-        Exception: Se la prenotazione non viene trovata.
+        Exception: Se la reservation non viene trovata.
     """
     json_files = _get_data_from_disk()
     record = None
@@ -93,7 +93,7 @@ def svc_update_reservation(new_info: Prenotazione):
     for json in json_files:
         if json["data"].get("id") == new_info.id and json["data"].get("cf") == new_info.cf:
             file_full_path = json["file_path"]
-            record = Prenotazione.from_json(json["data"])
+            record = Reservation.from_json(json["data"])
             file_is_present = True
             break
 
@@ -114,15 +114,15 @@ def svc_update_reservation(new_info: Prenotazione):
 
 def svc_delete_reservation(cf: str, id: str, ts: str):
     """
-    Elimina una prenotazione specifica basandosi sull'ID, il codice fiscale (CF) e il codice della tessera sanitaria (TS).
+    Elimina una reservation specifica basandosi sull'ID, il codice fiscale (CF) e il codice della tessera sanitaria (TS).
     
     Args:
         cf (str): Il codice fiscale.
-        id (str): L'ID della prenotazione.
+        id (str): L'ID della reservation.
         ts (str): Il codice della tessera sanitaria
         
     Raises:
-        Exception: Se la prenotazione non viene trovata.
+        Exception: Se la reservation non viene trovata.
     """
     cf = cf.upper()
     json_files = _get_data_from_disk()
@@ -132,7 +132,7 @@ def svc_delete_reservation(cf: str, id: str, ts: str):
             os.remove(json["file_path"])
             return
     
-    raise Exception("Prenotazione non trovata")
+    raise Exception("Reservation non trovata")
 
 
 def _get_data_from_disk():
@@ -140,7 +140,7 @@ def _get_data_from_disk():
     Recupera tutti i file JSON dalla cartella storage.
     
     Returns:
-        list: Lista di dizionari contenenti, per ogni prenotazione, i dati della stessa e il path completo del file.
+        list: Lista di dizionari contenenti, per ogni reservation, i dati della stessa e il path completo del file.
     """
     json_files = []
 
@@ -161,16 +161,16 @@ def _get_data_from_disk():
     return json_files
 
 
-def _write_data_on_disk(prenotazione: Prenotazione, file_path: str):
+def _write_data_on_disk(reservation: Reservation, file_path: str):
     """
-    Scrive un JSON che rappresenta una prenotazione.
+    Scrive un JSON che rappresenta una reservation.
     
     Args:
-        prenotazione (Prenotazione): L'oggetto Prenotazione da scrivere.
+        reservation (Reservation): L'oggetto Reservation da scrivere.
         file_path (str): Il percorso completo del file dove scrivere i dati.
     """
     with open(file_path, 'w', encoding='utf-8') as f:
-        json.dump(prenotazione.to_json(), f)
+        json.dump(reservation.to_json(), f)
 
 def _get_file_unique_id():
     """

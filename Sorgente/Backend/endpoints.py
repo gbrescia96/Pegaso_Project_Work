@@ -48,7 +48,7 @@ def add_reservation():
         
         prenotazione = None
         try:
-            prenotazione = Prenotazione().from_json(json_data)
+            prenotazione = Reservation().from_json(json_data)
         except:
             return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 
@@ -67,7 +67,7 @@ def update_reservation():
         
         prenotazione = None
         try:
-            prenotazione = Prenotazione().from_json(json_data)
+            prenotazione = Reservation().from_json(json_data)
         except:
             return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 

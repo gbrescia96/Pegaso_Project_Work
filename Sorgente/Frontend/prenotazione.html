@@ -609,7 +609,7 @@
       $("#wPrCf").val(data.cf);
       $("#wPrEmail").val(data.email);
       $("#wPrTs").val(data.ts);
-      data.listaAnalisi.forEach(function (item) {
+      data.listaEsami.forEach(function (item) {
         $('input[type="checkbox"][data-scope="' + item.tipo + '"][value="' + item.nome + '"]').prop("checked", true);
       });
       $("#wPrDataOra").val(data.dataOraPrenotazione);
@@ -636,7 +636,7 @@
         cf: $("#wPrCf").val(),
         dataOraPrenotazione: $("#wPrDataOra").val(),
         laboratorio: $("#wPrLaboratorio").val(),
-        listaAnalisi: getExamsSelectedFromCheckboxes(),
+        listaEsami: getExamsSelectedFromCheckboxes(),
       };
 
       pushNotification("info", "call disattivata");
@@ -657,16 +657,16 @@
 
     //Recupero array delle analisi selezionate dalle checkbox
     function getExamsSelectedFromCheckboxes() {
-      var listaAnalisi = [];
+      var listaEsami = [];
       $('input[type="checkbox"][data-scope]').each(function () {
         if ($(this).is(":checked")) {
           var tipo = $(this).attr("data-scope");
           var nome = $(this).val();
-          listaAnalisi.push({ tipo: tipo, nome: nome });
+          listaEsami.push({ tipo: tipo, nome: nome });
         }
       });
 
-      return listaAnalisi;
+      return listaEsami;
     }
 
 

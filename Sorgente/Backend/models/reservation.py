@@ -1,4 +1,4 @@
-class Prenotazione:
+class Reservation:
     def __init__(self):
         self._id = None
         self._nome = None
@@ -10,7 +10,7 @@ class Prenotazione:
         self._cf = None
         self._ts = None
         self._laboratorio = None
-        self._lista_analisi = None
+        self._lista_esami = None
 
     @property
     def id(self):
@@ -90,10 +90,10 @@ class Prenotazione:
 
     @property
     def lista_analisi(self):
-        return self._lista_analisi
+        return self._lista_esami
     @lista_analisi.setter
     def lista_analisi(self, value):
-        self._lista_analisi = value
+        self._lista_esami = value
 
     # Converti da classe a json
     def to_json(self):
@@ -176,7 +176,7 @@ class Prenotazione:
             return False
 
         ente = codice[8:11]
-        if not Prenotazione.validator_codice_ente(ente):
+        if not Reservation.validator_codice_ente(ente):
             return False
 
         # I successivi 9 caratteri devono essere cifre

@@ -24,9 +24,11 @@ Il progetto fa uso di librerie esterne per la gestione di alcune funzionalità l
 ## Note
 - La libreria DataTable è stata modificata nel file DataTable.js per visualizzare i messaggi in italiano senza dover utilizzare l'override della configurazione di default. Di seguito i punti variati:
   ```
-  //Riga 10797 - label presente nel campo di filtro post-generazione DataTable
+  //Label presente nel campo di filtro post-generazione DataTable
   "sSearch": "Filtra:"
-  //Riga 10827 - label presente nella tabella generata se non sono presenti record
+  //Label presente nella tabella generata se il filtro non ha prodotto risultati
   "sZeroRecords": "Nessun risultato corrispondente ai filtri"
+  //Label presente nella tabella generata se non contiene alcun record
+  "sEmptyTable": "Nessun risultato trovato"
   ``` 
  

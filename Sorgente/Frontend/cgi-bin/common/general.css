@@ -12,7 +12,7 @@ html, body {
     display: flex;
     flex-direction: column;
     background-color: #f0f0f0;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
 }
 
 /* Testi basati sui colori principali */
@@ -66,7 +66,6 @@ input[type="checkbox"]
   border-radius: 3px!important;
   outline: none;
 }
-
 input[type="checkbox"]:checked {
   background-color: var(--lab-color-blue);
 }
@@ -78,9 +77,9 @@ input[type="checkbox"]:checked:after {
   line-height: 20px;
 }
 
-/* Gestione della Homepage con immagine background, testi sovrapposti all'immegine e sezione di altre info */
+/* Gestione della Homepage con immagine background, testi sovrapposti all'immagine e sezione di altre info */
 .full-screen-bg {
-    background: url('../../img/background_lab.png') no-repeat center center;
+    background: url('../img/backgroundLab.png') no-repeat center center;
     background-size: cover;
     width: 100%;
     height: 100vh;
@@ -140,14 +139,12 @@ input[type="checkbox"]:checked:after {
     width: 100%;
     position: relative;
 }
-
 .footer {
     background-color: #343a40;
     color: #ffffff;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     flex-shrink: 0;
 }
-
 
 /* Gestione sezioni del form prenotazione tramite breadcrumb */
 .breadcrumb {
@@ -183,7 +180,7 @@ input[type="checkbox"]:checked:after {
   }
 }
 
-
+/* Asterisco rosso accanto alla label associata ad un campo di testo obbligatorio */
 .with-asterisk::after {
   content: "*";
   color: red;
@@ -239,12 +236,4 @@ input[type="checkbox"]:checked:after {
   height: 2px;
   background: linear-gradient(to right, rgba(0, 0, 255, 0) 0%, var(--lab-color-yellow) 50%, rgba(0, 0, 255, 0) 100%);
   margin: 20px 0;
-}
-
-.alert-overlay {
-  position: absolute;
-  z-index: 1000;
-  width: 100%;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.8); /* Aggiunge uno sfondo semi-trasparente */
 }

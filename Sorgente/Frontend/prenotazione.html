@@ -36,10 +36,9 @@
       </ol>
     </nav>
     <hr class="line-separator-blue" />
-    <div id="wDivError" class="row justify-content-center text-center">
+    <div id="wDivMessageOverForm" class="row justify-content-center text-center">
       <div class="col-12">
-        <div id="wErrorMessage" class="alert alert-danger">
-
+        <div id="wMessage" class="alert">
         </div>
       </div>
     </div>
@@ -70,29 +69,29 @@
         <hr class="line-separator-blue" />
         <div class="row justify-content-center">
           <input id="wPrId" type="text" hidden />
-          <div class="col-xl-1 d-flex align-items-end">
+          <div class="col-4 col-xl-1 d-flex align-items-end">
             <select id="wPrGenere" class="form-select">
               <option value="Sig.">Sig.</option>
               <option value="Sig.ra">Sig.ra</option>
             </select>
           </div>
-          <div class="col-3 col-xl-2">
+          <div class="col-4 col-xl-2">
             <label class="with-asterisk" for="wPrNome">Nome</label>
             <input id="wPrNome" type="text" class="form-control" maxlength="20" />
           </div>
-          <div class="col-3 col-xl-2">
+          <div class="col-4 col-xl-2">
             <label class="with-asterisk" for="wPrCognome">Cognome</label>
             <input id="wPrCognome" type="text" class="form-control" maxlength="20" />
           </div>
-          <div class="col-3 col-xl-2">
+          <div class="col-6 col-xl-2">
             <label class="with-asterisk" for="wPrCf">Codice Fiscale</label>
             <input id="wPrCf" type="text" class="form-control" maxlength="16" style="text-transform:uppercase;" />
           </div>
-          <div class="col-3 col-xl-2">
+          <div class="col-6 col-xl-2">
             <label class="with-asterisk" for="wPrTs">Codice Tessera Sanitaria</label>
             <input id="wPrTs" type="text" class="form-control" maxlength="20" />
           </div>
-          <div class="col-3 col-xl-2">
+          <div class="col-5 col-xl-2">
             <label for="wPrEmail">E-mail</label>
             <input id="wPrEmail" type="text" class="form-control" />
           </div>
@@ -378,8 +377,8 @@
                               })"><i class="fas fa-redo"></i></button>
           </div>
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="UpsertReservation()" class="btn btn-dark w-100 d-none d-md-inline">Invia</button>
-            <button type="button" onclick="UpsertReservation()" class="btn btn-success w-100 d-inline d-md-none"><i class="far fa-check-circle"></i></button>
+            <button name="wBtnSend" type="button" onclick="upsertReservation()" class="btn btn-dark w-100 d-none d-md-inline">Invia</button>
+            <button name="wBtnSend" type="button" onclick="upsertReservation()" class="btn btn-success w-100 d-inline d-md-none"><i class="far fa-check-circle"></i></button>
           </div>
         </div>
       </div>
@@ -390,7 +389,7 @@
     var existingReservationData;
 
     $(document).ready(async function () {
-      $("#wDivError, #wFormPrenotazione").hide();
+      $("#wDivMessageOverForm, #wFormPrenotazione").hide();
       var params = new URLSearchParams(window.location.search);
       var id = params.get("id");
       var cf = params.get("cf");
@@ -399,7 +398,7 @@
       {
         var response = await executeApiCall("GET", API_GET_RESERVATION, { id: id, cf: cf, ts: ts });
         if (hasHttpSuccessCode(response.code) == false) {
-          showError(true, response.error_message);
+          showAlertMessageOverForm(true, response.error_message);
           return;
         }
         //Salva i dati nella variabile globale per poter accedere da ogni sezione della pagina
@@ -409,7 +408,7 @@
         //Controlla se la data di prenotazione è inferiore ad ora (prenotazione scaduta)
         if (getDateTimeFromString(existingReservationData.dataOraPrenotazione) < new Date())
         {
-          showError(true, `La prenotazione è scaduta il ${formatDateDDMMYYYY(existingReservationData.dataOraPrenotazione)} e non è possibile modificarla`);
+          showAlertMessageOverForm(true, `La prenotazione è scaduta il ${formatDateDDMMYYYY(existingReservationData.dataOraPrenotazione)} e non è possibile apportare modifiche`);
           return;
         }
 
@@ -417,28 +416,42 @@
         fillFormWithReservationData();
       }
 
-      showError(false);
+      $("#wDivMessageOverForm").hide();
+      $("#wFormPrenotazione, #wDivReservationStatus").show();
+
       showSection("anagrafica", "close");
       showReservationStatus();
+
+      $("#wPrNome").val("gianluca");
+      $("#wPrCognome").val("brescia");
+      $("#wPrCf").val("BRSGLC96B09B506O");
+      $("#wPrTs").val("08038000110345678900");
+      $("#wPrEmail").val("x@mail.com");
+      
     });
 
 
-    function showError(isError, errorMessage = "") {
+    function showAlertMessageOverForm(isError, message = "") {
+      $("#wFormPrenotazione, #breadcrumb, #wDivReservationStatus").hide();
+      $("#wDivMessageOverForm").show();
+
+      clearChildrenNodes("wMessage");
+      var alertTag;
+      var alertClass;
       if (isError)
       {
-        $("#wFormPrenotazione, #breadcrumb").hide();
-        $("#wDivError").show();
-        clearChildrenNodes("wErrorMessage");
-        var errorAlert = `<h4 class="fw-bold">Errore: ${errorMessage}</h4>
-                          <br />
-                          <a href="prenotazione.html">Inserisci nuova prenotazione</a>`;
-        $("#wErrorMessage").append(errorAlert);
+        alertTag = `<h4 class="fw-bold">Errore: ${message}</h4>`;
+        alertClass = "alert-danger";
       }
       else
       {
-        $("#wFormPrenotazione, #breadcrumb").show();
-        $("#wDivError").hide();
+        alertTag = `<h4 class="fw-bold">${message}</h4>`
+        alertClass = "alert-info";
       }
+
+      alertTag += `<br /><a href="prenotazione.html">Inserisci nuova prenotazione</a>`;
+
+      $("#wMessage").append(alertTag).addClass(alertClass);
     }
 
     //Visualizza stato prenotazione nell'alert
@@ -511,7 +524,7 @@
 
         validator = validatorCF($("#wPrCf").val());
         if (validator.IsValid == false) {
-          pushNotification("error", `Il codice fiscale non è valido: ${validator.Error}`);
+          pushNotification("error", `Errore nel campo codice fiscale: ${validator.Error}`);
           return false;
         }
 
@@ -522,7 +535,7 @@
 
         validator = validatorTS($("#wPrTs").val());
         if (validator.IsValid == false) {
-          pushNotification("error", `La tessera sanitaria non è valida: ${validator.Error}`);
+          pushNotification("error", `Errore nel campo tessera sanitaria:  ${validator.Error}`);
           return false;
         }
 
@@ -550,26 +563,19 @@
           return false;
         }
 
-        if (dateTime < new Date())
+        if (checkReservationIsNextDay(dateTime) == false)
         {
-          pushNotification("error", "Data e ora non possono essere minori di quelle attuali");
+          pushNotification("error", `La data della prenotazione dev'essere successiva ad oggi`)
           return false;
         }
 
-        if (checkReservationNextDay(dateTime) == false)
-        {
-          pushNotification("error", `Il giorno dev'essere successivo ad oggi`)
-          return false;
-        }
-
-
-        if (checkReservationDay(dateTime) == false) {
-          pushNotification("error", "Il giorno deve essere compreso tra lunedì e venerdì")
+        if (checkReservationDayRange(dateTime) == false) {
+          pushNotification("error", "La data della prenotazione deve essere compresa tra lunedì e venerdì")
           return false;
         }
 
         if (checkReservationTimeRange(dateTime) == false) {
-          pushNotification("error", "L'orario deve essere compreso tra le 08:00 e le 18:00")
+          pushNotification("error", "L'orario della prenotazione deve essere compreso tra le 08:00 e le 18:00")
           return false;
         }
       }
@@ -586,8 +592,8 @@
     }
 
 
-    //Verififica se la data passata ha il giorno nel range valido
-    function checkReservationDay(dateTime = null) {
+    //Verififica se la data passata ha La data della prenotazione nel range valido
+    function checkReservationDayRange(dateTime = null) {
       if (dateTime == null)
         return false;
 
@@ -613,10 +619,14 @@
     }
 
 
-    //Verifica se la data successiva a quella passata rispetta i vincoli di giorno e ora nei range
-    function checkReservationNextDay(dateTime) {
-      var dateTimeTomorrow = dateTime.getDay() + 1;
-      return checkReservationDay(dateTimeTomorrow) && checkReservationTimeRange(dateTimeTomorrow);
+    //Verifica se la data è uguale o maggiore del giorno successivo ad oggi
+    function checkReservationIsNextDay(dateTimeReservation) {
+      var dateTimeNextDay = new Date();
+      dateTimeNextDay.setDate(new Date().getDate() + 1);
+
+      return dateTimeReservation.getDay() >= dateTimeNextDay.getDay() && 
+            dateTimeReservation.getMonth() >= dateTimeNextDay.getMonth() &&
+            dateTimeReservation.getFullYear() >= dateTimeNextDay.getFullYear();
     }
 
 
@@ -658,7 +668,7 @@
 
 
     //Gestisce Update oppure Insert in base allo stato della prenotazione attuale. Questo unifica le validazioni sui campi prima di inviare i dati
-    async function UpsertReservation() {
+    async function upsertReservation() {
       var response = null;
 
       if (preValidateFormSection("anagrafica") == false ||
@@ -671,26 +681,30 @@
       
       jsonData =
       {
-        id: $("#wPrId").val(),
-        cf: $("#wPrCf").val(),
-        dataOraPrenotazione: $("#wPrDataOra").val(),
-        laboratorio: $("#wPrLaboratorio").val(),
-        listaEsami: getExamsSelectedFromCheckboxes(),
+        "id": $("#wPrId").val(),
+        "nome": $("#wPrNome").val(),
+        "cognome": $("#wPrCognome").val(),
+        "cf": $("#wPrCf").val(),
+        "ts": $("#wPrTs").val(),
+        "email": $("#wPrEmail").val(),
+        "dataOraPrenotazione": $("#wPrDataOra").val(),
+        "laboratorio": $("#wPrLaboratorio").val(),
+        "listaEsami": getExamsSelectedFromCheckboxes(),
       };
 
-      pushNotification("info", "call disattivata");
-      return;
+      console.log(JSON.stringify(jsonData));
+
       if (isNewReservation)
-        response = await executeApiCall("POST", API_ADD_RESERVATION, {}, jsonData);
+        response = await executeApiCall("POST", API_ADD_RESERVATION, {}, JSON.stringify(jsonData));
       else
-        response = await executeApiCall("POST", API_UPDATE_RESERVATION, {}, jsonData);
+        response = await executeApiCall("POST", API_UPDATE_RESERVATION, {}, JSON.stringify(jsonData));
 
       if (hasHttpSuccessCode(response.code) == false) {
         pushNotification("error", response.error_message);
         return;
       }
 
-      pushNotification("success", `Prenotazione ${isNewReservation ? "inviata" : "aggiornata"} correttamente!`);
+      showAlertMessageOverForm(false, `Prenotazione ${isNewReservation ? "inviata" : "aggiornata"} correttamente!`)
     }
 
 
@@ -798,14 +812,18 @@
             </p>
           </div>
         `;
+
+        $("#wCheckConfirmPr, [name='wBtnSend']").removeAttr("disabled");
       }
       else
       {
+       
         tag = `
           <div class="alert alert-danger">
            Errore: non tutti i campi sono stati compilati
           </div>
         `;
+        $("#wCheckConfirmPr, [name='wBtnSend']").attr("disabled", "disabled");
       }
 
       clearChildrenNodes("wDivPreviewPrenotazione");

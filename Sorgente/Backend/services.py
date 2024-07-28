@@ -63,7 +63,7 @@ def svc_add_reservation(reservation: Reservation):
         Reservation: Reservation aggiunta
     """
     data_ora = datetime.now()
-    reservation.data_ora_inserimento = data_ora.strftime("%Y/%m/%dT%H:%M:%S")
+    reservation.data_ora_inserimento = data_ora.strftime("%Y-%m-%dT%H:%M:%S")
     reservation.data_ora_prenotazione = reservation.data_ora_prenotazione
 
     reservation.id = _get_file_unique_id()
@@ -88,21 +88,20 @@ def svc_update_reservation(new_info: Reservation):
     """
     json_files = _get_data_from_disk()
     record = None
-    file_is_present = False
     file_full_path = None
     for json in json_files:
-        if json["data"].get("id") == new_info.id and json["data"].get("cf") == new_info.cf:
+        if json["data"].get("id") == new_info.id and json["data"].get("cf") == new_info.cf and json["data"].get("ts") == new_info.ts:
             file_full_path = json["file_path"]
-            record = Reservation.from_json(json["data"])
-            file_is_present = True
+            record = Reservation().from_json(json["data"])
             break
 
-    if not file_is_present:
+    if record == None:
         raise Exception("Il record non è stato trovato")
     
     # Aggiornamento campi sul record riletto precedentemente
     data_ora = datetime.now()
-    record.data_ora_modifica = data_ora.strftime("%Y/%m/%dT%H:%M:%S")
+    record.email = new_info.email
+    record.data_ora_modifica = data_ora.strftime("%Y-%m-%dT%H:%M:%S")
     record.data_ora_prenotazione = new_info.data_ora_prenotazione
     record.laboratorio = new_info.laboratorio
     record.lista_esami = new_info.lista_esami
@@ -179,4 +178,4 @@ def _get_file_unique_id():
     Returns:
         str: ID univoco.
     """
-    return uuid.uuid1()
+    return str(uuid.uuid1())

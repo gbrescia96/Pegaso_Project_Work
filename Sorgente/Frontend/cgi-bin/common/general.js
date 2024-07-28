@@ -383,19 +383,20 @@ function generateFooter() {
   $("body").append(footer);
 }
 
+//TODO: documentare
 //Validatore di codice fiscale
 function validatorCF(cf) {
-  var validatorResult = { IsValid: false, Error: null };
+  //Il codice, di default, parte da uno stato di errore
+  var validatorResult = { IsValid: false, Error: "il codice è errato" };
 
   if (cf.length !== 16) {
     validatorResult.Error = "il codice non è di 16 caratteri";
     return validatorResult;
   }
 
-  // Verifica i primi sei caratteri alfanumerici
+  // Verifica i primi sei caratteri alfabetici
   for (let i = 0; i < 6; i++) {
-    if (!/[A-Z0-9]/.test(cf.charAt(i))) {
-      validatorResult.Error = "i primi sei caratteri non sono alfanumerici";
+    if (!/[A-Z]/.test(cf.charAt(i))) {
       return validatorResult;
     }
   }
@@ -403,79 +404,72 @@ function validatorCF(cf) {
   // Verifica i successivi due caratteri numerici (anno nascita)
   for (let i = 6; i < 8; i++) {
     if (!/[0-9]/.test(cf.charAt(i))) {
-      validatorResult.Error = "l'anno di nascita non è numerico";
       return validatorResult;
     }
   }
 
-  // Verifica il carattere successivo come lettera maiuscola (mese nascita)
+  // Verifica il carattere relativo al mese di nascita
   if (!/[A-Z]/.test(cf.charAt(8))) {
-    validatorResult.Error = "il mese di nascita non è una lettera";
     return validatorResult;
   }
 
-  // Verifica i successivi due caratteri numerici (giorno nascita)
+  // Verifica i due caratteri numerici del giorno di nascita
   for (let i = 9; i < 11; i++) {
     if (!/[0-9]/.test(cf.charAt(i))) {
-      validatorResult.Error = "il giorno di nascita non è numerico";
       return validatorResult;
     }
   }
 
-  // Verifica il carattere successivo come lettera maiuscola
+  // Verifica il carattere successivo come lettera relativa al sesso
   if (!/[A-Z]/.test(cf.charAt(11))) {
-    validatorResult.Error = "carattere errato";
     return validatorResult;
   }
 
   // Verifica i successivi tre caratteri numerici
   for (let i = 12; i < 15; i++) {
     if (!/[0-9]/.test(cf.charAt(i))) {
-      validatorResult.Error = "carattere errato";
       return validatorResult;
     }
   }
 
-  // Verifica l'ultimo carattere come lettera maiuscola
+  // Verifica la presenza del check digit (non viene controllato se è corretto o meno)
   if (!/[A-Z]/.test(cf.charAt(15))) {
-    validatorResult.Error = "carattere errato";
     return validatorResult;
   }
 
   validatorResult.IsValid = true;
+  validatorResult.Error = null;
   return validatorResult;
 }
 
+//TODO: documentare
 //Validatore di codice tessera sanitaria 
 function validatorTS(code) {
-  var validatorResult = { IsValid: false, Error: null };
+  //Il codice, di default, parte da uno stato di errore
+  var validatorResult = { IsValid: false, Error: "il codice è errato" };
 
   if (code.length !== 20) {
-    validatorResult.Error = "Il codice non è di 20 caratteri";
+    validatorResult.Error = "il codice non è di 20 caratteri";
     return validatorResult;
   }
 
   // Il primo carattere è 0
   if (code.charAt(0) !== "0") {
-    validatorResult.Error = "Il primo carattere deve essere 0";
     return validatorResult;
   }
 
   // Codice Tipo Tessera (fisso "80" per prestazioni sanitarie)
   if (code.substring(1, 3) !== "80") {
-    validatorResult.Error = "Il secondo e il terzo carattere devono essere 80";
     return validatorResult;
   }
 
   // Codice Stato: (fisso "380" per Italia)
   if (code.substring(3, 6) !== "380") {
-    validatorResult.Error = "Il quarto e il quinto carattere devono essere 380";
     return validatorResult;
   }
 
   // Codice Ente: deve essere cinque cifre (primi due "00" seguiti dalle tre cifre specifiche della regione o ente)
   if (code.substring(6, 8) !== "00") {
-    validatorResult.Error = "Il settimo e ottavo carattere devono essere 00";
     return validatorResult;
   }
 
@@ -486,17 +480,16 @@ function validatorTS(code) {
   ]);
   let entity = code.substring(8, 11);
   if (!validRegions.has(entity)) {
-    validatorResult.Error = "Il codice ente non è stato riconosciuto";
     return validatorResult;
   }
 
   // I successivi 9 caratteri devono essere cifre
   if (!/^\d{9}$/.test(code.substring(11, 20))) {
-    validatorResult.Error = "Gli ultimi 9 caratteri devono essere cifre";
     return validatorResult;
   }
 
   validatorResult.IsValid = true;
+  validatorResult.Error = null;
   return validatorResult;
 }
 

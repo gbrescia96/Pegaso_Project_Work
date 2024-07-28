@@ -1,3 +1,5 @@
+import re
+
 class Reservation:
     def __init__(self):
         self._id = None
@@ -38,7 +40,10 @@ class Reservation:
         return self._email
     @email.setter
     def email(self, value):
-        self._email = value
+        if self.validator_email(value):
+            self._email = value
+        else:
+            raise ValueError("E-mail non valida")
 
     @property
     def data_ora_inserimento(self):
@@ -117,13 +122,13 @@ class Reservation:
         self.nome = json.get("nome")
         self.cognome = json.get("cognome")
         self.email = json.get("email")
-        self.data_ora_inserimento = json.get("dataOraInserimento")
-        self.data_ora_modifica = json.get("dataOraModifica")
+        self.data_ora_inserimento = json.get("dataOraInserimento", None)
+        self.data_ora_modifica = json.get("dataOraModifica", None)
         self.data_ora_prenotazione = json.get("dataOraPrenotazione")
         self.cf = json.get("cf").upper()
         self.ts = json.get("ts")
         self.laboratorio = json.get("laboratorio")
-        self.lista_esami = json.get("listaEsami")
+        self.lista_esami = json.get("listaEsami", [])
         return self
 
     # Validatore codice fiscale
@@ -196,3 +201,14 @@ class Reservation:
         }
 
         return codice_regione in regioni_valide
+    
+    # Validatore struttura email
+    @staticmethod
+    def validator_email(email):
+      # Definisci la regex per validare l'email
+      email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+      
+      if re.match(email_regex, email):
+          return True
+      else:
+          return False

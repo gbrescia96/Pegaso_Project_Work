@@ -12,9 +12,9 @@ def get_reservation():
         id = request.args.get('id', type=str)
         cf = request.args.get('cf', type=str)
         ts = request.args.get('ts', type=str)
-        prenotazione = svc_get_reservation(id, cf, ts)
-        if prenotazione:
-            return HttpResponse(200, payload=prenotazione.to_json()).to_json()
+        reservation = svc_get_reservation(id, cf, ts)
+        if reservation:
+            return HttpResponse(200, payload=reservation.to_json()).to_json()
         else:
             return HttpResponse(404, error_message="Prenotazione non trovata").to_json()
     except Exception as ex:
@@ -29,8 +29,8 @@ def get_reservation_list():
         prenotazioni = svc_get_reservation_list(cf, ts)
         if prenotazioni:
             lista_prenotazioni = []
-            for prenotazione in prenotazioni:
-                lista_prenotazioni.append(prenotazione.to_json())
+            for reservation in prenotazioni:
+                lista_prenotazioni.append(reservation.to_json())
 
             return HttpResponse(200, payload=lista_prenotazioni).to_json()
         else:
@@ -46,14 +46,15 @@ def add_reservation():
         if json_data == None:
             return HttpResponse(403, error_message="Il payload non contiene dati").to_json()
         
-        prenotazione = None
+        reservation = None
+        print(json_data)
         try:
-            prenotazione = Reservation().from_json(json_data)
+            reservation = Reservation().from_json(json_data)
         except:
             return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 
-        prenotazione = svc_add_reservation(prenotazione)    
-        return HttpResponse(200, payload=prenotazione.to_json()).to_json()
+        reservation = svc_add_reservation(reservation)    
+        return HttpResponse(200, payload=reservation.to_json()).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 
@@ -65,14 +66,14 @@ def update_reservation():
         if json_data == None:
             return HttpResponse(403, error_message="Il payload non contiene dati").to_json()
         
-        prenotazione = None
+        reservation = None
         try:
-            prenotazione = Reservation().from_json(json_data)
+            reservation = Reservation().from_json(json_data)
         except:
             return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 
-        prenotazione = svc_update_reservation(prenotazione)    
-        return HttpResponse(200, payload=prenotazione.to_json()).to_json()
+        reservation = svc_update_reservation(reservation)    
+        return HttpResponse(200, payload=reservation.to_json()).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 

@@ -84,15 +84,19 @@
     async function getReservationList() {
         var cf = $("#wCf").val();
         var ts = $("#wTs").val();
-        if (!validatorCF(cf))
+        var validator;
+        validator = validatorCF(cf);
+        if (validator.IsValid == false)
         {
-            pushNotification("error", "Il codice fiscale non è corretto");
+            pushNotification("error", `Errore nel campo codice fiscale: ${validator.Error}`);
             $("#wDivResult").hide();
             return;      
         }
-        if (!validatorTS(ts))
+
+        validator = validatorTS(ts);
+        if (validator.IsValid == false)
         {
-            pushNotification("error", "Il codice della tessera sanitaria non è corretto");
+            pushNotification("error", `Errore nel campo tessera sanitaria: ${validator.Error}`);
             $("#wDivResult").hide();
             return;      
         }

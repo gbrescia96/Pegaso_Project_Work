@@ -26,15 +26,8 @@ def get_reservation_list():
     try:
         cf = request.args.get('cf', type=str)
         ts = request.args.get('ts', type=str)
-        prenotazioni = svc_get_reservation_list(cf, ts)
-        if prenotazioni:
-            lista_prenotazioni = []
-            for reservation in prenotazioni:
-                lista_prenotazioni.append(reservation.to_json())
-
-            return HttpResponse(200, payload=lista_prenotazioni).to_json()
-        else:
-            return HttpResponse(404, error_message="Il codice fiscale indicato non ha prenotazioni registrate").to_json()
+        reservation_list = svc_get_reservation_list(cf, ts)
+        return HttpResponse(200, payload=reservation_list).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 

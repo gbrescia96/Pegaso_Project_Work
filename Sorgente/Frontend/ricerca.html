@@ -216,8 +216,7 @@
                               var id = row.id;
                               var cf = row.cf;
                               var ts = row.ts;
-                              var handler = function(id, cf, ts) { deleteReservation(id, cf, ts) }
-                              return `<button title="Elimina" type="button" class="btn btn-danger" onclick="GeneratePromptModal('Confermi eliminazione?', ${handler})"><i class="fas fa-trash"></i></button>`;
+                              return `<button title="Elimina" type="button" class="btn btn-danger" onclick="generatePromptModal('Confermi eliminazione?', function() { deleteReservation('${id}', '${cf}', '${ts}') })"><i class="fas fa-trash"></i></button>`;
                             }
                         }
 
@@ -240,7 +239,7 @@
 
     async function deleteReservation(id, cf, ts)
     {
-        var response = await executeApiCall("GET", API_DELETE_RESERVATION, {"id": id, "cf": cf, "ts": ts});
+        var response = await executeApiCall("DELETE", API_DELETE_RESERVATION, {"id": id, "cf": cf, "ts": ts});
         if (hasHttpSuccessCode(response.code) == false)
         {
             pushNotification("error", response.error_message);

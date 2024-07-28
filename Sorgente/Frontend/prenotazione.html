@@ -692,8 +692,6 @@
         "listaEsami": getExamsSelectedFromCheckboxes(),
       };
 
-      console.log(JSON.stringify(jsonData));
-
       if (isNewReservation)
         response = await executeApiCall("POST", API_ADD_RESERVATION, {}, JSON.stringify(jsonData));
       else

@@ -11,6 +11,7 @@ Per preparare l'ambiente è necessario eseguire i seguenti passi:
   pip install flask-cors;
   ```
 Questo utilizzerà il gestore di installazioni Python (PIP) per installare correttamente le librerie indicate.
+
 Infine, è necessario avviare il Web Server che, di default, resterà il ascolto sulla porta 5000 in locale.
 Aprire il Prompt dei Comandi (CMD) nella sottocartella \Sorgente\Backend e digitare:
  ```

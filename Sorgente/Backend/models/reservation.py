@@ -212,3 +212,5 @@ class Reservation:
           return True
       else:
           return False
+      
+    #TODO: aggiungi validatore data

@@ -26,8 +26,9 @@ def get_reservation_list():
     try:
         cf = request.args.get('cf', type=str)
         ts = request.args.get('ts', type=str)
-        reservation_list = svc_get_reservation_list(cf, ts)
-        return HttpResponse(200, payload=reservation_list).to_json()
+        # Converti la lista ottenuta dal service in una lista di elementi json
+        result_list = [reservation.to_json() for reservation in svc_get_reservation_list(cf, ts)]
+        return HttpResponse(200, payload=result_list).to_json()
     except Exception as ex:
         return HttpResponse(500, error_message=f"{str(ex)}").to_json()
 

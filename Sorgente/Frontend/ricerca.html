@@ -35,15 +35,15 @@
             </div>
 
             <div class="row justify-content-center">
-                <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-3">
+                <div class="col-6 col-lg-4 col-xl-3">
                     <label class="with-asterisk">Codice fiscale</label>
                     <input id="wCf" type="text" class="form-control" maxlength="16">
                 </div>
-                <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-3">
+                <div class="col-6 col-lg-4 col-xl-3">
                     <label class="with-asterisk">Tessera sanitaria</label>
                     <input id="wTs" type="text" class="form-control" maxlength="20">
                 </div>
-                <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-1 d-flex align-items-end">
+                <div class="col-12 col-lg-3 col-xl-1 d-flex align-items-end mt-2">
                     <button title="Ricerca" type="button" class="btn btn-dark w-100" onclick="getReservationList()"><i class="fas fa-search"></i></button>
                 </div>
             </div>
@@ -53,7 +53,6 @@
             <table id="wTableResult" class=" w-100 row-border">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Data/Ora</th>
                         <th>Stato</th>
                         <th>Laboratorio</th>
@@ -123,15 +122,13 @@
             info: false,
             ordering: true,
             paging: false,
+            scrollX: true,
             data: response.payload,
             columnDefs: [
                 { "className": "dt-head-center", "targets": "_all" },
                 { "className": "dt-center", "targets": "_all" }
             ],
             columns: [
-                {
-                    data: "id"
-                },
                 {
                     data: "dataOraPrenotazione",
                     render: function (data, type, row) {

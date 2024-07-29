@@ -125,13 +125,17 @@ def svc_delete_reservation(cf: str, id: str, ts: str):
     """
     cf = cf.upper()
     json_files = _get_data_from_disk()
+    is_deleted = False
 
     for json in json_files:
         if json["data"].get("id") == id and json["data"].get("cf") == cf and json["data"].get("ts") == ts:
-            os.remove(json["file_path"])
+            is_deleted = _delete_data_from_disk(json["file_path"])
             return
     
-    raise Exception("Reservation non trovata")
+    if is_deleted == False:
+      raise Exception("Reservation non trovata")
+    
+    return
 
 
 def _get_data_from_disk():
@@ -170,6 +174,27 @@ def _write_data_on_disk(reservation: Reservation, file_path: str):
     """
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(reservation.to_json(), f)
+
+
+def _delete_data_from_disk(file_path: str):
+    """
+    Rimuove un file dal disco.
+    Nota: la os.remove() di per sé non restituisce alcun risultato, rendendo ambiguo il risultato della cancellazione. 
+    A tale scopo vi è un flag che controlla l'esistenza del file prima di rimuoverlo e la funzione restituisce il valore del flag.
+
+    Args:
+        file_path (str): Il percorso completo del file da rimuovere.
+      
+    Returns:
+        bool: flag che indica se il file esiste ed è stato cancellato.
+    """
+    is_success = False
+    if os.path.exists(file_path):
+      os.remove(file_path)
+      is_success = True
+
+    return is_success
+
 
 def _get_file_unique_id():
     """

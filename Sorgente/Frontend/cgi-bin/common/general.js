@@ -364,7 +364,7 @@ function generateNavbar() {
               <a class="nav-link" href="ricerca.html">Ricerca</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.html">La storia</a>
+              <a class="nav-link" href="about.html">About</a>
             </li>
           </ul>
         </div>
@@ -376,7 +376,7 @@ function generateNavbar() {
 function generateFooter() {
   var footer = `<footer class="footer mt-auto py-1 bg-light">
                   <div class="container text-center">
-                    <span class="text-muted">&copy; Unipegaso - CdL L-31 - Project Work AA 2023/2024: <b>L.A.B. Laboratory Analysis Dr. Brescia </b> - Track 1.4 - Gianluca Brescia</span>
+                    <span class="text-muted">&copy; Unipegaso - CdL L-31 - Project Work AA 2023/2024: <b>L.A.B. Laboratorio Analisi Dr. Brescia </b> - Traccia 1.4 - Gianluca Brescia</span>
                   </div>
                 </footer>`;
 
@@ -442,7 +442,6 @@ function validatorCF(cf) {
   return validatorResult;
 }
 
-//TODO: documentare
 //Validatore di codice tessera sanitaria 
 function validatorTS(code) {
   //Il codice, di default, parte da uno stato di errore

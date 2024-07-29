@@ -11,6 +11,13 @@ Per preparare l'ambiente è necessario eseguire i seguenti passi:
   pip install flask-cors;
   ```
 Questo utilizzerà il gestore di installazioni Python (PIP) per installare correttamente le librerie indicate.
+Infine, è necessario avviare il Web Server che, di default, resterà il ascolto sulla porta 5000 in locale.
+Aprire il Prompt dei Comandi (CMD) nella sottocartella \Sorgente\Backend e digitare:
+ ```
+  python.exe .\endpoints.py
+ ```
+Se tutto è stato configurato correttamente l'esito sarà simile al seguente.
+![image](https://github.com/user-attachments/assets/9d731b6c-5e67-45ef-a3eb-60d878242cf3)
 
 ## Librerie incluse nel progetto
 Il progetto fa uso di librerie esterne per la gestione di alcune funzionalità lato Front-End quali il sistema di notifiche, le tabelle di DataTable e la gestione del layout tramite grid e componenti offerti da Bootstrap.

@@ -421,13 +421,6 @@
 
       showSection("anagrafica", "close");
       showReservationStatus();
-
-      $("#wPrNome").val("gianluca");
-      $("#wPrCognome").val("brescia");
-      $("#wPrCf").val("BRSGLC96B09B506O");
-      $("#wPrTs").val("08038000110345678900");
-      $("#wPrEmail").val("x@mail.com");
-      
     });
 
 
@@ -664,6 +657,8 @@
       $("#wPrDataOra").val(data.dataOraPrenotazione);
       $("#wPrLaboratorio").val(data.laboratorio);
       $("#wPrId, #wPrNome, #wPrCognome, #wPrCf, #wPrTs").prop("readonly", true);
+      //Disattiva selettore di genere
+      $("#wPrGenere").prop("disabled", true);    
     }
 
 

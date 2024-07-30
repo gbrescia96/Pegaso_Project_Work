@@ -1,103 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <head>
-        <title>Homepage</title>
-        <link rel="stylesheet" href="cgi-bin/common/bootstrap.css">
-        <link rel="stylesheet" href="cgi-bin/common/fontawesome.css">
-        <link rel="stylesheet" href="cgi-bin/pnotify/PNotify.css">
-        <link rel="stylesheet" href="cgi-bin/pnotify/PNotifyBrightTheme.css">
-        <link rel="stylesheet" href="cgi-bin/datatable/datatables.css">
-        <link rel="stylesheet" href="cgi-bin/common/general.css">
-        <script src="cgi-bin/common/jquery.js"></script>
-        <script src="cgi-bin/common/bootstrap.js"></script>
-        <script src="cgi-bin/common/fontawesome.js"></script>
-        <script src="cgi-bin/pnotify/PNotify.js"></script>
-        <script src="cgi-bin/datatable/datatables.js"></script>
-        <script src="cgi-bin/common/general.js"></script>
-    </head>
-    
-    <body>
-        <div class="main-content">
-            <div class="full-screen-bg full-screen-bg-main-titles">
-                <p class="main-lab-title">L.A.B.</p>
-                <p class="main-lab-sub-title">Laboratorio Analisi dr. Brescia</p>
-                <p onclick="showMoreInfo()" class="main-lab-show-more underline-animate text-uppercase">scopri di pi&Ugrave;</p>
-            </div>
 
-            <div id="wDivInfo" class="info-section">
-              <div class="block-item block-item-border-blue">
-                <h3 class="text-lab-blue">Offriamo una vasta gamma di esami</h3>
-                <hr class="line-separator-blue" />
-                <div class="row justify-content-around">
-                  <div class="col-12 col-lg-3">
-                    <i class="fa-solid fa-vial fa-3x" style="color: var(--lab-color-red)"></i>
-                    <h4>Esami del <span style="color: var(--lab-color-red)">Sangue</span></h4>
-                    <h5>Essenziali per diagnosticare e monitorare condizioni come anemia, infezioni e disfunzioni organiche. Aiutano a prevenire e gestire molte malattie.</h5>
-                  </div>
-                  <div class="col-12 col-lg-3">
-                    <i class="fa-solid fa-droplet fa-3x"  style="color: var(--lab-color-yellow)"></i>
-                    <h4>Esami delle <span style="color: var(--lab-color-yellow)">Urine</span></h4>
-                    <h5>Indispensabili per valutare la salute dei reni e del tratto urinario. Rilevano infezioni, malattie renali e condizioni metaboliche.</h5>
-                  </div>
-                  <div class="col-12 col-lg-3">
-                    <i class="fa-solid fa-bowl-rice fa-3x"  style="color: var(--lab-color-green)"></i>
-                    <h4>Esami dei <span style="color: var(--lab-color-green)">Nutrienti</span></h4>
-                    <h5>Valutano i livelli di vitamine e minerali, identificando carenze o eccessi. Assicurano che il corpo riceva i nutrienti necessari per funzionare al meglio.</h5>
-                  </div>
-                </div>
-            </div>
-            <div class="block-item block-item-border-blue">
-              <h3 class="text-lab-blue">Gestisci le prenotazioni con un click!</h3>
-              <hr class="line-separator-blue" />
-              <div class="row">
-                <div class="col-12 col-lg-6">
-                  <i class="fas fa-clipboard-list fa-3x"></i>
-                  <h5>Prenota subito i tuoi esami scegliendo la data più comoda per te!</h5>
-                  <a class="btn btn-link" href="prenotazione.html"><h3>Prenota ora!</h3></a>
-                </div>
-                <div class="col-12 col-lg-6">
-                  <i class="fas fa-search fa-3x"></i>
-                  <h5>Imprevisti? Cerca, modifica o elimina una prenotazione esistente</h5>
-                  <a class="btn btn-link" href="ricerca.html"><h3>Le mie prenotazioni</h3></a>
-                </div>
-            </div>
-            </div>
-            <div class="block-item block-item-border-blue">
-              <h3 class="text-lab-blue">Informazioni utili</h3>
-              <hr class="line-separator-blue" />
-              <div class="row justify-content-around">
-                <div class="col-12 col-lg-3">
-                  <i class="fas fa-calendar-check fa-3x"></i>
-                  <h4>I nostri orari</h4>
-                  <p>Dal <span class="text-lab-blue fw-bold">lunedì</span> al <span class="text-lab-blue fw-bold">venerdì</span></p>
-                  <p>Dalle <span class="text-lab-blue fw-bold">08:00</span> alle <span class="text-lab-blue fw-bold">18:00</span></p>
-                </div>
-                <div class="col-12 col-lg-3">
-                  <i class="far fa-address-book fa-3x"></i>
-                  <h4>I nostri contatti</h4>
-                  <p>Email: <b><a href="mailto:lab.lecce@gmail.com">lab.lecce@gmail.com</a></b></p>
-                  <p>Telefono: <b>+39 123 1234567890</b></p>
-                </div>
-                <div class="col-12 col-lg-3">
-                  <i class="fas fa-briefcase fa-3x"></i>
-                  <h4>I nostri laboratori</h4>
-                  <p class="fw-bold">Lecce - <span class="text-lab-blue">Via Rossi 10</span></p>
-                  <p class="fw-bold">Lecce - <span class="text-lab-blue">Via Verdi 21</span></p>
-                  <p class="fw-bold">Lecce - <span class="text-lab-blue">Via Bianchi 3/b</span></p>
-                </div>
-              </div>
-            </div>
-            </div>
+<head>
+  <meta charset="UTF-8">
+
+  <head>
+    <title>Homepage</title>
+    <link rel="stylesheet" href="cgi-bin/common/bootstrap.css">
+    <link rel="stylesheet" href="cgi-bin/common/fontawesome.css">
+    <link rel="stylesheet" href="cgi-bin/pnotify/PNotify.css">
+    <link rel="stylesheet" href="cgi-bin/pnotify/PNotifyBrightTheme.css">
+    <link rel="stylesheet" href="cgi-bin/datatable/datatables.css">
+    <link rel="stylesheet" href="cgi-bin/common/general.css">
+    <script src="cgi-bin/common/jquery.js"></script>
+    <script src="cgi-bin/common/bootstrap.js"></script>
+    <script src="cgi-bin/common/fontawesome.js"></script>
+    <script src="cgi-bin/pnotify/PNotify.js"></script>
+    <script src="cgi-bin/datatable/datatables.js"></script>
+    <script src="cgi-bin/common/general.js"></script>
+  </head>
+
+<body>
+  <div class="main-content">
+    <div class="full-screen-bg full-screen-bg-main-titles">
+      <p class="main-lab-title">L.A.B.</p>
+      <p class="main-lab-sub-title">Laboratorio Analisi dr. Brescia</p>
+      <p onclick="showMoreInfo()" class="main-lab-show-more underline-animate text-uppercase">scopri di pi&Ugrave;</p>
+    </div>
+
+    <div id="wDivInfo" class="info-section">
+      <div class="block-item block-item-border-blue">
+        <h3 class="text-lab-blue">Offriamo una vasta gamma di esami</h3>
+        <hr class="line-separator-blue" />
+        <div class="row justify-content-around">
+          <div class="col-12 col-lg-3">
+            <i class="fa-solid fa-vial fa-3x" style="color: var(--lab-color-red)"></i>
+            <h4>Esami del <span style="color: var(--lab-color-red)">Sangue</span></h4>
+            <h5>Essenziali per diagnosticare e monitorare condizioni come anemia, infezioni e disfunzioni organiche.
+              Aiutano a prevenire e gestire molte malattie.</h5>
+          </div>
+          <div class="col-12 col-lg-3">
+            <i class="fa-solid fa-droplet fa-3x" style="color: var(--lab-color-yellow)"></i>
+            <h4>Esami delle <span style="color: var(--lab-color-yellow)">Urine</span></h4>
+            <h5>Indispensabili per valutare la salute dei reni e del tratto urinario. Rilevano infezioni, malattie
+              renali e condizioni metaboliche.</h5>
+          </div>
+          <div class="col-12 col-lg-3">
+            <i class="fa-solid fa-bowl-rice fa-3x" style="color: var(--lab-color-green)"></i>
+            <h4>Esami dei <span style="color: var(--lab-color-green)">Nutrienti</span></h4>
+            <h5>Valutano i livelli di vitamine e minerali, identificando carenze o eccessi. Assicurano che il corpo
+              riceva i nutrienti necessari per funzionare al meglio.</h5>
+          </div>
         </div>
-    </body>
-    <script>
-        function showMoreInfo()
-        {
-            $('html, body').animate({
-                scrollTop: $('#wDivInfo').offset().top
-            }, 'smooth');
-        }
-    </script>
+      </div>
+      <div class="block-item block-item-border-blue">
+        <h3 class="text-lab-blue">Gestisci le prenotazioni con un click!</h3>
+        <hr class="line-separator-blue" />
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <i class="fas fa-clipboard-list fa-3x"></i>
+            <h5>Prenota subito i tuoi esami scegliendo la data più comoda per te!</h5>
+            <a class="btn btn-link" href="prenotazione.html">
+              <h3>Prenota ora!</h3>
+            </a>
+          </div>
+          <div class="col-12 col-lg-6">
+            <i class="fas fa-search fa-3x"></i>
+            <h5>Imprevisti? Cerca, modifica o elimina una prenotazione esistente</h5>
+            <a class="btn btn-link" href="ricerca.html">
+              <h3>Le mie prenotazioni</h3>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="block-item block-item-border-blue">
+        <h3 class="text-lab-blue">Informazioni utili</h3>
+        <hr class="line-separator-blue" />
+        <div class="row justify-content-around">
+          <div class="col-12 col-lg-3">
+            <i class="fas fa-calendar-check fa-3x"></i>
+            <h4>I nostri orari</h4>
+            <p>Dal <span class="text-lab-blue fw-bold">lunedì</span> al <span
+                class="text-lab-blue fw-bold">venerdì</span></p>
+            <p>Dalle <span class="text-lab-blue fw-bold">08:00</span> alle <span
+                class="text-lab-blue fw-bold">18:00</span></p>
+          </div>
+          <div class="col-12 col-lg-3">
+            <i class="far fa-address-book fa-3x"></i>
+            <h4>I nostri contatti</h4>
+            <p>Email: <b><a href="mailto:lab.lecce@gmail.com">lab.lecce@gmail.com</a></b></p>
+            <p>Telefono: <b>+39 123 1234567890</b></p>
+          </div>
+          <div class="col-12 col-lg-3">
+            <i class="fas fa-briefcase fa-3x"></i>
+            <h4>I nostri laboratori</h4>
+            <p class="fw-bold">Lecce - <span class="text-lab-blue">Via Rossi 10</span></p>
+            <p class="fw-bold">Lecce - <span class="text-lab-blue">Via Verdi 21</span></p>
+            <p class="fw-bold">Lecce - <span class="text-lab-blue">Via Bianchi 3/b</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="block-item block-item-border-blue">
+        <h3 class="text-lab-blue">Le nostre certificazioni</h3>
+        <hr class="line-separator-blue" />
+        <div class="row justify-content-around">
+          <div class="col-3 col-lg-3">
+            <img src="cgi-bin/img/iso9001.png">
+          </div>
+          <div class="col-3 col-lg-3">
+            <img src="cgi-bin/img/iso14001.png">
+          </div>
+          <div class="col-3 col-lg-3">
+            <img src="cgi-bin/img/iso15189.png">
+          </div>
+          <div class="col-3 col-lg-3">
+            <img src="cgi-bin/img/iso45001.png">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  function showMoreInfo() {
+    $('html, body').animate({
+      scrollTop: $('#wDivInfo').offset().top
+    }, 'smooth');
+  }
+</script>
+
 </html>

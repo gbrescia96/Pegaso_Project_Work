@@ -383,7 +383,6 @@ function generateFooter() {
   $("body").append(footer);
 }
 
-//TODO: documentare
 //Validatore di codice fiscale
 function validatorCF(cf) {
   //Il codice, di default, parte da uno stato di errore
@@ -393,45 +392,38 @@ function validatorCF(cf) {
     validatorResult.Error = "il codice non è di 16 caratteri";
     return validatorResult;
   }
-
   // Verifica i primi sei caratteri alfabetici
   for (let i = 0; i < 6; i++) {
     if (!/[A-Z]/.test(cf.charAt(i))) {
       return validatorResult;
     }
   }
-
   // Verifica i successivi due caratteri numerici (anno nascita)
   for (let i = 6; i < 8; i++) {
     if (!/[0-9]/.test(cf.charAt(i))) {
       return validatorResult;
     }
   }
-
   // Verifica il carattere relativo al mese di nascita
   if (!/[A-Z]/.test(cf.charAt(8))) {
     return validatorResult;
   }
-
   // Verifica i due caratteri numerici del giorno di nascita
   for (let i = 9; i < 11; i++) {
     if (!/[0-9]/.test(cf.charAt(i))) {
       return validatorResult;
     }
   }
-
   // Verifica il carattere successivo come lettera relativa al sesso
   if (!/[A-Z]/.test(cf.charAt(11))) {
     return validatorResult;
   }
-
   // Verifica i successivi tre caratteri numerici
   for (let i = 12; i < 15; i++) {
     if (!/[0-9]/.test(cf.charAt(i))) {
       return validatorResult;
     }
   }
-
   // Verifica la presenza del check digit (non viene controllato se è corretto o meno)
   if (!/[A-Z]/.test(cf.charAt(15))) {
     return validatorResult;
@@ -449,11 +441,6 @@ function validatorTS(code) {
 
   if (code.length !== 20) {
     validatorResult.Error = "il codice non è di 20 caratteri";
-    return validatorResult;
-  }
-
-  // Il primo carattere è 0
-  if (code.charAt(0) !== "0") {
     return validatorResult;
   }
 
@@ -484,6 +471,11 @@ function validatorTS(code) {
 
   // I successivi 9 caratteri devono essere cifre
   if (!/^\d{9}$/.test(code.substring(11, 20))) {
+    return validatorResult;
+  }
+
+  // Controlla se il checkdigit è presente
+  if (!code.charAt(19)) {
     return validatorResult;
   }
 

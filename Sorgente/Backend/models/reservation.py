@@ -1,4 +1,5 @@
 import re
+from datetime import datetime, timedelta
 
 class Reservation:
     def __init__(self):
@@ -64,6 +65,18 @@ class Reservation:
         return self._data_ora_prenotazione
     @data_ora_prenotazione.setter
     def data_ora_prenotazione(self, value):
+        if isinstance(value, str):
+            value = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+
+        if not self.check_reservation_is_next_day(value):
+            raise ValueError("La data della prenotazione dev'essere successiva ad oggi")
+
+        if not self.check_reservation_day_range(value):
+            raise ValueError("La data della prenotazione deve essere compresa tra lunedì e venerdì")
+
+        if not self.check_reservation_time_range(value):
+            raise ValueError("L'orario della prenotazione deve essere compreso tra le 08:00 e le 18:00")
+
         self._data_ora_prenotazione = value
 
     @property
@@ -161,10 +174,6 @@ class Reservation:
         if len(codice) != 20:
             return False
 
-        # Il primo carattere è 0
-        if codice[0] != "0":
-            return False
-         
         # Codice Tipo Tessera (fisso "80" per prestazioni sanitarie)
         if codice[1:3] != "80":
             return False
@@ -213,4 +222,34 @@ class Reservation:
       else:
           return False
       
-    #TODO: aggiungi validatore data
+    # Validatore per il range del giorno della prenotazione
+    @staticmethod
+    def check_reservation_day_range(date_time):
+        if date_time is None:
+            return False
+
+        day = date_time.weekday()  # Lunedì (0) - Domenica (6)
+        return 0 <= day <= 4  # Lunedì (0) - Venerdì (4)
+
+    # Validatore per il range dell'orario della prenotazione
+    @staticmethod
+    def check_reservation_time_range(date_time):
+        if date_time is None:
+            return False
+
+        hours = date_time.hour
+        return 8 <= hours <= 18  # Tra le 08:00 e le 18:00
+
+    # Validatore se la data è uguale o maggiore del giorno successivo ad oggi
+    @staticmethod
+    def check_reservation_is_next_day(date_time_reservation):
+        if date_time_reservation is None:
+            return False
+
+        date_time_next_day = datetime.now()
+        # Aggiungi un delta di un giorno
+        date_time_next_day = date_time_next_day.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+
+        return (date_time_reservation.day >= date_time_next_day.day and
+                date_time_reservation.month >= date_time_next_day.month and
+                date_time_reservation.year >= date_time_next_day.year)

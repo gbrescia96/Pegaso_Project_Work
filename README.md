@@ -28,7 +28,12 @@ Il progetto fa uso di librerie esterne per la gestione di alcune funzionalità l
 - [FontAwesome v. 6.5.2 (Free Release)](https://fontawesome.com/start)
 - [DataTable v. 2.1.0](https://datatables.net/download/)
 - [PNotify + Bright Theme v. 5.2.0](https://github.com/sciactive/pnotify/blob/master/README.md)
- 
+
+## Dati di test
+È possibile utilizzare i seguenti dati per testare le funzionalità dell'applicazione:
+- Codice fiscale: ABCDEF01A01A123A
+- Codice tessera sanitaria: 80380001101234567890
+
 ## Note
 - La libreria DataTable è stata modificata nel file DataTable.js per visualizzare i messaggi in italiano senza dover utilizzare l'override della configurazione di default. Di seguito i punti variati:
   ```

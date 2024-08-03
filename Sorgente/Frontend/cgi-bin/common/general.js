@@ -445,17 +445,17 @@ function validatorTS(code) {
   }
 
   // Codice Tipo Tessera (fisso "80" per prestazioni sanitarie)
-  if (code.substring(1, 3) !== "80") {
+  if (!code.startsWith('80')) {
     return validatorResult;
   }
 
   // Codice Stato: (fisso "380" per Italia)
-  if (code.substring(3, 6) !== "380") {
+  if (code.substring(2, 5) !== '380') {
     return validatorResult;
   }
 
   // Codice Ente: deve essere cinque cifre (primi due "00" seguiti dalle tre cifre specifiche della regione o ente)
-  if (code.substring(6, 8) !== "00") {
+  if (code.substring(5, 7) !== '00') {
     return validatorResult;
   }
 
@@ -464,18 +464,20 @@ function validatorTS(code) {
     "110", "120", "130", "140", "150", "160", "170", "180", "190", "200",
     "001", "002", "003", //enti speciali
   ]);
-  let entity = code.substring(8, 11);
+  let entity = code.substring(7, 10);
   if (!validRegions.has(entity)) {
     return validatorResult;
   }
 
   // I successivi 9 caratteri devono essere cifre
-  if (!/^\d{9}$/.test(code.substring(11, 20))) {
-    return validatorResult;
+  for (let i = 10; i < 19; i++) {
+    if (!/\d/.test(code.charAt(i))) {
+      return validatorResult;
+    } 
   }
 
-  // Controlla se il checkdigit è presente
-  if (!code.charAt(19)) {
+   // Presenza del checkdigit
+   if (!code.charAt(19)) {
     return validatorResult;
   }
 

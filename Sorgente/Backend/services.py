@@ -64,8 +64,8 @@ def svc_add_reservation(reservation: Reservation):
     """
     data_ora = datetime.now()
     reservation.data_ora_inserimento = data_ora.strftime("%Y-%m-%dT%H:%M:%S")
-    reservation.data_ora_prenotazione = reservation.data_ora_prenotazione
-
+     # Validazione della data di prenotazione
+    Reservation.execute_validators_on_reservation_date_time(reservation.data_ora_prenotazione)
     reservation.id = _get_file_unique_id()
     file_full_path = os.path.join(LOCAL_STORAGE_FOLDER, "pr_" +  reservation.id + ".json")
     _write_data_on_disk(reservation, file_full_path)
@@ -102,6 +102,8 @@ def svc_update_reservation(new_info: Reservation):
     data_ora = datetime.now()
     record.email = new_info.email
     record.data_ora_modifica = data_ora.strftime("%Y-%m-%dT%H:%M:%S")
+    # Validazione della data di prenotazione
+    Reservation.execute_validators_on_reservation_date_time(new_info._data_ora_prenotazione)
     record.data_ora_prenotazione = new_info.data_ora_prenotazione
     record.laboratorio = new_info.laboratorio
     record.lista_esami = new_info.lista_esami

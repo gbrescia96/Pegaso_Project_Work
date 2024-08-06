@@ -65,18 +65,6 @@ class Reservation:
         return self._data_ora_prenotazione
     @data_ora_prenotazione.setter
     def data_ora_prenotazione(self, value):
-        if isinstance(value, str):
-            value = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
-
-        if not self.check_reservation_is_next_day(value):
-            raise ValueError("La data della prenotazione dev'essere successiva ad oggi")
-
-        if not self.check_reservation_day_range(value):
-            raise ValueError("La data della prenotazione deve essere compresa tra lunedì e venerdì")
-
-        if not self.check_reservation_time_range(value):
-            raise ValueError("L'orario della prenotazione deve essere compreso tra le 08:00 e le 18:00")
-
         self._data_ora_prenotazione = value
 
     @property
@@ -150,7 +138,7 @@ class Reservation:
         if len(codice_fiscale) != 16:
             return False
 
-        if not codice_fiscale[:6].isalnum():
+        if not codice_fiscale[0:6].isalnum():
             return False
         
         if not codice_fiscale[6:8].isdigit():
@@ -173,30 +161,27 @@ class Reservation:
     def validator_tessera_sanitaria(codice):
         if len(codice) != 20:
             return False
-
+       
         # Codice Tipo Tessera (fisso "80" per prestazioni sanitarie)
-        if codice[1:3] != "80":
-            return False
-
-        # Codice Stato: (fisso "380" per Italia)
-        if codice[3:6] != "380":
-            return False
-
-        # Codice Ente: deve essere cinque cifre (primi due "00" seguiti dalle tre cifre specifiche della regione o ente)
-        if codice[6:8] != "00":
+        if codice[0:2] != "80":
             return False
         
-        if not codice[3:6].isdigit():
+        # Codice Stato: (fisso "380" per Italia)
+        if codice[2:5] != "380":
+            return False
+        
+        # Codice Ente: deve essere cinque cifre (primi due "00" seguiti dalle tre cifre specifiche della regione o ente)
+        if codice[5:7] != "00":
             return False
 
-        ente = codice[8:11]
+        ente = codice[7:10]
         if not Reservation.validator_codice_ente(ente):
             return False
 
-        # I successivi 9 caratteri devono essere cifre
-        if not codice[11:20].isdigit():
+        # I successivi 9 caratteri devono essere cifre + checkdigit
+        if not codice[10:20].isdigit():
             return False
-
+        
         return True
     
 
@@ -253,3 +238,16 @@ class Reservation:
         return (date_time_reservation.day >= date_time_next_day.day and
                 date_time_reservation.month >= date_time_next_day.month and
                 date_time_reservation.year >= date_time_next_day.year)
+    
+    # Richiama i validatori sulla data e lancia eccezione in caso di fallimento
+    @staticmethod 
+    def execute_validators_on_reservation_date_time(date_time):
+      if not Reservation.check_reservation_is_next_day(date_time):
+        raise ValueError("La data della prenotazione dev'essere successiva ad oggi")
+
+      if not Reservation.check_reservation_day_range(date_time):
+          raise ValueError("La data della prenotazione deve essere compresa tra lunedì e venerdì")
+
+      if not Reservation.check_reservation_time_range(date_time):
+          raise ValueError("L'orario della prenotazione deve essere compreso tra le 08:00 e le 18:00")
+        

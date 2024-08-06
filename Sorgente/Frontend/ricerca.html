@@ -69,6 +69,8 @@
 
 <script>
     $(document).ready(function() {
+        $("#wCf").val("ABCDEF01A01A123A");
+        $("#wTs").val("80380001101234567890");
         $("#wDivResult").hide();
 
         //Nascondi div alert guida
@@ -168,8 +170,20 @@
                     render: function (data, type, row) {
                         if (type === "display" || type === "filter")
                         {
-                            var listaEsami = data[0].tipo + " " + data[0].nome;
-                            return `<button title="Visualizza" type="button" class="btn btn-link w-100" onclick="generateInfoModal('${listaEsami}')"><i class="fas fa-list"></i></button>`;
+                            var uniqueExamTypes = [...new Set(data.map((exam) => exam.tipo))];
+                            var groupedExamsString = uniqueExamTypes.reduce((accumulator, tipo) => {
+                              var examsForType = data
+                                .filter((exam) => exam.tipo === tipo)
+                                .map((exam) => exam.nome)
+                                .join(", ");
+
+                              accumulator += `<b>${tipo}</b>: ${examsForType} <br />`;
+                              return accumulator;
+                            }, "");
+
+                            var tag = `<p>Sono stati prenotati i seguenti esami:</p>${groupedExamsString}`;
+                            
+                            return `<button title="Visualizza" type="button" class="btn btn-link w-100" onclick="generateInfoModal('${tag}')"><i class="fas fa-list"></i></button>`;
                         }
 
                         return data;

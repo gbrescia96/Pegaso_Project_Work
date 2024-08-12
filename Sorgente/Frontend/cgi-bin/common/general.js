@@ -499,3 +499,7 @@ function validatorEmail(email) {
 function isNullOrEmpty(text) {
   return (text == null || text === undefined || text == "");
 }
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(value);
+}

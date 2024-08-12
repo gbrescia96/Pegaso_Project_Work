@@ -52,7 +52,7 @@ def svc_get_reservation_list(cf: str, ts: str):
     return result_list
 
 
-def svc_add_reservation(reservation: Reservation):
+def svc_add_reservation(new_reservation: Reservation):
     """
     Aggiunge una nuova reservation.
     
@@ -63,14 +63,24 @@ def svc_add_reservation(reservation: Reservation):
         Reservation: Reservation aggiunta
     """
     data_ora = datetime.now()
-    reservation.data_ora_inserimento = data_ora.strftime("%Y-%m-%dT%H:%M:%S")
-     # Validazione della data di prenotazione
-    Reservation.execute_validators_on_reservation_date_time(reservation.data_ora_prenotazione)
-    reservation.id = _get_file_unique_id()
-    file_full_path = os.path.join(LOCAL_STORAGE_FOLDER, "pr_" +  reservation.id + ".json")
-    _write_data_on_disk(reservation, file_full_path)
+    new_reservation.data_ora_inserimento = data_ora.strftime("%Y-%m-%dT%H:%M:%S")
 
-    return reservation
+    # Validazione della data di prenotazione
+    Reservation.validator_data_prenotazione(new_reservation.data_ora_prenotazione)
+
+    # Validazione e-mail
+    Reservation.validator_data_prenotazione(new_reservation.email)
+
+    # Validazione codice fiscale e tessera sanitaria
+    Reservation.validator_codice_fiscale(new_reservation.cf)
+    Reservation.validator_tessera_sanitaria(new_reservation.ts)
+
+    # Assegnazione ID e salvataggio dati
+    new_reservation.id = _get_file_unique_id()
+    file_full_path = os.path.join(LOCAL_STORAGE_FOLDER, "pr_" +  new_reservation.id + ".json")
+    _write_data_on_disk(new_reservation, file_full_path)
+
+    return new_reservation
 
 
 def svc_update_reservation(new_info: Reservation):
@@ -82,9 +92,6 @@ def svc_update_reservation(new_info: Reservation):
         
     Returns:
         Reservation: L'oggetto Reservation aggiornato.
-        
-    Raises:
-        Exception: Se la reservation non viene trovata.
     """
     json_files = _get_data_from_disk()
     record = None
@@ -100,11 +107,24 @@ def svc_update_reservation(new_info: Reservation):
     
     # Aggiornamento campi sul record riletto precedentemente
     data_ora = datetime.now()
-    record.email = new_info.email
     record.data_ora_modifica = data_ora.strftime("%Y-%m-%dT%H:%M:%S")
+
     # Validazione della data di prenotazione
-    Reservation.execute_validators_on_reservation_date_time(new_info._data_ora_prenotazione)
+    Reservation.validator_data_prenotazione(new_info.data_ora_prenotazione)
     record.data_ora_prenotazione = new_info.data_ora_prenotazione
+
+    # Validazione e-mail
+    Reservation.validator_data_prenotazione(new_info.email)
+    record.email = new_info.email
+
+    # Verifica che ID, codice fiscale e tessera sanitaria non siano cambiati
+    if (record.id != new_info.id):
+      raise Exception("L'ID non coincide con quello originariamente registrato")  
+    if (record.cf != new_info.cf):
+      raise Exception("Il codice fiscale non coincide con quello originariamente registrato")
+    if (record.ts != new_info.ts):
+      raise Exception("Il codice tessera sanitaria non coincide con quello originariamente registrato")
+
     record.laboratorio = new_info.laboratorio
     record.lista_esami = new_info.lista_esami
 
@@ -121,9 +141,6 @@ def svc_delete_reservation(cf: str, id: str, ts: str):
         cf (str): Il codice fiscale.
         id (str): L'ID della reservation.
         ts (str): Il codice della tessera sanitaria
-        
-    Raises:
-        Exception: Se la reservation non viene trovata.
     """
     cf = cf.upper()
     json_files = _get_data_from_disk()

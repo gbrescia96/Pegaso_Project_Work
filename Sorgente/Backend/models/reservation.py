@@ -27,6 +27,8 @@ class Reservation:
         return self._nome
     @nome.setter
     def nome(self, value):
+        if value is None or value == "":
+          raise ValueError("Il campo Nome è vuoto o nullo")
         self._nome = value
 
     @property
@@ -34,17 +36,18 @@ class Reservation:
         return self._cognome
     @cognome.setter
     def cognome(self, value):
+        if value is None or value == "":
+          raise ValueError("Il campo Cognome è vuoto o nullo")
         self._cognome = value
 
     @property
     def email(self):
         return self._email
     @email.setter
-    def email(self, value):
-        if self.validator_email(value):
-            self._email = value
-        else:
-            raise ValueError("E-mail non valida")
+    def email(self, value): 
+      if value is None or value == "":
+        raise ValueError("Il campo E-mail è vuoto o nullo")
+      self._email = value
 
     @property
     def data_ora_inserimento(self):
@@ -92,6 +95,8 @@ class Reservation:
         return self._laboratorio
     @laboratorio.setter
     def laboratorio(self, value):
+        if value is None or value == "":
+          raise ValueError("Il campo Laboratorio è vuoto o nullo")
         self._laboratorio = value
 
     @property
@@ -99,6 +104,8 @@ class Reservation:
         return self._lista_esami
     @lista_esami.setter
     def lista_esami(self, value):
+        if value is None or value == "":
+          raise ValueError("Il campo Lista Esami è vuoto o nullo")
         self._lista_esami = value
 
     # Converti da classe a json
@@ -136,118 +143,69 @@ class Reservation:
     @staticmethod
     def validator_codice_fiscale(codice_fiscale):
         if len(codice_fiscale) != 16:
-            return False
-
-        if not codice_fiscale[0:6].isalnum():
-            return False
+          raise Exception("Il Codice Fiscale deve essere lungo 16 caratteri")
         
-        if not codice_fiscale[6:8].isdigit():
-            return False
+        if (not codice_fiscale[0:6].isalnum() or  # Tre caratteri per il cognome + tre caratteri per il nome
+            not codice_fiscale[6:8].isdigit() or  # Due cifre per l'anno di nascita 
+            not codice_fiscale[8].isalpha() or    # Una lettera per il mese di nascita
+            not codice_fiscale[9:11].isdigit() or # Due cifre per il giorno di nascita
+            not codice_fiscale[11:].isalnum()):   # Tre caratteri per il comune e lo stato di nascita + checkdigit   
+          raise Exception("Il Codice Fiscale non è valido")
         
-        if not codice_fiscale[8].isalpha():
-            return False
-        
-        if not codice_fiscale[9:11].isdigit():
-            return False
-        
-        if not codice_fiscale[11:].isalnum():
-            return False
-
-        return True
+        return
 
 
     # Validatore per codice tessera sanitaria
     @staticmethod
     def validator_tessera_sanitaria(codice):
         if len(codice) != 20:
-            return False
+          raise Exception("Il Codice Tessera Sanitaria deve essere lungo 20 caratteri")
        
-        # Codice Tipo Tessera (fisso "80" per prestazioni sanitarie)
-        if codice[0:2] != "80":
-            return False
-        
-        # Codice Stato: (fisso "380" per Italia)
-        if codice[2:5] != "380":
-            return False
-        
-        # Codice Ente: deve essere cinque cifre (primi due "00" seguiti dalle tre cifre specifiche della regione o ente)
-        if codice[5:7] != "00":
-            return False
-
-        ente = codice[7:10]
-        if not Reservation.validator_codice_ente(ente):
-            return False
-
-        # I successivi 9 caratteri devono essere cifre + checkdigit
-        if not codice[10:20].isdigit():
-            return False
-        
-        return True
-    
-
-    # Oltre alle regioni vi sono i tre codici speciali (001, 002, 003) di SASN Genova, Napoli e AIRE
-    @staticmethod
-    def validator_codice_ente(codice_regione):
         regioni_valide = {
             "010", "020", "030", "041", "042", "050", "060", "070", "080", "090",
             "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200",
             "001", "002", "003"
         }
-
-        return codice_regione in regioni_valide
-    
+        
+        if (codice[0:2] != "80" or    # Codice Tipo Tessera (fisso "80" per prestazioni sanitarie)
+            codice[2:5] != "380" or   # Codice Stato: (fisso "380" per Italia)
+            codice[5:7] != "00" or    # Codice Ente: deve essere cinque cifre (primi due "00" seguiti dalle tre cifre specifiche della regione o ente) 
+            codice[7:10] not in regioni_valide or 
+            not codice[10:20].isdigit()):  # I successivi 9 caratteri devono essere cifre + checkdigit
+          raise Exception("Il codice Tessera Sanitaria non è valido")
+        
+        return
+   
     # Validatore struttura email
     @staticmethod
     def validator_email(email):
       # Definisci la regex per validare l'email
       email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
       
-      if re.match(email_regex, email):
-          return True
-      else:
-          return False
+      if not re.match(email_regex, email):
+        raise Exception("L'email non ha un formato valido")
       
-    # Validatore per il range del giorno della prenotazione
-    @staticmethod
-    def check_reservation_day_range(date_time):
-        if date_time is None:
-            return False
-
-        day = date_time.weekday()  # Lunedì (0) - Domenica (6)
-        return 0 <= day <= 4  # Lunedì (0) - Venerdì (4)
-
-    # Validatore per il range dell'orario della prenotazione
-    @staticmethod
-    def check_reservation_time_range(date_time):
-        if date_time is None:
-            return False
-
-        hours = date_time.hour
-        return 8 <= hours <= 18  # Tra le 08:00 e le 18:00
-
-    # Validatore se la data è uguale o maggiore del giorno successivo ad oggi
-    @staticmethod
-    def check_reservation_is_next_day(date_time_reservation):
-        if date_time_reservation is None:
-            return False
-
-        date_time_next_day = datetime.now()
-        # Aggiungi un delta di un giorno
-        date_time_next_day = date_time_next_day.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-
-        return (date_time_reservation.day >= date_time_next_day.day and
-                date_time_reservation.month >= date_time_next_day.month and
-                date_time_reservation.year >= date_time_next_day.year)
+      return
     
-    # Richiama i validatori sulla data e lancia eccezione in caso di fallimento
+
     @staticmethod 
-    def execute_validators_on_reservation_date_time(date_time):
-      if not Reservation.check_reservation_is_next_day(date_time):
-        raise ValueError("La data della prenotazione dev'essere successiva ad oggi")
+    def validator_data_prenotazione(date_time_reservation):
+      if date_time_reservation is None:
+        raise Exception("La data della prenotazione dev'essere successiva ad oggi")
 
-      if not Reservation.check_reservation_day_range(date_time):
-          raise ValueError("La data della prenotazione deve essere compresa tra lunedì e venerdì")
+      date_time_next_day = datetime.now()
+      # Aggiungi un delta di un giorno
+      date_time_next_day = date_time_next_day.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
 
-      if not Reservation.check_reservation_time_range(date_time):
-          raise ValueError("L'orario della prenotazione deve essere compreso tra le 08:00 e le 18:00")
-        
+      if (date_time_reservation.day >= date_time_next_day.day and
+          date_time_reservation.month >= date_time_next_day.month and
+          date_time_reservation.year >= date_time_next_day.year):
+        raise Exception("La data della prenotazione dev'essere successiva ad oggi")
+      
+      day = date_time_reservation.weekday()  # Lunedì (0) - Domenica (6)
+      if 0 <= day <= 4:  # Lunedì (0) - Venerdì (4)
+        raise Exception("La data della prenotazione deve essere compresa tra lunedì e venerdì")
+
+      hours = date_time_reservation.hour
+      if 8 <= hours <= 18: # Tra le 08:00 e le 18:00
+        raise Exception("L'orario della prenotazione deve essere compreso tra le 08:00 e le 18:00")

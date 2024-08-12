@@ -49,12 +49,16 @@
             <div data-scope="guide" class="alert alert-info" onclick="showHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
-                In quest'area inserirai i dati anagrafici relativi alla tua persona. Per favore osserva i seguenti vincoli:
+                In quest'area inserirai i dati anagrafici relativi alla tua persona. Per favore osserva i seguenti
+                vincoli:
                 <ul>
                   <li>i campi marcati con il <span class="with-asterisk">simbolo</span> sono obbligatori</li>
-                  <li>il codice della tessera sanitaria è lungo 20 caratteri ed è presente sul retro della tessera stessa, in fondo</li>
-                  <li>puoi inserire un'e-email se vuoi ricevere il referto direttamente sulla tua casella di posta elettronica</li>
-                  <li>dopo aver inviato la prenotazione i tuoi dati anagrafici non potranno variare eccetto l'e-mail</li>
+                  <li>il codice della tessera sanitaria è lungo 20 caratteri ed è presente sul retro della tessera
+                    stessa, in fondo</li>
+                  <li>puoi inserire un'e-email se vuoi ricevere il referto direttamente sulla tua casella di posta
+                    elettronica</li>
+                  <li>dopo aver inviato la prenotazione i tuoi dati anagrafici non potranno variare eccetto l'e-mail
+                  </li>
                 </ul>
               </div>
             </div>
@@ -62,8 +66,10 @@
         </div>
         <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
-            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-right"></i></button>
+            <button type="button" onclick="showSection('esami')"
+              class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i
+                class="fas fa-arrow-right"></i></button>
           </div>
         </div>
         <hr class="line-separator-blue" />
@@ -116,12 +122,16 @@
 
         <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="showSection('anagrafica')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
-            <button type="button" onclick="showSection('anagrafica')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
+            <button type="button" onclick="showSection('anagrafica')"
+              class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="showSection('anagrafica')" class="btn btn-dark w-100 d-inline d-md-none"><i
+                class="fas fa-arrow-left"></i></button>
           </div>
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
-            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-right"></i></button>
+            <button type="button" onclick="showSection('appuntamento')"
+              class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i
+                class="fas fa-arrow-right"></i></button>
           </div>
         </div>
         <hr class="line-separator-blue" />
@@ -134,18 +144,23 @@
                 <input id="emocromo" class="form-check-input" type="checkbox" data-scope="Sangue" value="emocromo" />
                 <label for="emocromo" class="form-check-label">Emocromo completo</label>
                 <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
+                <br />
                 <small class="form-text text-muted">Esame dei valori del sangue, compresi
                   globuli rossi, bianchi e piastrine.</small>
               </div>
             </div>
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="profilo-lipidico" class="form-check-input" type="checkbox" data-scope="Sangue" value="profilo-lipidico" />
-                <label for="profilo-lipidico" class="form-check-label">Profilo lipidico (colesterolo,
-                  trigliceridi)</label>
+                <input id="profilo-lipidico" class="form-check-input" type="checkbox" data-scope="Sangue"
+                  value="profilo-lipidico" />
+                <label for="profilo-lipidico" class="form-check-label">Profilo lipidico</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Misura dei livelli di colesterolo
                   totale, HDL, LDL e trigliceridi nel sangue.</small>
+
               </div>
             </div>
             <div class="checkbox-group">
@@ -153,14 +168,20 @@
                 <input id="glicemia" class="form-check-input" type="checkbox" data-scope="Sangue" value="glicemia" />
                 <label for="glicemia" class="form-check-label">Glicemia</label>
                 <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
+                <br />
                 <small class="form-text text-muted">Misura del livello di glucosio nel
                   sangue, importante per il controllo del diabete.</small>
               </div>
             </div>
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="funzionalita-epatica-sangue" class="form-check-input" type="checkbox" data-scope="Sangue" value="funzionalita-epatica" />
-                <label for="funzionalita-epatica-sangue" class="form-check-label">Funzionalità epatica (AST, ALT)</label>
+                <input id="funzionalita-epatica-sangue" class="form-check-input" type="checkbox" data-scope="Sangue"
+                  value="funzionalita-epatica" />
+                <label for="funzionalita-epatica-sangue" class="form-check-label">Funzionalità epatica (AST,
+                  ALT)</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Valutazione degli enzimi epatici per
                   monitorare la salute del fegato.</small>
@@ -168,8 +189,11 @@
             </div>
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="test-tiroide" class="form-check-input" type="checkbox" data-scope="Sangue" value="test-tiroide" />
+                <input id="test-tiroide" class="form-check-input" type="checkbox" data-scope="Sangue"
+                  value="test-tiroide" />
                 <label for="test-tiroide" class="form-check-label">Test della tiroide (TSH, T3, T4)</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Valutazione della funzionalità tiroidea attraverso i livelli
                   di TSH, T3 e T4.</small>
@@ -186,14 +210,19 @@
                 <input id="creatinina" class="form-check-input" type="checkbox" data-scope="Urine" value="creatinina" />
                 <label for="creatinina" class="form-check-label">Clearance della creatinina</label>
                 <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
+                <br />
                 <small class="form-text text-muted">Misura della quantità di creatinina
                   eliminata nelle urine per valutare la funzionalità renale.</small>
               </div>
             </div>
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="urinocoltura" class="form-check-input" type="checkbox" data-scope="Urine" value="urinocoltura" />
+                <input id="urinocoltura" class="form-check-input" type="checkbox" data-scope="Urine"
+                  value="urinocoltura" />
                 <label for="urinocoltura" class="form-check-label">Urinocoltura</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Esame delle urine per rilevare e
                   identificare batteri e altri microrganismi.</small>
@@ -201,8 +230,11 @@
             </div>
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="proteinuria" class="form-check-input" type="checkbox" data-scope="Urine" value="proteinuria" />
+                <input id="proteinuria" class="form-check-input" type="checkbox" data-scope="Urine"
+                  value="proteinuria" />
                 <label for="proteinuria" class="form-check-label">Proteinuria</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Misura della quantità di proteine nelle
                   urine, indicativa di problemi renali.</small>
@@ -210,8 +242,11 @@
             </div>
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="funzionalita-epatica-urine" class="form-check-input" type="checkbox" data-scope="Urine" value="funzionalita-epatica" />
+                <input id="funzionalita-epatica-urine" class="form-check-input" type="checkbox" data-scope="Urine"
+                  value="funzionalita-epatica" />
                 <label for="funzionalita-epatica-urine" class="form-check-label">Funzionalità epatica (AST, ALT)</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Valutazione degli enzimi epatici per
                   monitorare la salute del fegato.</small>
@@ -219,8 +254,11 @@
             </div>
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="microalbuminuria" class="form-check-input" type="checkbox" data-scope="Urine" value="microalbuminuria" />
+                <input id="microalbuminuria" class="form-check-input" type="checkbox" data-scope="Urine"
+                  value="microalbuminuria" />
                 <label for="microalbuminuria" class="form-check-label">Microalbuminuria</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Misura di piccole quantità di albumina
                   nelle urine, importante per il monitoraggio del diabete e malattie
@@ -236,8 +274,11 @@
           <div class="d-flex flex-wrap flex-sm-nowrap">
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="vitamina-d" class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-d" />
+                <input id="vitamina-d" class="form-check-input" type="checkbox" data-scope="Nutrizionali"
+                  value="vitamina-d" />
                 <label for="vitamina-d" class="form-check-label">Test della vitamina D</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Misura i livelli di vitamina D nel
                   sangue, essenziale per la salute delle ossa e del sistema
@@ -246,8 +287,11 @@
             </div>
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="vitamina-b12" class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="vitamina-b12" />
+                <input id="vitamina-b12" class="form-check-input" type="checkbox" data-scope="Nutrizionali"
+                  value="vitamina-b12" />
                 <label for="vitamina-b12" class="form-check-label">Test della vitamina B12</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Determina i livelli di vitamina B12 nel
                   sangue, importante per la produzione di globuli rossi e il funzionamento
@@ -259,6 +303,8 @@
                 <input id="folati" class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="folati" />
                 <label for="folati" class="form-check-label">Test dei folati</label>
                 <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
+                <br />
                 <small class="form-text text-muted">Misura i livelli di folati nel sangue, fondamentali per la
                   sintesi del DNA e la salute del sistema nervoso.</small>
               </div>
@@ -268,6 +314,8 @@
                 <input id="ferro" class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="ferro" />
                 <label for="ferro" class="form-check-label">Test del ferro e della ferritina</label>
                 <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
+                <br />
                 <small class="form-text text-muted">Valuta i livelli di ferro e ferritina
                   nel sangue, cruciali per il trasporto dell'ossigeno e la salute
                   generale.</small>
@@ -275,8 +323,11 @@
             </div>
             <div class="checkbox-group">
               <div class="form-check">
-                <input id="elettroliti" class="form-check-input" type="checkbox" data-scope="Nutrizionali" value="elettroliti" />
+                <input id="elettroliti" class="form-check-input" type="checkbox" data-scope="Nutrizionali"
+                  value="elettroliti" />
                 <label for="elettroliti" class="form-check-label">Test degli elettroliti</label>
+                <br />
+                <small class="form-text text-muted fst-italic">Prezzo 20,00 &euro;</small>
                 <br />
                 <small class="form-text text-muted">Misura i livelli di elettroliti (sodio,
                   potassio, calcio, magnesio) nel sangue, importanti per l'equilibrio
@@ -293,11 +344,14 @@
             <div data-scope="guide" class="alert alert-info" onclick="showHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
-                In quest'area sceglierai data, ora e laboratorio in cui sostenere gli esami scelti. Per favore osserva i seguenti vincoli:
+                In quest'area sceglierai data, ora e laboratorio in cui sostenere gli esami scelti. Per favore osserva i
+                seguenti vincoli:
                 <ul>
                   <li>data e ora devono essere <b>dal lunedì al venerdì, dalle 08:00 alle 18:00</b></li>
-                  <li>sia per la prima prenotazione sia per modifica della stessa dovrai scegliere una data a partire dal giorno <u>successivo ad oggi</u></li>
-                  <li>dopo aver inviato la prenotazione potrai variare data, ora e laboratorio a patto che vengano rispettati i punti precedenti</li>
+                  <li>sia per la prima prenotazione sia per modifica della stessa dovrai scegliere una data a partire
+                    dal giorno <u>successivo ad oggi</u></li>
+                  <li>dopo aver inviato la prenotazione potrai variare data, ora e laboratorio a patto che vengano
+                    rispettati i punti precedenti</li>
                 </ul>
               </div>
             </div>
@@ -305,12 +359,16 @@
         </div>
         <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
-            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
+            <button type="button" onclick="showSection('esami')"
+              class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="showSection('esami')" class="btn btn-dark w-100 d-inline d-md-none"><i
+                class="fas fa-arrow-left"></i></button>
           </div>
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="showSection('preconferma')" class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
-            <button type="button" onclick="showSection('preconferma')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-right"></i></button>
+            <button type="button" onclick="showSection('preconferma')"
+              class="btn btn-dark w-100 d-none d-md-inline">Successivo</button>
+            <button type="button" onclick="showSection('preconferma')" class="btn btn-dark w-100 d-inline d-md-none"><i
+                class="fas fa-arrow-right"></i></button>
           </div>
         </div>
         <hr class="line-separator-blue" />
@@ -336,10 +394,12 @@
             <div data-scope="guide" class="alert alert-info" onclick="showHelpAlert(this)" style="cursor: pointer;">
               <small class="text-muted">Clicca su questo box per visualizzare/nascondere la guida</small>
               <div>
-                In quest'area sarà fornito un riassunto della prenotazione prima di inviarla. Per favore osserva i seguenti vincoli:
+                In quest'area sarà fornito un riassunto della prenotazione prima di inviarla. Per favore osserva i
+                seguenti vincoli:
                 <ul>
                   <li>verifica con attenzione i dati forniti</li>
-                  <li>prima dell'invio è necessario spuntare la casella per confermare la correttezza e veridicità dei dati</li>
+                  <li>prima dell'invio è necessario spuntare la casella per confermare la correttezza e veridicità dei
+                    dati</li>
                 </ul>
               </div>
             </div>
@@ -353,32 +413,35 @@
         <div class="row justify-content-center text-center">
           <div class="col-12">
             <input id="wCheckConfirmPr" class="form-check-input" type="checkbox" />
-            <label for="wCheckConfirmPr" class="form-check-label fw-bold text-lab-blue">Confermo la validità e veridicità dei dati inseriti</label>
+            <label for="wCheckConfirmPr" class="form-check-label fw-bold text-lab-blue">Confermo la validità e
+              veridicità dei dati inseriti</label>
           </div>
         </div>
         <hr class="line-separator-blue" />
         <div class="row justify-content-around mb-3">
           <div class="col-4 col-xl-2">
-            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
-            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i class="fas fa-arrow-left"></i></button>
+            <button type="button" onclick="showSection('appuntamento')"
+              class="btn btn-dark w-100 d-none d-md-inline">Precedente</button>
+            <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i
+                class="fas fa-arrow-left"></i></button>
           </div>
           <div class="col-4 col-xl-2">
-            <button type="reset" class="btn btn-warning w-100 d-none d-md-inline" 
-                    onclick="generatePromptModal(
+            <button type="reset" class="btn btn-warning w-100 d-none d-md-inline" onclick="generatePromptModal(
                             'Continuando cancellerai tutti i campi inseriti. Confermi?',  
                             function () {
                               resetForm();
                             })">Reset</button>
-              <button type="reset" class="btn btn-warning w-100 d-inline d-md-none" 
-                      onclick="generatePromptModal(
+            <button type="reset" class="btn btn-warning w-100 d-inline d-md-none" onclick="generatePromptModal(
                               'Continuando cancellerai tutti i campi inseriti. Confermi?',  
                               function () {
                                 resetForm();
                               })"><i class="fas fa-redo"></i></button>
           </div>
           <div class="col-4 col-xl-2">
-            <button name="wBtnSend" type="button" onclick="upsertReservation()" class="btn btn-success w-100 d-none d-md-inline">Invia</button>
-            <button name="wBtnSend" type="button" onclick="upsertReservation()" class="btn btn-success w-100 d-inline d-md-none"><i class="far fa-check-circle"></i></button>
+            <button name="wBtnSend" type="button" onclick="upsertReservation()"
+              class="btn btn-success w-100 d-none d-md-inline">Invia</button>
+            <button name="wBtnSend" type="button" onclick="upsertReservation()"
+              class="btn btn-success w-100 d-inline d-md-none"><i class="far fa-check-circle"></i></button>
           </div>
         </div>
       </div>
@@ -394,8 +457,7 @@
       var id = params.get("id");
       var cf = params.get("cf");
       var ts = params.get("ts");
-      if (id != null && cf != null && ts != null)
-      {
+      if (id != null && cf != null && ts != null) {
         var response = await executeApiCall("GET", API_GET_RESERVATION, { id: id, cf: cf, ts: ts });
         if (hasHttpSuccessCode(response.code) == false) {
           showAlertMessageOverForm(true, response.error_message);
@@ -406,8 +468,7 @@
         isNewReservation = false;
 
         //Controlla se la data di prenotazione è inferiore ad ora (prenotazione scaduta)
-        if (getDateTimeFromString(existingReservationData.dataOraPrenotazione) < new Date())
-        {
+        if (getDateTimeFromString(existingReservationData.dataOraPrenotazione) < new Date()) {
           showAlertMessageOverForm(true, `La prenotazione è scaduta il ${formatDateDDMMYYYY(existingReservationData.dataOraPrenotazione)} e non è possibile apportare modifiche.`);
           return;
         }
@@ -431,13 +492,11 @@
       clearChildrenNodes("wMessage");
       var alertTag;
       var alertClass;
-      if (isError)
-      {
+      if (isError) {
         alertTag = `<h4 class="fw-bold">Errore: ${message}</h4>`;
         alertClass = "alert-danger";
       }
-      else
-      {
+      else {
         alertTag = `<h4 class="fw-bold">${message}</h4>`
         alertClass = "alert-info";
       }
@@ -450,17 +509,15 @@
     //Visualizza stato prenotazione nell'alert
     function showReservationStatus() {
       var status = "Stato: ";
-      if (isNewReservation)
-      {
+      if (isNewReservation) {
         status += `<b>aggiunta nuova prenotazione</b>`
       }
-      else
-      {
-          status += `<b>modifica prenotazione (ID ${existingReservationData.id})</b>
+      else {
+        status += `<b>modifica prenotazione (ID ${existingReservationData.id})</b>
                       inserita il <b>${formatDateDDMMYYYY(existingReservationData.dataOraInserimento)} alle ${getHoursMinutesFromDateTime(existingReservationData.dataOraInserimento)}</b> `;
-          if (existingReservationData.dataOraModifica != null) {
-            status += `e modificata il <b>${formatDateDDMMYYYY(existingReservationData.dataOraModifica)} alle ${getHoursMinutesFromDateTime(existingReservationData.dataOraModifica)}</b>`;
-          }
+        if (existingReservationData.dataOraModifica != null) {
+          status += `e modificata il <b>${formatDateDDMMYYYY(existingReservationData.dataOraModifica)} alle ${getHoursMinutesFromDateTime(existingReservationData.dataOraModifica)}</b>`;
+        }
       }
       clearChildrenNodes("wDivReservationStatus");
       $("#wDivReservationStatus").append(status);
@@ -471,14 +528,12 @@
       //Rimuovi l'active attuale e cicla nello scope di ogni tag nel breadcrumb. 
       //Saranno nascoste tutte le sezioni tranne quella esplicitamente indicata nel parametro targetSection
       $("#breadcrumb .breadcrumb-item").removeClass("active");
-      $("#breadcrumb li").each(function(){
+      $("#breadcrumb li").each(function () {
         var thisSection = $(this).attr("data-scope");
-        if (thisSection != targetSection)
-        {
+        if (thisSection != targetSection) {
           $(`#section-${thisSection}`).hide();
         }
-        else
-        {
+        else {
           $(`#breadcrumb li[data-scope="${targetSection}"]`).addClass("active");
           $(`#section-${targetSection}`).show();
         }
@@ -490,8 +545,7 @@
       });
 
       //Rigenera la preview prenotazione quando si seleziona l'area di preconferma
-      if (targetSection == "preconferma")
-      {
+      if (targetSection == "preconferma") {
         previewFormDataBeforeUpsert();
       }
     }
@@ -543,8 +597,7 @@
       }
       else if (section == "esami") {
         var listExams = getExamsSelectedFromCheckboxes();
-        if (listExams.length == 0)
-        {
+        if (listExams.length == 0) {
           pushNotification("error", "È necessario selezionare almeno un esame")
           return false;
         }
@@ -556,8 +609,7 @@
           return false;
         }
 
-        if (checkReservationIsNextDay(dateTime) == false)
-        {
+        if (checkReservationIsNextDay(dateTime) == false) {
           pushNotification("error", `La data della prenotazione dev'essere successiva ad oggi`)
           return false;
         }
@@ -572,10 +624,8 @@
           return false;
         }
       }
-      else if (section == "preconferma")
-      {
-        if ($("#wCheckConfirmPr").is(":checked") == false)
-        {
+      else if (section == "preconferma") {
+        if ($("#wCheckConfirmPr").is(":checked") == false) {
           pushNotification("error", "È necessaria l'esplicita conferma dei dati inseriti prima di inviare la prenotazione")
           return false;
         }
@@ -617,9 +667,9 @@
       var dateTimeNextDay = new Date();
       dateTimeNextDay.setDate(new Date().getDate() + 1);
 
-      return dateTimeReservation.getDay() >= dateTimeNextDay.getDay() && 
-            dateTimeReservation.getMonth() >= dateTimeNextDay.getMonth() &&
-            dateTimeReservation.getFullYear() >= dateTimeNextDay.getFullYear();
+      return dateTimeReservation.getDay() >= dateTimeNextDay.getDay() &&
+        dateTimeReservation.getMonth() >= dateTimeNextDay.getMonth() &&
+        dateTimeReservation.getFullYear() >= dateTimeNextDay.getFullYear();
     }
 
 
@@ -658,7 +708,7 @@
       $("#wPrLaboratorio").val(data.laboratorio);
       $("#wPrId, #wPrNome, #wPrCognome, #wPrCf, #wPrTs").prop("readonly", true);
       //Disattiva selettore di genere
-      $("#wPrGenere").prop("disabled", true);    
+      $("#wPrGenere").prop("disabled", true);
     }
 
 
@@ -668,13 +718,12 @@
       var response = null;
 
       if (preValidateFormSection("anagrafica") == false ||
-          preValidateFormSection("esami") == false ||
-          preValidateFormSection("appuntamento") == false || 
-          preValidateFormSection("preconferma") == false)
-      {
+        preValidateFormSection("esami") == false ||
+        preValidateFormSection("appuntamento") == false ||
+        preValidateFormSection("preconferma") == false) {
         return false;
       }
-      
+
       jsonData =
       {
         "id": $("#wPrId").val(),
@@ -718,8 +767,7 @@
 
 
     //Utility per il recupero del valore di un campo o visualizzazione di stringa vuota. Usato nel RiassuntoPrenotazione
-    function getFormFieldValueOrEmpty(field)
-    {
+    function getFormFieldValueOrEmpty(field) {
       if (isNullOrEmpty($(field).val()))
         return "";
       else
@@ -739,11 +787,9 @@
       ]
 
       var isFormCompleted = true;
-      for(let i = 0; i < dataFields.length; i++)
-      {
+      for (let i = 0; i < dataFields.length; i++) {
         var value = getFormFieldValueOrEmpty("#" + dataFields[i].FieldName);
-        if (value == "" && dataFields[i].Required == true)
-        { 
+        if (value == "" && dataFields[i].Required == true) {
           isFormCompleted = false;
           break;
         }
@@ -752,8 +798,7 @@
       }
 
       var tag;
-      if (isFormCompleted)
-      {
+      if (isFormCompleted) {
         var genere = dataFields.find(field => field.FieldName === "wPrGenere").FieldValue;
         var nome = dataFields.find(field => field.FieldName === "wPrNome").FieldValue;
         var cognome = dataFields.find(field => field.FieldName === "wPrCognome").FieldValue;
@@ -782,13 +827,11 @@
         var dataPrenotazione = formatDateDDMMYYYY(dataOraPrenotazione.Date);
         var oraPrenotazione = dataOraPrenotazione.Time;
         var examsResultDelivery;
-        if (isNullOrEmpty(email))
-        {
+        if (isNullOrEmpty(email)) {
           examsResultDelivery = `Non è stata fornita alcuna e-mail; gli esiti andranno ritirati al laboratorio indicato oppure 
             <span class="text-lab-blue" style="cursor: pointer" onclick="showSection('anagrafica'); $('#wPrEmail').focus();">clicca qui per aggiungere un'e-email</span>`;
         }
-        else
-        {
+        else {
           examsResultDelivery = `Gli esiti verranno inviati all'e-mail <b>${email}</b>`;
         }
 
@@ -803,15 +846,16 @@
               ${groupedExamsString}
               <br />
               ${examsResultDelivery}
+              <hr />
+              Il pagamento della prestazione avverrà nel laboratorio indicato e il costo per gli esami prenotati (${selectedExams.length}) è di <b>${formatCurrency(selectedExams.length * 20)}</b> 
             </p>
           </div>
         `;
 
         $("#wCheckConfirmPr, [name='wBtnSend']").removeAttr("disabled");
       }
-      else
-      {
-       
+      else {
+
         tag = `
           <div class="alert alert-danger">
            Errore: non tutti i campi sono stati compilati
@@ -825,4 +869,5 @@
     }
   </script>
 </body>
+
 </html>

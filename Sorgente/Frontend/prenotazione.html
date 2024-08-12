@@ -365,7 +365,7 @@
                 <ul>
                   <li>data e ora devono essere <b>dal lunedì al venerdì, dalle 08:00 alle 18:00</b></li>
                   <li>sia per la prima prenotazione sia per modifica della stessa dovrai scegliere una data a partire
-                    dal giorno <u>successivo ad oggi</u></li>
+                    dal giorno <u>successivo ad oggi (<span id="_wDateTodayReference"></span>)</u></li>
                   <li>dopo aver inviato la prenotazione potrai variare data, ora e laboratorio a patto che vengano
                     rispettati i punti precedenti</li>
                 </ul>
@@ -498,6 +498,8 @@
 
       showSection("anagrafica", "close");
       showReservationStatus();
+
+      $("#_wDateTodayReference").text(new Date().toLocaleDateString());
     });
 
 

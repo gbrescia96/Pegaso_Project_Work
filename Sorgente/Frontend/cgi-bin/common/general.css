@@ -146,40 +146,6 @@ input[type="checkbox"]:checked:after {
     flex-shrink: 0;
 }
 
-/* Gestione sezioni del form prenotazione tramite breadcrumb */
-.breadcrumb {
-  background-color: transparent;
-  padding: 10px;
-  margin-bottom: 20px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-.breadcrumb-item {
-  font-size: 1.2em;
-  display: inline-block;
-  cursor: pointer;
-  position: relative;
-}
-.breadcrumb-item.active {
-  font-weight: bold;
-  color: #007bff;
-  text-decoration: underline;
-}
-.breadcrumb-item + .breadcrumb-item::before {
-  content: "●";
-  margin: 0 10px;
-  color: var(--lab-color-blue);
-  font-weight: bold;
-}
-@media (max-width: 768px) {
-  .breadcrumb-item {
-      font-size: 1em;
-  }
-}
-
 /* Asterisco rosso accanto alla label associata ad un campo di testo obbligatorio */
 .with-asterisk::after {
   content: "*";

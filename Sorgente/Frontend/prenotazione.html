@@ -27,14 +27,36 @@
       </div>
     </div>
 
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb" id="breadcrumb">
-        <li data-scope="anagrafica" class="breadcrumb-item active" onclick="showSection('anagrafica')">ANAGRAFICA</li>
-        <li data-scope="esami" class="breadcrumb-item" onclick="showSection('esami')">ESAMI</li>
-        <li data-scope="appuntamento" class="breadcrumb-item" onclick="showSection('appuntamento')">APPUNTAMENTO</li>
-        <li data-scope="preconferma" class="breadcrumb-item" onclick="showSection('preconferma')">CONTROLLA E INVIA</li>
-      </ol>
-    </nav>
+    <div class="row justify-content-center">
+      <div class="col-3 col-lg-2">
+        <button data-scope="anagrafica" class="btn btn-primary active w-100" onclick="showSection(this.getAttribute('data-scope'))">
+          <span class="fas fa-user-alt fa-3x"></span>
+          <br />
+          <span class="fw-bold">Anagrafica</span>
+        </button>
+      </div>
+      <div class="col-3 col-lg-2">
+        <button data-scope="esami" class="btn w-100" onclick="showSection(this.getAttribute('data-scope'))">
+          <span class="fas fa-clipboard-list fa-3x"></span>
+          <br />
+          <span class="fw-bold">Esami</span>
+        </button>
+      </div>
+      <div class="col-3 col-lg-2">
+        <button data-scope="appuntamento" class="btn w-100" onclick="showSection(this.getAttribute('data-scope'))">
+          <span class="fas fa-calendar-check fa-3x"></span>
+          <br />
+          <span class="fw-bold">Appuntamento</span>
+        </button>
+      </div>
+      <div class="col-3 col-lg-2">
+        <button data-scope="preconferma" class="btn w-100" onclick="showSection(this.getAttribute('data-scope'))">
+          <span class="fas fa-check-double fa-3x"></span>
+          <br />
+          <span class="fw-bold">Controlla e Invia</span>
+        </button>
+      </div>
+    </div>
     <hr class="line-separator-blue" />
     <div id="wDivMessageOverForm" class="row justify-content-center text-center">
       <div class="col-12">
@@ -75,17 +97,11 @@
         <hr class="line-separator-blue" />
         <div class="row justify-content-center">
           <input id="wPrId" type="text" hidden />
-          <div class="col-4 col-xl-1 d-flex align-items-end">
-            <select id="wPrGenere" class="form-select">
-              <option value="Sig.">Sig.</option>
-              <option value="Sig.ra">Sig.ra</option>
-            </select>
-          </div>
-          <div class="col-4 col-xl-2">
+          <div class="col-6 col-xl-2">
             <label class="with-asterisk" for="wPrNome">Nome</label>
             <input id="wPrNome" type="text" class="form-control" maxlength="20" />
           </div>
-          <div class="col-4 col-xl-2">
+          <div class="col-6 col-xl-2">
             <label class="with-asterisk" for="wPrCognome">Cognome</label>
             <input id="wPrCognome" type="text" class="form-control" maxlength="20" />
           </div>
@@ -97,9 +113,9 @@
             <label class="with-asterisk" for="wPrTs">Codice Tessera Sanitaria</label>
             <input id="wPrTs" type="text" class="form-control" maxlength="20" />
           </div>
-          <div class="col-5 col-xl-2">
+          <div class="col-6 col-xl-2">
             <label for="wPrEmail">E-mail</label>
-            <input id="wPrEmail" type="text" class="form-control" />
+            <input id="wPrEmail" type="text" class="form-control"/>
           </div>
         </div>
       </div>
@@ -523,18 +539,18 @@
       $("#wDivReservationStatus").append(status);
     }
 
-    //Visualizza una sezione specifica, nascondendo le altre e accendendo la voce specifica nel breadcrumb.
+    //Visualizza una sezione specifica, nascondendo le altre e accendendo il pulsante specifico
     function showSection(targetSection) {
-      //Rimuovi l'active attuale e cicla nello scope di ogni tag nel breadcrumb. 
+      //Rimuovi l'active attuale e cicla nello scope di ogni button di sezione 
       //Saranno nascoste tutte le sezioni tranne quella esplicitamente indicata nel parametro targetSection
-      $("#breadcrumb .breadcrumb-item").removeClass("active");
-      $("#breadcrumb li").each(function () {
+      $("button[data-scope]").each(function () {
         var thisSection = $(this).attr("data-scope");
         if (thisSection != targetSection) {
+          $(this).removeClass("btn-primary active");
           $(`#section-${thisSection}`).hide();
         }
         else {
-          $(`#breadcrumb li[data-scope="${targetSection}"]`).addClass("active");
+          $(this).addClass("btn-primary active");
           $(`#section-${targetSection}`).show();
         }
       });
@@ -707,8 +723,6 @@
       $("#wPrDataOra").val(data.dataOraPrenotazione);
       $("#wPrLaboratorio").val(data.laboratorio);
       $("#wPrId, #wPrNome, #wPrCognome, #wPrCf, #wPrTs").prop("readonly", true);
-      //Disattiva selettore di genere
-      $("#wPrGenere").prop("disabled", true);
     }
 
 
@@ -776,7 +790,6 @@
 
     function previewFormDataBeforeUpsert() {
       var dataFields = [
-        { "FieldName": "wPrGenere", "FieldValue": "", "Required": true },
         { "FieldName": "wPrNome", "FieldValue": "", "Required": true },
         { "FieldName": "wPrCognome", "FieldValue": "", "Required": true },
         { "FieldName": "wPrTs", "FieldValue": "", "Required": true },
@@ -799,7 +812,6 @@
 
       var tag;
       if (isFormCompleted) {
-        var genere = dataFields.find(field => field.FieldName === "wPrGenere").FieldValue;
         var nome = dataFields.find(field => field.FieldName === "wPrNome").FieldValue;
         var cognome = dataFields.find(field => field.FieldName === "wPrCognome").FieldValue;
         var ts = dataFields.find(field => field.FieldName === "wPrTs").FieldValue;
@@ -839,7 +851,7 @@
           <div class="alert alert-success">
             <h5 class="text-center fw-bold text-lab-blue">Riepilogo dei dati</h5>
             <p>
-              ${genere} <b>${nome} ${cognome}</b>
+              <b>${nome} ${cognome}</b>
               con codice fiscale <b>${cf}</b> e codice tessera sanitaria <b>${ts}</b>
               eseguirà in data <b>${dataPrenotazione}</b> alle ore <b>${oraPrenotazione}</b> presso il laboratorio <b>${laboratorio}</b> i seguenti esami:
               <br />

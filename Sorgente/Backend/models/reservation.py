@@ -45,8 +45,6 @@ class Reservation:
         return self._email
     @email.setter
     def email(self, value): 
-      if value is None or value == "":
-        raise ValueError("Il campo E-mail è vuoto o nullo")
       self._email = value
 
     @property
@@ -145,14 +143,14 @@ class Reservation:
         if len(codice_fiscale) != 16:
           raise Exception("Il Codice Fiscale deve essere lungo 16 caratteri")
         
-        if (not codice_fiscale[0:6].isalnum() or  # Tre caratteri per il cognome + tre caratteri per il nome
+        if (not codice_fiscale[0:6].isalpha() or  # Tre caratteri per il cognome + tre caratteri per il nome
             not codice_fiscale[6:8].isdigit() or  # Due cifre per l'anno di nascita 
             not codice_fiscale[8].isalpha() or    # Una lettera per il mese di nascita
             not codice_fiscale[9:11].isdigit() or # Due cifre per il giorno di nascita
             not codice_fiscale[11:].isalnum()):   # Tre caratteri per il comune e lo stato di nascita + checkdigit   
           raise Exception("Il Codice Fiscale non è valido")
         
-        return
+        return True
 
 
     # Validatore per codice tessera sanitaria
@@ -174,7 +172,7 @@ class Reservation:
             not codice[10:20].isdigit()):  # I successivi 9 caratteri devono essere cifre + checkdigit
           raise Exception("Il codice Tessera Sanitaria non è valido")
         
-        return
+        return True
    
     # Validatore struttura email
     @staticmethod
@@ -185,7 +183,7 @@ class Reservation:
       if not re.match(email_regex, email):
         raise Exception("L'email non ha un formato valido")
       
-      return
+      return True
     
 
     @staticmethod 

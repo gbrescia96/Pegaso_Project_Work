@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="row justify-content-center">
+    <div id="wDivSectionSelector" class="row justify-content-center">
       <div class="col-3 col-lg-2">
         <button data-scope="anagrafica" class="btn btn-primary active w-100" onclick="showSection(this.getAttribute('data-scope'))">
           <span class="fas fa-user-alt fa-3x"></span>
@@ -494,7 +494,7 @@
       }
 
       $("#wDivMessageOverForm").hide();
-      $("#wFormPrenotazione, #wDivReservationStatus").show();
+      $("#wFormPrenotazione, #wDivSectionSelector, #wDivReservationStatus").show();
 
       showSection("anagrafica", "close");
       showReservationStatus();
@@ -504,7 +504,7 @@
 
 
     function showAlertMessageOverForm(isError, message = "") {
-      $("#wFormPrenotazione, #breadcrumb, #wDivReservationStatus").hide();
+      $("#wFormPrenotazione, #wDivSectionSelector, #wDivReservationStatus").hide();
       $("#wDivMessageOverForm").show();
 
       clearChildrenNodes("wMessage");
@@ -569,8 +569,10 @@
     }
 
     //Contiene la validazione dei campi di ogni sotto-sezione
+    //Ogni sezione richiama la showSection su sé stessa in modo da offrire il focus nell'area di errore, qualora presente
     function preValidateFormSection(section) {
       if (section == "anagrafica") {
+        showSection(section);
         var validator;
         if (isNullOrEmpty($("#wPrNome").val())) {
           pushNotification("error", "Il campo nome è vuoto");
@@ -607,13 +609,14 @@
         if (isNullOrEmpty($("#wPrEmail").val()) == false) {
           validator = validatorEmail($("#wPrEmail").val());
           if (validator.IsValid == false) {
-            pushNotification("error", `L'e-mail non è valida: ${validator.Error}`);
+            pushNotification("error", `Errore nel controllo e-mail: ${validator.Error}`);
             return false;
           }
         }
 
       }
       else if (section == "esami") {
+        showSection(section);
         var listExams = getExamsSelectedFromCheckboxes();
         if (listExams.length == 0) {
           pushNotification("error", "È necessario selezionare almeno un esame")
@@ -621,6 +624,7 @@
         }
       }
       else if (section == "appuntamento") {
+        showSection(section);
         var dateTime = getDateTimeFromString($("#wPrDataOra").val());
         if (dateTime == null) {
           pushNotification("error", "Data e ora prenotazione non hanno un formato valido");
@@ -643,6 +647,7 @@
         }
       }
       else if (section == "preconferma") {
+        showSection(section);
         if ($("#wCheckConfirmPr").is(":checked") == false) {
           pushNotification("error", "È necessaria l'esplicita conferma dei dati inseriti prima di inviare la prenotazione")
           return false;
@@ -672,7 +677,6 @@
         return false;
 
       var hours = dateTime.getHours();
-      var minutes = dateTime.getMinutes();
       if (hours < 8 || hours > 18)
         return false;
 
@@ -681,13 +685,19 @@
 
 
     //Verifica se la data è uguale o maggiore del giorno successivo ad oggi
-    function checkReservationIsNextDay(dateTimeReservation) {
+    function checkReservationIsNextDay(dateTimeReservation = null) {
+      if (dateTimeReservation == null)
+        return false;
+      
       var dateTimeNextDay = new Date();
+      //Usa un dateTimeReservation locale per poter fare un confronto tramite getTime impostando entrambi a mezzanotte
+      //Non manipolare direttamente l'oggetto in input in quanto passato per riferimento
+      var dateTimeReservationLocal = new Date(dateTimeReservation);
       dateTimeNextDay.setDate(new Date().getDate() + 1);
-
-      return dateTimeReservation.getDay() >= dateTimeNextDay.getDay() &&
-        dateTimeReservation.getMonth() >= dateTimeNextDay.getMonth() &&
-        dateTimeReservation.getFullYear() >= dateTimeNextDay.getFullYear();
+      dateTimeNextDay.setHours(0, 0, 0, 0);
+      dateTimeReservationLocal.setHours(0, 0, 0, 0);
+      
+      return dateTimeReservationLocal.getTime() >= dateTimeNextDay.getTime();
     }
 
 
@@ -734,9 +744,9 @@
       var response = null;
 
       if (preValidateFormSection("anagrafica") == false ||
-        preValidateFormSection("esami") == false ||
-        preValidateFormSection("appuntamento") == false ||
-        preValidateFormSection("preconferma") == false) {
+          preValidateFormSection("esami") == false ||
+          preValidateFormSection("appuntamento") == false ||
+          preValidateFormSection("preconferma") == false) {
         return false;
       }
 
@@ -812,8 +822,10 @@
         dataFields[i].FieldValue = value;
       }
 
+      var selectedExams = getExamsSelectedFromCheckboxes();
+
       var tag;
-      if (isFormCompleted) {
+      if (isFormCompleted && selectedExams.length > 0) {
         var nome = dataFields.find(field => field.FieldName === "wPrNome").FieldValue;
         var cognome = dataFields.find(field => field.FieldName === "wPrCognome").FieldValue;
         var ts = dataFields.find(field => field.FieldName === "wPrTs").FieldValue;
@@ -821,7 +833,6 @@
         var email = dataFields.find(field => field.FieldName === "wPrEmail").FieldValue;
         var laboratorio = dataFields.find(field => field.FieldName === "wPrLaboratorio").FieldValue;
         // Recupera l'elenco degli esami selezionati dalle checkbox
-        var selectedExams = getExamsSelectedFromCheckboxes();
         // Ottieni i tipi di analisi unici
         var uniqueExamTypes = [...new Set(selectedExams.map((exam) => exam.tipo))];
         // Crea una stringa che raggruppa le analisi per tipo
@@ -869,7 +880,6 @@
         $("#wCheckConfirmPr, [name='wBtnSend']").removeAttr("disabled");
       }
       else {
-
         tag = `
           <div class="alert alert-danger">
            Errore: non tutti i campi sono stati compilati

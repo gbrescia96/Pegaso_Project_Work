@@ -40,12 +40,11 @@ def add_reservation():
         if json_data == None:
             return HttpResponse(403, error_message="Il payload non contiene dati").to_json()
         
-        reservation = None
-        print(json_data)
-        try:
-            reservation = Reservation().from_json(json_data)
-        except:
-            return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
+        reservation = Reservation().from_json(json_data)
+        # try:
+        #     reservation = Reservation().from_json(json_data)
+        # except:
+        #     return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 
         reservation = svc_add_reservation(reservation)    
         return HttpResponse(200, payload=reservation.to_json()).to_json()
@@ -60,11 +59,11 @@ def update_reservation():
         if json_data == None:
             return HttpResponse(403, error_message="Il payload non contiene dati").to_json()
         
-        reservation = None
-        try:
-            reservation = Reservation().from_json(json_data)
-        except:
-            return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
+        reservation =  Reservation().from_json(json_data)
+        # try:
+        #     reservation = Reservation().from_json(json_data)
+        # except:
+        #     return HttpResponse(403, error_message="Il payload non coincide con il modello previsto").to_json()
 
         reservation = svc_update_reservation(reservation)    
         return HttpResponse(200, payload=reservation.to_json()).to_json()

@@ -490,7 +490,7 @@ function validatorEmail(email) {
   var validatorResult = { IsValid: false, Error: null };
   validatorResult.IsValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
   if (!validatorResult.IsValid) {
-    validatorResult.Error = "email non valida";
+    validatorResult.Error = "non valida";
   }
 
   return validatorResult;

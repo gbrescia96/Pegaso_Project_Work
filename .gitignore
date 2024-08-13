@@ -5,3 +5,4 @@ __pycache__/
 .vscode/
 Sorgente/Backend/__pycache__/
 Sorgente/Backend/models/__pycache__/
+Sorgente/Backend/storage/

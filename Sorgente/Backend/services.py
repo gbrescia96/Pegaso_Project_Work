@@ -69,7 +69,8 @@ def svc_add_reservation(new_reservation: Reservation):
     Reservation.validator_data_prenotazione(new_reservation.data_ora_prenotazione)
 
     # Validazione e-mail
-    Reservation.validator_data_prenotazione(new_reservation.email)
+    if (new_reservation.email != None and new_reservation.email.strip() != ""):
+      Reservation.validator_email(new_reservation.email)
 
     # Validazione codice fiscale e tessera sanitaria
     Reservation.validator_codice_fiscale(new_reservation.cf)
@@ -114,16 +115,10 @@ def svc_update_reservation(new_info: Reservation):
     record.data_ora_prenotazione = new_info.data_ora_prenotazione
 
     # Validazione e-mail
-    Reservation.validator_data_prenotazione(new_info.email)
+    if (new_info.email != None and new_info.email.strip() != ""):
+      Reservation.validator_email(new_info.email)
+    
     record.email = new_info.email
-
-    # Verifica che ID, codice fiscale e tessera sanitaria non siano cambiati
-    if (record.id != new_info.id):
-      raise Exception("L'ID non coincide con quello originariamente registrato")  
-    if (record.cf != new_info.cf):
-      raise Exception("Il codice fiscale non coincide con quello originariamente registrato")
-    if (record.ts != new_info.ts):
-      raise Exception("Il codice tessera sanitaria non coincide con quello originariamente registrato")
 
     record.laboratorio = new_info.laboratorio
     record.lista_esami = new_info.lista_esami

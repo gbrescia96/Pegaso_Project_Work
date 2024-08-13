@@ -187,23 +187,21 @@ class Reservation:
     
 
     @staticmethod 
-    def validator_data_prenotazione(date_time_reservation):
-      if date_time_reservation is None:
+    def validator_data_prenotazione(date_time_reservation_string):
+      if date_time_reservation_string is None:
         raise Exception("La data della prenotazione dev'essere successiva ad oggi")
 
+      date_time_reservation = datetime.strptime(date_time_reservation_string, "%Y-%m-%dT%H:%M")
       date_time_next_day = datetime.now()
       # Aggiungi un delta di un giorno
       date_time_next_day = date_time_next_day.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-
-      if (date_time_reservation.day >= date_time_next_day.day and
-          date_time_reservation.month >= date_time_next_day.month and
-          date_time_reservation.year >= date_time_next_day.year):
+      if (date_time_reservation <= date_time_next_day):
         raise Exception("La data della prenotazione dev'essere successiva ad oggi")
       
       day = date_time_reservation.weekday()  # Lunedì (0) - Domenica (6)
-      if 0 <= day <= 4:  # Lunedì (0) - Venerdì (4)
+      if day > 4:  # Lunedì (0) - Venerdì (4)
         raise Exception("La data della prenotazione deve essere compresa tra lunedì e venerdì")
 
       hours = date_time_reservation.hour
-      if 8 <= hours <= 18: # Tra le 08:00 e le 18:00
+      if hours < 8 or hours > 18: # Tra le 08:00 e le 18:00
         raise Exception("L'orario della prenotazione deve essere compreso tra le 08:00 e le 18:00")

@@ -107,7 +107,7 @@
           </div>
           <div class="col-6 col-xl-2">
             <label class="with-asterisk" for="wPrCf">Codice Fiscale</label>
-            <input id="wPrCf" type="text" class="form-control" maxlength="16" style="text-transform:uppercase;" />
+            <input id="wPrCf" type="text" class="form-control" maxlength="16" />
           </div>
           <div class="col-6 col-xl-2">
             <label class="with-asterisk" for="wPrTs">Codice Tessera Sanitaria</label>
@@ -441,14 +441,14 @@
             <button type="button" onclick="showSection('appuntamento')" class="btn btn-dark w-100 d-inline d-md-none"><i
                 class="fas fa-arrow-left"></i></button>
           </div>
-          <div class="col-4 col-xl-2">
+          <div id="wDivBtnReset" class="col-4 col-xl-2">
             <button type="reset" class="btn btn-warning w-100 d-none d-md-inline" onclick="generatePromptModal(
-                            'Continuando cancellerai tutti i campi inseriti. Confermi?',  
+                            'Continuando cancellerai i valori inseriti. Confermi?',  
                             function () {
                               resetForm();
                             })">Reset</button>
             <button type="reset" class="btn btn-warning w-100 d-inline d-md-none" onclick="generatePromptModal(
-                              'Continuando cancellerai tutti i campi inseriti. Confermi?',  
+                              'Continuando cancellerai i valori inseriti. Confermi?',  
                               function () {
                                 resetForm();
                               })"><i class="fas fa-redo"></i></button>
@@ -491,6 +491,14 @@
 
         //Riempi i campi con i dati tornati dall'API
         fillFormWithReservationData();
+
+        //Nascondi div con pulsanti reset form
+        $("#wDivBtnReset").hide();
+      }
+      else
+      {
+        //Visualizza div con pulsanti reset form
+        $("#wDivBtnReset").show();
       }
 
       $("#wDivMessageOverForm").hide();
@@ -536,6 +544,7 @@
         if (existingReservationData.dataOraModifica != null) {
           status += `e modificata il <b>${formatDateDDMMYYYY(existingReservationData.dataOraModifica)} alle ${getHoursMinutesFromDateTime(existingReservationData.dataOraModifica)}</b>`;
         }
+        status += "<br /><a href='prenotazione.html'>Clicca qui per aggiungere una nuova prenotazione</a>"
       }
       clearChildrenNodes("wDivReservationStatus");
       $("#wDivReservationStatus").append(status);

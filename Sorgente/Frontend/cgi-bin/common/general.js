@@ -387,11 +387,14 @@ function generateFooter() {
 function validatorCF(cf) {
   //Il codice, di default, parte da uno stato di errore
   var validatorResult = { IsValid: false, Error: "il codice è errato" };
-
+  
   if (cf.length !== 16) {
     validatorResult.Error = "il codice non è di 16 caratteri";
     return validatorResult;
   }
+
+  cf = cf.toUpperCase();
+  
   // Verifica i primi sei caratteri alfabetici
   for (let i = 0; i < 6; i++) {
     if (!/[A-Z]/.test(cf.charAt(i))) {

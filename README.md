@@ -4,21 +4,26 @@ Traccia 1.4
 ## Requisiti
 Per il corretto funzionamento del progetto è necessario installare l'interprete Python e Flask, un web server gratuito ed estremamente leggero.
 Per preparare l'ambiente è necessario eseguire i seguenti passi:
-- Installare Python versione uguale o superiore **3.12.x** visitando [il sito ufficiale Python](https://www.python.org/downloads/)
-- Installare Flask e l'estensione Flask CORS per la gestione delle richieste al web server locale. Aprire il Prompt dei Comandi (CMD) e digitare:
+- Installare Python con versione uguale o superiore a **3.12.x** visitando [il sito ufficiale Python](https://www.python.org/downloads/)
+  - **IMPORTANTE:** spuntare la casella "Add Python to environment variabiles" presente nella prima schermata dell'installazione
+    ![image](https://github.com/user-attachments/assets/922b57b0-9f3d-4e5d-99a0-86d6e59b39d9)
+
+- Installare Flask e l'estensione Flask CORS aprendo il Prompt dei Comandi (CMD) e digitando:
   ```
   pip install flask;
   pip install flask-cors;
   ```
-Questo utilizzerà il gestore di installazioni Python (PIP) per installare correttamente le librerie indicate.
 
-Infine, è necessario avviare il Web Server che, di default, resterà il ascolto sulla porta 5000 in locale:
-- il metodo più semplice è lanciare il file **\Sorgente\Backend\start_server.bat**.
-- in alternativa è possibile, tramite il Prompt dei Comandi (CMD), eseguire nella sottocartella \Sorgente\Backend il seguente codice:
+Ora è necessario avviare il Web Server che, di default, resterà il ascolto sulla porta 5000 in locale e successivamente aprire una pagina html tra quelle disponibili nel Frontend:
+- il metodo più semplice è lanciare il file **\Sorgente\start_project.bat** che farà tutto in automatico;
+- in caso di problemi bisognerà dapprima, tramite il Prompt dei Comandi (CMD), eseguire nella sottocartella **\Sorgente\Backend** il seguente codice:
  ```
   python.exe .\endpoints.py
  ```
-Se tutto è stato configurato correttamente l'esito sarà simile al seguente.
+e successivamente aprire con un browser qualsiasi una pagina html tra quelle presenti nella cartella **Sorgente\Frontend**.
+
+Se tutto è stato configurato correttamente il prompt dei comandi visualizzerà il Web Server in ascolto.
+
 ![image](https://github.com/user-attachments/assets/9d731b6c-5e67-45ef-a3eb-60d878242cf3)
 *Nota: il pin è randomico.*
 

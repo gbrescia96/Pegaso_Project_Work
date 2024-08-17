@@ -30,9 +30,11 @@ Se tutto è stato configurato correttamente il prompt dei comandi visualizzerà 
 *Nota: il pin è randomico.*
 
 ## Dati di test
-È possibile utilizzare i seguenti dati per testare le funzionalità dell'applicazione:
+È possibile utilizzare i seguenti dati per testare le funzionalità di ricerca, aggiunta e modifica delle prenotazioni su due record di test già presenti:
 - Codice fiscale: ABCDEF01A01A123A
 - Codice tessera sanitaria: 80380001101234567890
+
+In questo modo eviterete di dover inserire i vostri dati reali.
 
 ## Librerie incluse nel progetto
 Il progetto fa uso di librerie esterne per la gestione di alcune funzionalità lato Front-End quali il sistema di notifiche, le tabelle di DataTable e la gestione del layout tramite grid e componenti offerti da Bootstrap.

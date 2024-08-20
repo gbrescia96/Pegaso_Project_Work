@@ -16,7 +16,7 @@ Per preparare l'ambiente è necessario eseguire i seguenti passi:
 
 Ora è necessario avviare il Web Server che, di default, resterà il ascolto sulla porta 5000 in locale e successivamente aprire una pagina html tra quelle disponibili nel Frontend.
 
-Il metodo più semplice è lanciare il file **\Sorgente\start_project.bat** che farà tutto in automatico.
+Il metodo più semplice è lanciare il file **\Sorgente\start_project.bat** che eseguirà automaticamente l'avvio del Web Server e l'apertura, con il browser predefinito, della pagina Homepage.
 
 In caso di problemi bisognerà dapprima, tramite il Prompt dei Comandi (CMD), eseguire nella sottocartella **\Sorgente\Backend** il seguente codice:
  ```
